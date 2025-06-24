@@ -1,0 +1,2616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS Cloud Practitioner Quiz 5 - Pricing & Cost Optimization</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        .header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        .quiz-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            text-align: center;
+        }
+        .info-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .info-item h3 {
+            margin: 0 0 5px 0;
+            color: #333;
+            font-size: 1.8em;
+        }
+        .info-item p {
+            margin: 0;
+            color: #666;
+            font-size: 0.9em;
+        }
+        .content {
+            padding: 30px;
+        }
+        .question {
+            background: #f8f9fa;
+            margin: 25px 0;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 5px solid #f5576c;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+        .question h3 {
+            color: #333;
+            margin: 0 0 20px 0;
+            font-size: 1.2em;
+            line-height: 1.4;
+        }
+        .question-number {
+            background: #f5576c;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        .options {
+            margin: 20px 0;
+        }
+        .option {
+            display: block;
+            margin: 12px 0;
+            padding: 15px;
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .option:hover {
+            border-color: #f5576c;
+            background: #fff5f5;
+            transform: translateX(5px);
+        }
+        .option input[type="radio"] {
+            margin-right: 12px;
+            transform: scale(1.2);
+        }
+        .option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+        .option.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+        .explanation {
+            margin-top: 20px;
+            padding: 20px;
+            background: #fff0f5;
+            border-radius: 8px;
+            border-left: 4px solid #f5576c;
+            display: none;
+        }
+        .explanation.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .explanation h4 {
+            color: #f5576c;
+            margin: 0 0 10px 0;
+        }
+        .controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+        .btn {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f093fb, #f5576c);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        .score-display {
+            text-align: center;
+            font-size: 1.2em;
+            margin: 10px 0;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>AWS Cloud Practitioner Quiz 5</h1>
+            <p>Pricing, Billing & Cost Optimization</p>
+        </div>
+
+        <div class="quiz-info">
+            <div class="info-grid">
+                <div class="info-item">
+                    <h3>65</h3>
+                    <p>Total Questions</p>
+                </div>
+                <div class="info-item">
+                    <h3 id="score">0</h3>
+                    <p>Current Score</p>
+                </div>
+                <div class="info-item">
+                    <h3 id="percentage">0%</h3>
+                    <p>Percentage</p>
+                </div>
+                <div class="info-item">
+                    <h3 id="answered">0</h3>
+                    <p>Answered</p>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <div class="content">
+
+            <div class="question" id="question1">
+                <h3>
+                    <span class="question-number">Q1</span>
+                    What is the maximum discount percentage that Spot Instances can provide compared to On-Demand pricing?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="1" data-option="A">
+                        <input type="radio" name="q1" value="A">
+                        <strong>A.</strong> 50%
+                    </label>
+        
+                    <label class="option" data-question="1" data-option="B">
+                        <input type="radio" name="q1" value="B">
+                        <strong>B.</strong> 75%
+                    </label>
+        
+                    <label class="option" data-question="1" data-option="C">
+                        <input type="radio" name="q1" value="C">
+                        <strong>C.</strong> 90%
+                    </label>
+        
+                    <label class="option" data-question="1" data-option="D">
+                        <input type="radio" name="q1" value="D">
+                        <strong>D.</strong> 95%
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation1">
+                    <h4>✓ Correct Answer: C</h4>
+                    <p>Spot Instances can provide discounts of up to 90% compared to On-Demand pricing by utilizing unused EC2 capacity.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question2">
+                <h3>
+                    <span class="question-number">Q2</span>
+                    Which pricing model offers the most flexibility with no upfront commitment?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="2" data-option="A">
+                        <input type="radio" name="q2" value="A">
+                        <strong>A.</strong> Reserved Instances
+                    </label>
+        
+                    <label class="option" data-question="2" data-option="B">
+                        <input type="radio" name="q2" value="B">
+                        <strong>B.</strong> Spot Instances
+                    </label>
+        
+                    <label class="option" data-question="2" data-option="C">
+                        <input type="radio" name="q2" value="C">
+                        <strong>C.</strong> On-Demand Instances
+                    </label>
+        
+                    <label class="option" data-question="2" data-option="D">
+                        <input type="radio" name="q2" value="D">
+                        <strong>D.</strong> Dedicated Hosts
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation2">
+                    <h4>✓ Correct Answer: C</h4>
+                    <p>On-Demand Instances offer the most flexibility with no upfront commitment, allowing you to pay only for the compute time you use.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question3">
+                <h3>
+                    <span class="question-number">Q3</span>
+                    What is the AWS service that provides cost optimization for education workloads?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="3" data-option="A">
+                        <input type="radio" name="q3" value="A">
+                        <strong>A.</strong> AWS Educate
+                    </label>
+        
+                    <label class="option" data-question="3" data-option="B">
+                        <input type="radio" name="q3" value="B">
+                        <strong>B.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="3" data-option="C">
+                        <input type="radio" name="q3" value="C">
+                        <strong>C.</strong> AWS Credits
+                    </label>
+        
+                    <label class="option" data-question="3" data-option="D">
+                        <input type="radio" name="q3" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation3">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these options help optimize education costs through educational programs, usage analysis, and credit programs.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question4">
+                <h3>
+                    <span class="question-number">Q4</span>
+                    Which AWS service helps rightsize EC2 instances?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="4" data-option="A">
+                        <input type="radio" name="q4" value="A">
+                        <strong>A.</strong> AWS Trusted Advisor
+                    </label>
+        
+                    <label class="option" data-question="4" data-option="B">
+                        <input type="radio" name="q4" value="B">
+                        <strong>B.</strong> AWS Compute Optimizer
+                    </label>
+        
+                    <label class="option" data-question="4" data-option="C">
+                        <input type="radio" name="q4" value="C">
+                        <strong>C.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="4" data-option="D">
+                        <input type="radio" name="q4" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation4">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these services help with EC2 rightsizing: Trusted Advisor provides recommendations, Compute Optimizer uses ML for optimization, and Cost Explorer shows usage patterns.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question5">
+                <h3>
+                    <span class="question-number">Q5</span>
+                    What is the AWS service that provides cost optimization for media workloads?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="5" data-option="A">
+                        <input type="radio" name="q5" value="A">
+                        <strong>A.</strong> AWS Elemental MediaConvert
+                    </label>
+        
+                    <label class="option" data-question="5" data-option="B">
+                        <input type="radio" name="q5" value="B">
+                        <strong>B.</strong> Amazon S3 storage classes
+                    </label>
+        
+                    <label class="option" data-question="5" data-option="C">
+                        <input type="radio" name="q5" value="C">
+                        <strong>C.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="5" data-option="D">
+                        <input type="radio" name="q5" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation5">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these services help optimize media costs: MediaConvert for processing, S3 storage classes for archival, and Cost Explorer for analysis.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question6">
+                <h3>
+                    <span class="question-number">Q6</span>
+                    Which AWS service provides cost optimization for multi-cloud strategies?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="6" data-option="A">
+                        <input type="radio" name="q6" value="A">
+                        <strong>A.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="6" data-option="B">
+                        <input type="radio" name="q6" value="B">
+                        <strong>B.</strong> AWS Trusted Advisor
+                    </label>
+        
+                    <label class="option" data-question="6" data-option="C">
+                        <input type="radio" name="q6" value="C">
+                        <strong>C.</strong> Third-party tools
+                    </label>
+        
+                    <label class="option" data-question="6" data-option="D">
+                        <input type="radio" name="q6" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation6">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these options help optimize multi-cloud costs through analysis, recommendations, and specialized tools.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question7">
+                <h3>
+                    <span class="question-number">Q7</span>
+                    What is the AWS service that provides automated cost optimization recommendations?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="7" data-option="A">
+                        <input type="radio" name="q7" value="A">
+                        <strong>A.</strong> AWS Trusted Advisor
+                    </label>
+        
+                    <label class="option" data-question="7" data-option="B">
+                        <input type="radio" name="q7" value="B">
+                        <strong>B.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="7" data-option="C">
+                        <input type="radio" name="q7" value="C">
+                        <strong>C.</strong> AWS Compute Optimizer
+                    </label>
+        
+                    <label class="option" data-question="7" data-option="D">
+                        <input type="radio" name="q7" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation7">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these services provide cost optimization recommendations: Trusted Advisor for general recommendations, Cost Explorer for usage analysis, and Compute Optimizer for rightsizing.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question8">
+                <h3>
+                    <span class="question-number">Q8</span>
+                    A company has multiple AWS accounts. The company needs to receive a consolidated bill from AWS and must centrally manage security and compliance. Which AWS service or feature should the company use to meet these requirements?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="8" data-option="A">
+                        <input type="radio" name="q8" value="A">
+                        <strong>A.</strong> AWS Cost and Usage Report
+                    </label>
+        
+                    <label class="option" data-question="8" data-option="B">
+                        <input type="radio" name="q8" value="B">
+                        <strong>B.</strong> AWS Organizations
+                    </label>
+        
+                    <label class="option" data-question="8" data-option="C">
+                        <input type="radio" name="q8" value="C">
+                        <strong>C.</strong> AWS Config
+                    </label>
+        
+                    <label class="option" data-question="8" data-option="D">
+                        <input type="radio" name="q8" value="D">
+                        <strong>D.</strong> AWS Security Hub
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation8">
+                    <h4>✓ Correct Answer: B</h4>
+                    <p>AWS Organizations allows centralized management across multiple AWS accounts, providing consolidated billing and the ability to implement service control policies (SCPs) for centralized security and compliance management.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question9">
+                <h3>
+                    <span class="question-number">Q9</span>
+                    Which AWS service provides cost optimization for storage?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="9" data-option="A">
+                        <input type="radio" name="q9" value="A">
+                        <strong>A.</strong> S3 Storage Class Analysis
+                    </label>
+        
+                    <label class="option" data-question="9" data-option="B">
+                        <input type="radio" name="q9" value="B">
+                        <strong>B.</strong> S3 Intelligent-Tiering
+                    </label>
+        
+                    <label class="option" data-question="9" data-option="C">
+                        <input type="radio" name="q9" value="C">
+                        <strong>C.</strong> AWS Trusted Advisor
+                    </label>
+        
+                    <label class="option" data-question="9" data-option="D">
+                        <input type="radio" name="q9" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation9">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these services help optimize storage costs: Storage Class Analysis for recommendations, Intelligent-Tiering for automatic optimization, and Trusted Advisor for best practices.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question10">
+                <h3>
+                    <span class="question-number">Q10</span>
+                    Which AWS service provides cost optimization for security services?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="10" data-option="A">
+                        <input type="radio" name="q10" value="A">
+                        <strong>A.</strong> AWS Security Hub
+                    </label>
+        
+                    <label class="option" data-question="10" data-option="B">
+                        <input type="radio" name="q10" value="B">
+                        <strong>B.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="10" data-option="C">
+                        <input type="radio" name="q10" value="C">
+                        <strong>C.</strong> AWS Trusted Advisor
+                    </label>
+        
+                    <label class="option" data-question="10" data-option="D">
+                        <input type="radio" name="q10" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation10">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these services help optimize security costs through centralized management, usage analysis, and best practice recommendations.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question11">
+                <h3>
+                    <span class="question-number">Q11</span>
+                    A company is running big data analytics and massive parallel computations on its AWS test and development servers. The company can tolerate occasional downtime. What is the MOST cost-effective Amazon EC2 purchasing option for the company to use?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="11" data-option="A">
+                        <input type="radio" name="q11" value="A">
+                        <strong>A.</strong> On-Demand Instances
+                    </label>
+        
+                    <label class="option" data-question="11" data-option="B">
+                        <input type="radio" name="q11" value="B">
+                        <strong>B.</strong> Spot Instances
+                    </label>
+        
+                    <label class="option" data-question="11" data-option="C">
+                        <input type="radio" name="q11" value="C">
+                        <strong>C.</strong> Reserved Instances
+                    </label>
+        
+                    <label class="option" data-question="11" data-option="D">
+                        <input type="radio" name="q11" value="D">
+                        <strong>D.</strong> Savings Plans
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation11">
+                    <h4>✓ Correct Answer: B</h4>
+                    <p>Spot Instances offer significant cost savings (up to 90% compared to On-Demand) by bidding on unused EC2 capacity. For test and development environments where disruptions are acceptable and workloads are fault-tolerant, this is the most cost-effective option.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question12">
+                <h3>
+                    <span class="question-number">Q12</span>
+                    What is the AWS service that provides cost analysis and forecasting?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="12" data-option="A">
+                        <input type="radio" name="q12" value="A">
+                        <strong>A.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="12" data-option="B">
+                        <input type="radio" name="q12" value="B">
+                        <strong>B.</strong> AWS Budgets
+                    </label>
+        
+                    <label class="option" data-question="12" data-option="C">
+                        <input type="radio" name="q12" value="C">
+                        <strong>C.</strong> AWS Trusted Advisor
+                    </label>
+        
+                    <label class="option" data-question="12" data-option="D">
+                        <input type="radio" name="q12" value="D">
+                        <strong>D.</strong> AWS Cost and Usage Report
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation12">
+                    <h4>✓ Correct Answer: A</h4>
+                    <p>AWS Cost Explorer is a tool that enables you to view and analyze your costs and usage, including forecasting future costs based on historical data and usage patterns.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question13">
+                <h3>
+                    <span class="question-number">Q13</span>
+                    Which AWS service provides cost optimization for networking?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="13" data-option="A">
+                        <input type="radio" name="q13" value="A">
+                        <strong>A.</strong> AWS Trusted Advisor
+                    </label>
+        
+                    <label class="option" data-question="13" data-option="B">
+                        <input type="radio" name="q13" value="B">
+                        <strong>B.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="13" data-option="C">
+                        <input type="radio" name="q13" value="C">
+                        <strong>C.</strong> VPC Flow Logs
+                    </label>
+        
+                    <label class="option" data-question="13" data-option="D">
+                        <input type="radio" name="q13" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation13">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these services help optimize networking costs: Trusted Advisor for recommendations, Cost Explorer for usage analysis, and VPC Flow Logs for traffic analysis.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question14">
+                <h3>
+                    <span class="question-number">Q14</span>
+                    A company is assessing its AWS Business Support plan to determine if the plan still meets the company's needs. The company is considering switching to AWS Enterprise Support. Which additional benefit will the company receive with AWS Enterprise Support?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="14" data-option="A">
+                        <input type="radio" name="q14" value="A">
+                        <strong>A.</strong> A full set of AWS Trusted Advisor checks
+                    </label>
+        
+                    <label class="option" data-question="14" data-option="B">
+                        <input type="radio" name="q14" value="B">
+                        <strong>B.</strong> Phone, email, and chat access to cloud support engineers 24 hours a day, 7 days a week
+                    </label>
+        
+                    <label class="option" data-question="14" data-option="C">
+                        <input type="radio" name="q14" value="C">
+                        <strong>C.</strong> A designated technical account manager (TAM) to assist in monitoring and optimization
+                    </label>
+        
+                    <label class="option" data-question="14" data-option="D">
+                        <input type="radio" name="q14" value="D">
+                        <strong>D.</strong> A consultative review and architecture guidance for the company's applications
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation14">
+                    <h4>✓ Correct Answer: C</h4>
+                    <p>AWS Enterprise Support provides a designated Technical Account Manager (TAM) who acts as a single point of contact, providing personalized guidance, best practices, and proactive optimization assistance that is not available in lower-tier support plans.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question15">
+                <h3>
+                    <span class="question-number">Q15</span>
+                    What is the AWS service that provides cost optimization for hybrid cloud?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="15" data-option="A">
+                        <input type="radio" name="q15" value="A">
+                        <strong>A.</strong> AWS Outposts
+                    </label>
+        
+                    <label class="option" data-question="15" data-option="B">
+                        <input type="radio" name="q15" value="B">
+                        <strong>B.</strong> AWS Storage Gateway
+                    </label>
+        
+                    <label class="option" data-question="15" data-option="C">
+                        <input type="radio" name="q15" value="C">
+                        <strong>C.</strong> AWS Direct Connect
+                    </label>
+        
+                    <label class="option" data-question="15" data-option="D">
+                        <input type="radio" name="q15" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation15">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these services help optimize hybrid cloud costs through various connectivity and storage options.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question16">
+                <h3>
+                    <span class="question-number">Q16</span>
+                    Which AWS service provides cost budgets and alerts?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="16" data-option="A">
+                        <input type="radio" name="q16" value="A">
+                        <strong>A.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="16" data-option="B">
+                        <input type="radio" name="q16" value="B">
+                        <strong>B.</strong> AWS Budgets
+                    </label>
+        
+                    <label class="option" data-question="16" data-option="C">
+                        <input type="radio" name="q16" value="C">
+                        <strong>C.</strong> AWS Trusted Advisor
+                    </label>
+        
+                    <label class="option" data-question="16" data-option="D">
+                        <input type="radio" name="q16" value="D">
+                        <strong>D.</strong> AWS Cost and Usage Report
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation16">
+                    <h4>✓ Correct Answer: B</h4>
+                    <p>AWS Budgets gives you the ability to set custom budgets that alert you when your costs or usage exceed (or are forecasted to exceed) your budgeted amount.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question17">
+                <h3>
+                    <span class="question-number">Q17</span>
+                    What is the AWS service that provides cost optimization for mobile applications?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="17" data-option="A">
+                        <input type="radio" name="q17" value="A">
+                        <strong>A.</strong> AWS Amplify
+                    </label>
+        
+                    <label class="option" data-question="17" data-option="B">
+                        <input type="radio" name="q17" value="B">
+                        <strong>B.</strong> Amazon Cognito
+                    </label>
+        
+                    <label class="option" data-question="17" data-option="C">
+                        <input type="radio" name="q17" value="C">
+                        <strong>C.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="17" data-option="D">
+                        <input type="radio" name="q17" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation17">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these services help optimize mobile app costs through managed services, user management, and usage analysis.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question18">
+                <h3>
+                    <span class="question-number">Q18</span>
+                    Which AWS service helps estimate costs for AWS services?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="18" data-option="A">
+                        <input type="radio" name="q18" value="A">
+                        <strong>A.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="18" data-option="B">
+                        <input type="radio" name="q18" value="B">
+                        <strong>B.</strong> AWS Pricing Calculator
+                    </label>
+        
+                    <label class="option" data-question="18" data-option="C">
+                        <input type="radio" name="q18" value="C">
+                        <strong>C.</strong> AWS Budgets
+                    </label>
+        
+                    <label class="option" data-question="18" data-option="D">
+                        <input type="radio" name="q18" value="D">
+                        <strong>D.</strong> AWS Cost and Usage Report
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation18">
+                    <h4>✓ Correct Answer: B</h4>
+                    <p>AWS Pricing Calculator helps you estimate the cost of AWS services for your use cases before you start using them.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question19">
+                <h3>
+                    <span class="question-number">Q19</span>
+                    Which AWS service provides cost allocation tags?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="19" data-option="A">
+                        <input type="radio" name="q19" value="A">
+                        <strong>A.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="19" data-option="B">
+                        <input type="radio" name="q19" value="B">
+                        <strong>B.</strong> AWS Resource Groups
+                    </label>
+        
+                    <label class="option" data-question="19" data-option="C">
+                        <input type="radio" name="q19" value="C">
+                        <strong>C.</strong> AWS Tag Editor
+                    </label>
+        
+                    <label class="option" data-question="19" data-option="D">
+                        <input type="radio" name="q19" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation19">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these services work with cost allocation tags: Cost Explorer for analysis, Resource Groups for organization, and Tag Editor for management.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question20">
+                <h3>
+                    <span class="question-number">Q20</span>
+                    What is the AWS service that provides cost anomaly detection?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="20" data-option="A">
+                        <input type="radio" name="q20" value="A">
+                        <strong>A.</strong> AWS Cost Anomaly Detection
+                    </label>
+        
+                    <label class="option" data-question="20" data-option="B">
+                        <input type="radio" name="q20" value="B">
+                        <strong>B.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="20" data-option="C">
+                        <input type="radio" name="q20" value="C">
+                        <strong>C.</strong> AWS Budgets
+                    </label>
+        
+                    <label class="option" data-question="20" data-option="D">
+                        <input type="radio" name="q20" value="D">
+                        <strong>D.</strong> AWS CloudWatch
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation20">
+                    <h4>✓ Correct Answer: A</h4>
+                    <p>AWS Cost Anomaly Detection uses machine learning to identify unusual spending patterns and automatically alerts you to anomalies.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question21">
+                <h3>
+                    <span class="question-number">Q21</span>
+                    What is the AWS service that provides cost optimization for satellite workloads?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="21" data-option="A">
+                        <input type="radio" name="q21" value="A">
+                        <strong>A.</strong> AWS Ground Station
+                    </label>
+        
+                    <label class="option" data-question="21" data-option="B">
+                        <input type="radio" name="q21" value="B">
+                        <strong>B.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="21" data-option="C">
+                        <input type="radio" name="q21" value="C">
+                        <strong>C.</strong> Pay-per-use pricing
+                    </label>
+        
+                    <label class="option" data-question="21" data-option="D">
+                        <input type="radio" name="q21" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation21">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these options help optimize satellite costs: Ground Station's pay-per-use model, Cost Explorer for analysis, and usage-based pricing.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question22">
+                <h3>
+                    <span class="question-number">Q22</span>
+                    Which Reserved Instance term typically provides the highest discount?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="22" data-option="A">
+                        <input type="radio" name="q22" value="A">
+                        <strong>A.</strong> 1 year
+                    </label>
+        
+                    <label class="option" data-question="22" data-option="B">
+                        <input type="radio" name="q22" value="B">
+                        <strong>B.</strong> 2 years
+                    </label>
+        
+                    <label class="option" data-question="22" data-option="C">
+                        <input type="radio" name="q22" value="C">
+                        <strong>C.</strong> 3 years
+                    </label>
+        
+                    <label class="option" data-question="22" data-option="D">
+                        <input type="radio" name="q22" value="D">
+                        <strong>D.</strong> 5 years
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation22">
+                    <h4>✓ Correct Answer: C</h4>
+                    <p>3-year Reserved Instance terms typically provide the highest discount compared to shorter terms, as AWS rewards longer commitments with better pricing.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question23">
+                <h3>
+                    <span class="question-number">Q23</span>
+                    Which of the following are benefits of AWS Trusted Advisor? (Choose two.)
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="23" data-option="A">
+                        <input type="checkbox" name="q23" value="A">
+                        <strong>A.</strong> Access to Amazon Simple Queue Service (Amazon SQS)
+                    </label>
+        
+                    <label class="option" data-question="23" data-option="B">
+                        <input type="checkbox" name="q23" value="B">
+                        <strong>B.</strong> Cost optimization recommendations
+                    </label>
+        
+                    <label class="option" data-question="23" data-option="C">
+                        <input type="checkbox" name="q23" value="C">
+                        <strong>C.</strong> Hourly refresh of the service limit checks
+                    </label>
+        
+                    <label class="option" data-question="23" data-option="D">
+                        <input type="checkbox" name="q23" value="D">
+                        <strong>D.</strong> Security checks
+                    </label>
+        
+                    <label class="option" data-question="23" data-option="E">
+                        <input type="checkbox" name="q23" value="E">
+                        <strong>E.</strong> AWS Identity and Access Management (IAM) approval management
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation23">
+                    <h4>✓ Correct Answer: B,D</h4>
+                    <p>AWS Trusted Advisor provides cost optimization recommendations by identifying idle resources and underutilized instances, and security checks based on AWS best practices, including flagging open security group rules and exposed access keys.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question24">
+                <h3>
+                    <span class="question-number">Q24</span>
+                    A user has a stateful workload that will run on Amazon EC2 for the next 3 years. What is the MOST cost-effective pricing model for this workload?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="24" data-option="A">
+                        <input type="radio" name="q24" value="A">
+                        <strong>A.</strong> On-Demand Instances
+                    </label>
+        
+                    <label class="option" data-question="24" data-option="B">
+                        <input type="radio" name="q24" value="B">
+                        <strong>B.</strong> Reserved Instances
+                    </label>
+        
+                    <label class="option" data-question="24" data-option="C">
+                        <input type="radio" name="q24" value="C">
+                        <strong>C.</strong> Dedicated Instances
+                    </label>
+        
+                    <label class="option" data-question="24" data-option="D">
+                        <input type="radio" name="q24" value="D">
+                        <strong>D.</strong> Spot Instances
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation24">
+                    <h4>✓ Correct Answer: B</h4>
+                    <p>Reserved Instances offer significant discounts (up to 75%) compared to On-Demand Instances in exchange for a 1-year or 3-year commitment. For a predictable, long-term stateful workload, Reserved Instances provide the most cost-effective solution.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question25">
+                <h3>
+                    <span class="question-number">Q25</span>
+                    Which AWS service provides cost optimization for backup and archival?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="25" data-option="A">
+                        <input type="radio" name="q25" value="A">
+                        <strong>A.</strong> Amazon S3 Glacier
+                    </label>
+        
+                    <label class="option" data-question="25" data-option="B">
+                        <input type="radio" name="q25" value="B">
+                        <strong>B.</strong> AWS Backup
+                    </label>
+        
+                    <label class="option" data-question="25" data-option="C">
+                        <input type="radio" name="q25" value="C">
+                        <strong>C.</strong> S3 Lifecycle policies
+                    </label>
+        
+                    <label class="option" data-question="25" data-option="D">
+                        <input type="radio" name="q25" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation25">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these services help optimize backup and archival costs: Glacier for long-term storage, AWS Backup for centralized management, and Lifecycle policies for automatic transitions.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question26">
+                <h3>
+                    <span class="question-number">Q26</span>
+                    What is the AWS service that provides cost optimization for development and testing?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="26" data-option="A">
+                        <input type="radio" name="q26" value="A">
+                        <strong>A.</strong> Spot Instances
+                    </label>
+        
+                    <label class="option" data-question="26" data-option="B">
+                        <input type="radio" name="q26" value="B">
+                        <strong>B.</strong> AWS Dev/Test pricing
+                    </label>
+        
+                    <label class="option" data-question="26" data-option="C">
+                        <input type="radio" name="q26" value="C">
+                        <strong>C.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="26" data-option="D">
+                        <input type="radio" name="q26" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation26">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these options help optimize dev/test costs: Spot Instances for interruptible workloads, Dev/Test pricing for eligible software, and Cost Explorer for usage analysis.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question27">
+                <h3>
+                    <span class="question-number">Q27</span>
+                    What is the AWS service that provides consolidated billing for multiple accounts?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="27" data-option="A">
+                        <input type="radio" name="q27" value="A">
+                        <strong>A.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="27" data-option="B">
+                        <input type="radio" name="q27" value="B">
+                        <strong>B.</strong> AWS Organizations
+                    </label>
+        
+                    <label class="option" data-question="27" data-option="C">
+                        <input type="radio" name="q27" value="C">
+                        <strong>C.</strong> AWS Budgets
+                    </label>
+        
+                    <label class="option" data-question="27" data-option="D">
+                        <input type="radio" name="q27" value="D">
+                        <strong>D.</strong> AWS Billing Dashboard
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation27">
+                    <h4>✓ Correct Answer: B</h4>
+                    <p>AWS Organizations provides consolidated billing, allowing you to combine usage across multiple AWS accounts and receive a single bill.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question28">
+                <h3>
+                    <span class="question-number">Q28</span>
+                    Which AWS service provides cost optimization for edge computing?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="28" data-option="A">
+                        <input type="radio" name="q28" value="A">
+                        <strong>A.</strong> AWS Outposts
+                    </label>
+        
+                    <label class="option" data-question="28" data-option="B">
+                        <input type="radio" name="q28" value="B">
+                        <strong>B.</strong> AWS Wavelength
+                    </label>
+        
+                    <label class="option" data-question="28" data-option="C">
+                        <input type="radio" name="q28" value="C">
+                        <strong>C.</strong> AWS Local Zones
+                    </label>
+        
+                    <label class="option" data-question="28" data-option="D">
+                        <input type="radio" name="q28" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation28">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these services help optimize edge computing costs through various deployment options and pricing models.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question29">
+                <h3>
+                    <span class="question-number">Q29</span>
+                    Which AWS service provides recommendations for cost optimization, performance, security, and fault tolerance?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="29" data-option="A">
+                        <input type="radio" name="q29" value="A">
+                        <strong>A.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="29" data-option="B">
+                        <input type="radio" name="q29" value="B">
+                        <strong>B.</strong> AWS Budgets
+                    </label>
+        
+                    <label class="option" data-question="29" data-option="C">
+                        <input type="radio" name="q29" value="C">
+                        <strong>C.</strong> AWS Trusted Advisor
+                    </label>
+        
+                    <label class="option" data-question="29" data-option="D">
+                        <input type="radio" name="q29" value="D">
+                        <strong>D.</strong> AWS Well-Architected Tool
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation29">
+                    <h4>✓ Correct Answer: C</h4>
+                    <p>AWS Trusted Advisor provides recommendations that help you follow AWS best practices across cost optimization, performance, security, fault tolerance, and service limits.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question30">
+                <h3>
+                    <span class="question-number">Q30</span>
+                    Which AWS service provides cost optimization for content delivery?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="30" data-option="A">
+                        <input type="radio" name="q30" value="A">
+                        <strong>A.</strong> Amazon CloudFront
+                    </label>
+        
+                    <label class="option" data-question="30" data-option="B">
+                        <input type="radio" name="q30" value="B">
+                        <strong>B.</strong> AWS Global Accelerator
+                    </label>
+        
+                    <label class="option" data-question="30" data-option="C">
+                        <input type="radio" name="q30" value="C">
+                        <strong>C.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="30" data-option="D">
+                        <input type="radio" name="q30" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation30">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these services help optimize content delivery costs: CloudFront for caching, Global Accelerator for performance, and Cost Explorer for usage analysis.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question31">
+                <h3>
+                    <span class="question-number">Q31</span>
+                    What is the AWS service that provides cost optimization for data transfer?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="31" data-option="A">
+                        <input type="radio" name="q31" value="A">
+                        <strong>A.</strong> Amazon CloudFront
+                    </label>
+        
+                    <label class="option" data-question="31" data-option="B">
+                        <input type="radio" name="q31" value="B">
+                        <strong>B.</strong> AWS Direct Connect
+                    </label>
+        
+                    <label class="option" data-question="31" data-option="C">
+                        <input type="radio" name="q31" value="C">
+                        <strong>C.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="31" data-option="D">
+                        <input type="radio" name="q31" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation31">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these services help optimize data transfer costs: CloudFront reduces origin requests, Direct Connect provides dedicated bandwidth, and Cost Explorer analyzes transfer patterns.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question32">
+                <h3>
+                    <span class="question-number">Q32</span>
+                    What is the AWS service that provides cost optimization for monitoring and logging?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="32" data-option="A">
+                        <input type="radio" name="q32" value="A">
+                        <strong>A.</strong> Amazon CloudWatch Logs retention
+                    </label>
+        
+                    <label class="option" data-question="32" data-option="B">
+                        <input type="radio" name="q32" value="B">
+                        <strong>B.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="32" data-option="C">
+                        <input type="radio" name="q32" value="C">
+                        <strong>C.</strong> AWS Trusted Advisor
+                    </label>
+        
+                    <label class="option" data-question="32" data-option="D">
+                        <input type="radio" name="q32" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation32">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these services help optimize monitoring costs: CloudWatch retention policies, Cost Explorer for analysis, and Trusted Advisor for recommendations.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question33">
+                <h3>
+                    <span class="question-number">Q33</span>
+                    Which pricing model will interrupt a running Amazon EC2 instance if capacity becomes temporarily unavailable?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="33" data-option="A">
+                        <input type="radio" name="q33" value="A">
+                        <strong>A.</strong> On-Demand Instances
+                    </label>
+        
+                    <label class="option" data-question="33" data-option="B">
+                        <input type="radio" name="q33" value="B">
+                        <strong>B.</strong> Standard Reserved Instances
+                    </label>
+        
+                    <label class="option" data-question="33" data-option="C">
+                        <input type="radio" name="q33" value="C">
+                        <strong>C.</strong> Spot Instances
+                    </label>
+        
+                    <label class="option" data-question="33" data-option="D">
+                        <input type="radio" name="q33" value="D">
+                        <strong>D.</strong> Convertible Reserved Instances
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation33">
+                    <h4>✓ Correct Answer: C</h4>
+                    <p>Spot Instances can be interrupted with a 2-minute warning if AWS needs the capacity for On-Demand users or if your bid price is lower than the current Spot price. This interruption is inherent to their design in exchange for significant cost savings.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question34">
+                <h3>
+                    <span class="question-number">Q34</span>
+                    Which AWS service provides cost optimization for gaming workloads?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="34" data-option="A">
+                        <input type="radio" name="q34" value="A">
+                        <strong>A.</strong> Amazon GameLift
+                    </label>
+        
+                    <label class="option" data-question="34" data-option="B">
+                        <input type="radio" name="q34" value="B">
+                        <strong>B.</strong> Spot Instances
+                    </label>
+        
+                    <label class="option" data-question="34" data-option="C">
+                        <input type="radio" name="q34" value="C">
+                        <strong>C.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="34" data-option="D">
+                        <input type="radio" name="q34" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation34">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these services help optimize gaming costs: GameLift for managed hosting, Spot Instances for cost savings, and Cost Explorer for analysis.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question35">
+                <h3>
+                    <span class="question-number">Q35</span>
+                    What is the AWS service that provides cost optimization for scientific computing?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="35" data-option="A">
+                        <input type="radio" name="q35" value="A">
+                        <strong>A.</strong> AWS Batch
+                    </label>
+        
+                    <label class="option" data-question="35" data-option="B">
+                        <input type="radio" name="q35" value="B">
+                        <strong>B.</strong> Amazon EC2 Spot Instances
+                    </label>
+        
+                    <label class="option" data-question="35" data-option="C">
+                        <input type="radio" name="q35" value="C">
+                        <strong>C.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="35" data-option="D">
+                        <input type="radio" name="q35" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation35">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these services help optimize scientific computing costs through batch processing, cost-effective instances, and usage analysis.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question36">
+                <h3>
+                    <span class="question-number">Q36</span>
+                    Which AWS service provides cost optimization for high-performance computing (HPC)?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="36" data-option="A">
+                        <input type="radio" name="q36" value="A">
+                        <strong>A.</strong> AWS Batch
+                    </label>
+        
+                    <label class="option" data-question="36" data-option="B">
+                        <input type="radio" name="q36" value="B">
+                        <strong>B.</strong> Spot Instances
+                    </label>
+        
+                    <label class="option" data-question="36" data-option="C">
+                        <input type="radio" name="q36" value="C">
+                        <strong>C.</strong> AWS ParallelCluster
+                    </label>
+        
+                    <label class="option" data-question="36" data-option="D">
+                        <input type="radio" name="q36" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation36">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these services help optimize HPC costs: Batch for job management, Spot Instances for cost savings, and ParallelCluster for cluster management.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question37">
+                <h3>
+                    <span class="question-number">Q37</span>
+                    What is the AWS service that provides cost optimization for analytics?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="37" data-option="A">
+                        <input type="radio" name="q37" value="A">
+                        <strong>A.</strong> Amazon Athena
+                    </label>
+        
+                    <label class="option" data-question="37" data-option="B">
+                        <input type="radio" name="q37" value="B">
+                        <strong>B.</strong> AWS Glue
+                    </label>
+        
+                    <label class="option" data-question="37" data-option="C">
+                        <input type="radio" name="q37" value="C">
+                        <strong>C.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="37" data-option="D">
+                        <input type="radio" name="q37" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation37">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these services help optimize analytics costs: Athena for serverless queries, Glue for managed ETL, and Cost Explorer for usage analysis.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question38">
+                <h3>
+                    <span class="question-number">Q38</span>
+                    What is the AWS service that provides cost optimization for compliance workloads?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="38" data-option="A">
+                        <input type="radio" name="q38" value="A">
+                        <strong>A.</strong> AWS Config
+                    </label>
+        
+                    <label class="option" data-question="38" data-option="B">
+                        <input type="radio" name="q38" value="B">
+                        <strong>B.</strong> AWS CloudTrail
+                    </label>
+        
+                    <label class="option" data-question="38" data-option="C">
+                        <input type="radio" name="q38" value="C">
+                        <strong>C.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="38" data-option="D">
+                        <input type="radio" name="q38" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation38">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these services help optimize compliance costs through automated monitoring, logging, and cost analysis.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question39">
+                <h3>
+                    <span class="question-number">Q39</span>
+                    What is the AWS service that provides cost optimization for databases?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="39" data-option="A">
+                        <input type="radio" name="q39" value="A">
+                        <strong>A.</strong> AWS Trusted Advisor
+                    </label>
+        
+                    <label class="option" data-question="39" data-option="B">
+                        <input type="radio" name="q39" value="B">
+                        <strong>B.</strong> AWS Compute Optimizer
+                    </label>
+        
+                    <label class="option" data-question="39" data-option="C">
+                        <input type="radio" name="q39" value="C">
+                        <strong>C.</strong> Amazon RDS Performance Insights
+                    </label>
+        
+                    <label class="option" data-question="39" data-option="D">
+                        <input type="radio" name="q39" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation39">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these services help optimize database costs through rightsizing recommendations, performance analysis, and best practice guidance.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question40">
+                <h3>
+                    <span class="question-number">Q40</span>
+                    What is the AWS service that provides cost optimization for startups?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="40" data-option="A">
+                        <input type="radio" name="q40" value="A">
+                        <strong>A.</strong> AWS Activate
+                    </label>
+        
+                    <label class="option" data-question="40" data-option="B">
+                        <input type="radio" name="q40" value="B">
+                        <strong>B.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="40" data-option="C">
+                        <input type="radio" name="q40" value="C">
+                        <strong>C.</strong> AWS Credits
+                    </label>
+        
+                    <label class="option" data-question="40" data-option="D">
+                        <input type="radio" name="q40" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation40">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these options help optimize startup costs through support programs, usage analysis, and credit offerings.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question41">
+                <h3>
+                    <span class="question-number">Q41</span>
+                    What is the AWS service that provides cost optimization for machine learning?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="41" data-option="A">
+                        <input type="radio" name="q41" value="A">
+                        <strong>A.</strong> Amazon SageMaker Savings Plans
+                    </label>
+        
+                    <label class="option" data-question="41" data-option="B">
+                        <input type="radio" name="q41" value="B">
+                        <strong>B.</strong> Spot Instances for training
+                    </label>
+        
+                    <label class="option" data-question="41" data-option="C">
+                        <input type="radio" name="q41" value="C">
+                        <strong>C.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="41" data-option="D">
+                        <input type="radio" name="q41" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation41">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these options help optimize ML costs: SageMaker Savings Plans for committed usage, Spot Instances for training jobs, and Cost Explorer for usage analysis.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question42">
+                <h3>
+                    <span class="question-number">Q42</span>
+                    A company runs thousands of simultaneous simulations using AWS Batch. Each simulation is stateless, is fault tolerant, and runs for up to 3 hours. Which pricing model enables the company to optimize costs and meet these requirements?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="42" data-option="A">
+                        <input type="radio" name="q42" value="A">
+                        <strong>A.</strong> Reserved Instances
+                    </label>
+        
+                    <label class="option" data-question="42" data-option="B">
+                        <input type="radio" name="q42" value="B">
+                        <strong>B.</strong> Spot Instances
+                    </label>
+        
+                    <label class="option" data-question="42" data-option="C">
+                        <input type="radio" name="q42" value="C">
+                        <strong>C.</strong> On-Demand Instances
+                    </label>
+        
+                    <label class="option" data-question="42" data-option="D">
+                        <input type="radio" name="q42" value="D">
+                        <strong>D.</strong> Dedicated Instances
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation42">
+                    <h4>✓ Correct Answer: B</h4>
+                    <p>Spot Instances are ideal for stateless, fault-tolerant workloads like batch simulations. They offer up to 90% cost savings, and AWS Batch seamlessly integrates with Spot Instances to manage bidding and provisioning automatically.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question43">
+                <h3>
+                    <span class="question-number">Q43</span>
+                    What is the AWS service that provides cost optimization for quantum computing?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="43" data-option="A">
+                        <input type="radio" name="q43" value="A">
+                        <strong>A.</strong> Amazon Braket
+                    </label>
+        
+                    <label class="option" data-question="43" data-option="B">
+                        <input type="radio" name="q43" value="B">
+                        <strong>B.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="43" data-option="C">
+                        <input type="radio" name="q43" value="C">
+                        <strong>C.</strong> Pay-per-use pricing
+                    </label>
+        
+                    <label class="option" data-question="43" data-option="D">
+                        <input type="radio" name="q43" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation43">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these options help optimize quantum computing costs: Braket's pay-per-use model, Cost Explorer for analysis, and usage-based pricing.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question44">
+                <h3>
+                    <span class="question-number">Q44</span>
+                    A company has decided to adopt Amazon EC2 infrastructure and wants to scale various stateless services for short-term usage. Which EC2 pricing model is MOST cost-efficient to meet these requirements?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="44" data-option="A">
+                        <input type="radio" name="q44" value="A">
+                        <strong>A.</strong> Spot Instances
+                    </label>
+        
+                    <label class="option" data-question="44" data-option="B">
+                        <input type="radio" name="q44" value="B">
+                        <strong>B.</strong> On-Demand Instances
+                    </label>
+        
+                    <label class="option" data-question="44" data-option="C">
+                        <input type="radio" name="q44" value="C">
+                        <strong>C.</strong> Reserved Instances
+                    </label>
+        
+                    <label class="option" data-question="44" data-option="D">
+                        <input type="radio" name="q44" value="D">
+                        <strong>D.</strong> Dedicated Hosts
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation44">
+                    <h4>✓ Correct Answer: A</h4>
+                    <p>Spot Instances offer up to 90% cost savings and are ideal for stateless services that can tolerate interruptions. Since the services are stateless, they can be easily replaced if interrupted, making Spot Instances the most cost-efficient choice.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question45">
+                <h3>
+                    <span class="question-number">Q45</span>
+                    A company runs Amazon EC2 instances in a research lab. The instances run for 3 hours each week and cannot be interrupted. What is the MOST cost-effective instance purchasing option to meet these requirements?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="45" data-option="A">
+                        <input type="radio" name="q45" value="A">
+                        <strong>A.</strong> Compute Savings Plan
+                    </label>
+        
+                    <label class="option" data-question="45" data-option="B">
+                        <input type="radio" name="q45" value="B">
+                        <strong>B.</strong> On-Demand Instances
+                    </label>
+        
+                    <label class="option" data-question="45" data-option="C">
+                        <input type="radio" name="q45" value="C">
+                        <strong>C.</strong> Convertible Reserved Instances
+                    </label>
+        
+                    <label class="option" data-question="45" data-option="D">
+                        <input type="radio" name="q45" value="D">
+                        <strong>D.</strong> Spot Instances
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation45">
+                    <h4>✓ Correct Answer: A</h4>
+                    <p>Compute Savings Plans offer significant cost savings for predictable, consistent workloads. Since the workload runs a fixed 3 hours per week and cannot be interrupted, a Savings Plan provides the best cost optimization for this regular usage pattern.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question46">
+                <h3>
+                    <span class="question-number">Q46</span>
+                    What is the minimum commitment period for Reserved Instances?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="46" data-option="A">
+                        <input type="radio" name="q46" value="A">
+                        <strong>A.</strong> 6 months
+                    </label>
+        
+                    <label class="option" data-question="46" data-option="B">
+                        <input type="radio" name="q46" value="B">
+                        <strong>B.</strong> 1 year
+                    </label>
+        
+                    <label class="option" data-question="46" data-option="C">
+                        <input type="radio" name="q46" value="C">
+                        <strong>C.</strong> 2 years
+                    </label>
+        
+                    <label class="option" data-question="46" data-option="D">
+                        <input type="radio" name="q46" value="D">
+                        <strong>D.</strong> 3 years
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation46">
+                    <h4>✓ Correct Answer: B</h4>
+                    <p>The minimum commitment period for Reserved Instances is 1 year, with options for 1-year or 3-year terms.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question47">
+                <h3>
+                    <span class="question-number">Q47</span>
+                    What is the AWS service that provides cost optimization for healthcare workloads?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="47" data-option="A">
+                        <input type="radio" name="q47" value="A">
+                        <strong>A.</strong> AWS HealthLake
+                    </label>
+        
+                    <label class="option" data-question="47" data-option="B">
+                        <input type="radio" name="q47" value="B">
+                        <strong>B.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="47" data-option="C">
+                        <input type="radio" name="q47" value="C">
+                        <strong>C.</strong> HIPAA-eligible services
+                    </label>
+        
+                    <label class="option" data-question="47" data-option="D">
+                        <input type="radio" name="q47" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation47">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these options help optimize healthcare costs through specialized services, usage analysis, and compliant infrastructure.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question48">
+                <h3>
+                    <span class="question-number">Q48</span>
+                    What is the AWS service that provides migration cost estimation?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="48" data-option="A">
+                        <input type="radio" name="q48" value="A">
+                        <strong>A.</strong> AWS Migration Hub
+                    </label>
+        
+                    <label class="option" data-question="48" data-option="B">
+                        <input type="radio" name="q48" value="B">
+                        <strong>B.</strong> AWS Application Discovery Service
+                    </label>
+        
+                    <label class="option" data-question="48" data-option="C">
+                        <input type="radio" name="q48" value="C">
+                        <strong>C.</strong> AWS Total Cost of Ownership (TCO) Calculator
+                    </label>
+        
+                    <label class="option" data-question="48" data-option="D">
+                        <input type="radio" name="q48" value="D">
+                        <strong>D.</strong> AWS Pricing Calculator
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation48">
+                    <h4>✓ Correct Answer: C</h4>
+                    <p>The AWS Total Cost of Ownership (TCO) Calculator helps estimate the cost savings of migrating to AWS by comparing on-premises costs with AWS costs.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question49">
+                <h3>
+                    <span class="question-number">Q49</span>
+                    Which AWS service provides cost optimization for financial services?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="49" data-option="A">
+                        <input type="radio" name="q49" value="A">
+                        <strong>A.</strong> AWS FinSpace
+                    </label>
+        
+                    <label class="option" data-question="49" data-option="B">
+                        <input type="radio" name="q49" value="B">
+                        <strong>B.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="49" data-option="C">
+                        <input type="radio" name="q49" value="C">
+                        <strong>C.</strong> AWS Trusted Advisor
+                    </label>
+        
+                    <label class="option" data-question="49" data-option="D">
+                        <input type="radio" name="q49" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation49">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these services help optimize financial services costs through specialized platforms, usage analysis, and best practice recommendations.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question50">
+                <h3>
+                    <span class="question-number">Q50</span>
+                    Which AWS service provides cost optimization for containers?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="50" data-option="A">
+                        <input type="radio" name="q50" value="A">
+                        <strong>A.</strong> AWS Compute Optimizer
+                    </label>
+        
+                    <label class="option" data-question="50" data-option="B">
+                        <input type="radio" name="q50" value="B">
+                        <strong>B.</strong> AWS Trusted Advisor
+                    </label>
+        
+                    <label class="option" data-question="50" data-option="C">
+                        <input type="radio" name="q50" value="C">
+                        <strong>C.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="50" data-option="D">
+                        <input type="radio" name="q50" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation50">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these services can help optimize container costs through rightsizing recommendations, usage analysis, and best practice guidance.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question51">
+                <h3>
+                    <span class="question-number">Q51</span>
+                    Which AWS service provides cost optimization for government workloads?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="51" data-option="A">
+                        <input type="radio" name="q51" value="A">
+                        <strong>A.</strong> AWS GovCloud
+                    </label>
+        
+                    <label class="option" data-question="51" data-option="B">
+                        <input type="radio" name="q51" value="B">
+                        <strong>B.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="51" data-option="C">
+                        <input type="radio" name="q51" value="C">
+                        <strong>C.</strong> AWS Trusted Advisor
+                    </label>
+        
+                    <label class="option" data-question="51" data-option="D">
+                        <input type="radio" name="q51" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation51">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these services help optimize government workloads through compliant infrastructure, usage analysis, and best practice recommendations.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question52">
+                <h3>
+                    <span class="question-number">Q52</span>
+                    Which AWS service provides cost optimization for enterprise workloads?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="52" data-option="A">
+                        <input type="radio" name="q52" value="A">
+                        <strong>A.</strong> AWS Enterprise Support
+                    </label>
+        
+                    <label class="option" data-question="52" data-option="B">
+                        <input type="radio" name="q52" value="B">
+                        <strong>B.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="52" data-option="C">
+                        <input type="radio" name="q52" value="C">
+                        <strong>C.</strong> AWS Trusted Advisor
+                    </label>
+        
+                    <label class="option" data-question="52" data-option="D">
+                        <input type="radio" name="q52" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation52">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these services help optimize enterprise costs through dedicated support, usage analysis, and comprehensive recommendations.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question53">
+                <h3>
+                    <span class="question-number">Q53</span>
+                    Which AWS service provides cost optimization for blockchain workloads?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="53" data-option="A">
+                        <input type="radio" name="q53" value="A">
+                        <strong>A.</strong> Amazon Managed Blockchain
+                    </label>
+        
+                    <label class="option" data-question="53" data-option="B">
+                        <input type="radio" name="q53" value="B">
+                        <strong>B.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="53" data-option="C">
+                        <input type="radio" name="q53" value="C">
+                        <strong>C.</strong> AWS Trusted Advisor
+                    </label>
+        
+                    <label class="option" data-question="53" data-option="D">
+                        <input type="radio" name="q53" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation53">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these services help optimize blockchain costs through managed services, usage analysis, and best practice recommendations.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question54">
+                <h3>
+                    <span class="question-number">Q54</span>
+                    What is the AWS service that provides real-time cost monitoring?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="54" data-option="A">
+                        <input type="radio" name="q54" value="A">
+                        <strong>A.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="54" data-option="B">
+                        <input type="radio" name="q54" value="B">
+                        <strong>B.</strong> AWS Budgets
+                    </label>
+        
+                    <label class="option" data-question="54" data-option="C">
+                        <input type="radio" name="q54" value="C">
+                        <strong>C.</strong> AWS Billing Dashboard
+                    </label>
+        
+                    <label class="option" data-question="54" data-option="D">
+                        <input type="radio" name="q54" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation54">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these services provide real-time cost monitoring capabilities: Cost Explorer for analysis, Budgets for alerts, and Billing Dashboard for overview.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question55">
+                <h3>
+                    <span class="question-number">Q55</span>
+                    Which AWS service provides cost optimization for IoT workloads?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="55" data-option="A">
+                        <input type="radio" name="q55" value="A">
+                        <strong>A.</strong> AWS IoT Device Management
+                    </label>
+        
+                    <label class="option" data-question="55" data-option="B">
+                        <input type="radio" name="q55" value="B">
+                        <strong>B.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="55" data-option="C">
+                        <input type="radio" name="q55" value="C">
+                        <strong>C.</strong> AWS Trusted Advisor
+                    </label>
+        
+                    <label class="option" data-question="55" data-option="D">
+                        <input type="radio" name="q55" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation55">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these services help optimize IoT costs through device management, usage analysis, and best practice recommendations.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question56">
+                <h3>
+                    <span class="question-number">Q56</span>
+                    Which Amazon EC2 pricing model is the MOST cost efficient for an uninterruptible workload that runs once a year for 24 hours?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="56" data-option="A">
+                        <input type="radio" name="q56" value="A">
+                        <strong>A.</strong> On-Demand Instances
+                    </label>
+        
+                    <label class="option" data-question="56" data-option="B">
+                        <input type="radio" name="q56" value="B">
+                        <strong>B.</strong> Reserved Instances
+                    </label>
+        
+                    <label class="option" data-question="56" data-option="C">
+                        <input type="radio" name="q56" value="C">
+                        <strong>C.</strong> Spot Instances
+                    </label>
+        
+                    <label class="option" data-question="56" data-option="D">
+                        <input type="radio" name="q56" value="D">
+                        <strong>D.</strong> Dedicated Instances
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation56">
+                    <h4>✓ Correct Answer: A</h4>
+                    <p>For a workload running only 24 hours a year, On-Demand Instances are most cost-effective because you only pay for the compute time you use, eliminating unnecessary upfront costs and ongoing charges for idle resources.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question57">
+                <h3>
+                    <span class="question-number">Q57</span>
+                    What is the AWS service that provides detailed cost and usage reports?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="57" data-option="A">
+                        <input type="radio" name="q57" value="A">
+                        <strong>A.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="57" data-option="B">
+                        <input type="radio" name="q57" value="B">
+                        <strong>B.</strong> AWS Budgets
+                    </label>
+        
+                    <label class="option" data-question="57" data-option="C">
+                        <input type="radio" name="q57" value="C">
+                        <strong>C.</strong> AWS Trusted Advisor
+                    </label>
+        
+                    <label class="option" data-question="57" data-option="D">
+                        <input type="radio" name="q57" value="D">
+                        <strong>D.</strong> AWS Cost and Usage Report
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation57">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>AWS Cost and Usage Report contains the most comprehensive set of AWS cost and usage data available, including additional metadata about AWS services, pricing, and reservations.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question58">
+                <h3>
+                    <span class="question-number">Q58</span>
+                    What is the AWS service that provides cost optimization for serverless applications?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="58" data-option="A">
+                        <input type="radio" name="q58" value="A">
+                        <strong>A.</strong> AWS Lambda Power Tuning
+                    </label>
+        
+                    <label class="option" data-question="58" data-option="B">
+                        <input type="radio" name="q58" value="B">
+                        <strong>B.</strong> AWS Compute Optimizer
+                    </label>
+        
+                    <label class="option" data-question="58" data-option="C">
+                        <input type="radio" name="q58" value="C">
+                        <strong>C.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="58" data-option="D">
+                        <input type="radio" name="q58" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation58">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these tools help optimize serverless costs: Lambda Power Tuning for function optimization, Compute Optimizer for recommendations, and Cost Explorer for usage analysis.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question59">
+                <h3>
+                    <span class="question-number">Q59</span>
+                    Which payment option provides the highest discount for Reserved Instances?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="59" data-option="A">
+                        <input type="radio" name="q59" value="A">
+                        <strong>A.</strong> No Upfront
+                    </label>
+        
+                    <label class="option" data-question="59" data-option="B">
+                        <input type="radio" name="q59" value="B">
+                        <strong>B.</strong> Partial Upfront
+                    </label>
+        
+                    <label class="option" data-question="59" data-option="C">
+                        <input type="radio" name="q59" value="C">
+                        <strong>C.</strong> All Upfront
+                    </label>
+        
+                    <label class="option" data-question="59" data-option="D">
+                        <input type="radio" name="q59" value="D">
+                        <strong>D.</strong> Monthly
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation59">
+                    <h4>✓ Correct Answer: C</h4>
+                    <p>All Upfront payment provides the highest discount for Reserved Instances because you pay the entire cost upfront, reducing AWS's financial risk.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question60">
+                <h3>
+                    <span class="question-number">Q60</span>
+                    What is the AWS service that helps optimize costs by automatically moving data between storage classes?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="60" data-option="A">
+                        <input type="radio" name="q60" value="A">
+                        <strong>A.</strong> S3 Lifecycle
+                    </label>
+        
+                    <label class="option" data-question="60" data-option="B">
+                        <input type="radio" name="q60" value="B">
+                        <strong>B.</strong> S3 Intelligent-Tiering
+                    </label>
+        
+                    <label class="option" data-question="60" data-option="C">
+                        <input type="radio" name="q60" value="C">
+                        <strong>C.</strong> S3 Transfer Acceleration
+                    </label>
+        
+                    <label class="option" data-question="60" data-option="D">
+                        <input type="radio" name="q60" value="D">
+                        <strong>D.</strong> S3 Cross-Region Replication
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation60">
+                    <h4>✓ Correct Answer: B</h4>
+                    <p>S3 Intelligent-Tiering automatically moves data between frequent and infrequent access tiers based on changing access patterns to optimize costs.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question61">
+                <h3>
+                    <span class="question-number">Q61</span>
+                    Which AWS service provides cost optimization for robotics workloads?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="61" data-option="A">
+                        <input type="radio" name="q61" value="A">
+                        <strong>A.</strong> AWS RoboMaker
+                    </label>
+        
+                    <label class="option" data-question="61" data-option="B">
+                        <input type="radio" name="q61" value="B">
+                        <strong>B.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="61" data-option="C">
+                        <input type="radio" name="q61" value="C">
+                        <strong>C.</strong> Spot Instances for simulation
+                    </label>
+        
+                    <label class="option" data-question="61" data-option="D">
+                        <input type="radio" name="q61" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation61">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these services help optimize robotics costs: RoboMaker for managed development, Cost Explorer for analysis, and Spot Instances for simulations.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question62">
+                <h3>
+                    <span class="question-number">Q62</span>
+                    Which AWS service provides cost optimization for disaster recovery?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="62" data-option="A">
+                        <input type="radio" name="q62" value="A">
+                        <strong>A.</strong> AWS Backup
+                    </label>
+        
+                    <label class="option" data-question="62" data-option="B">
+                        <input type="radio" name="q62" value="B">
+                        <strong>B.</strong> Amazon S3 Cross-Region Replication
+                    </label>
+        
+                    <label class="option" data-question="62" data-option="C">
+                        <input type="radio" name="q62" value="C">
+                        <strong>C.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="62" data-option="D">
+                        <input type="radio" name="q62" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation62">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these services help optimize disaster recovery costs through efficient backup strategies, replication options, and cost analysis.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question63">
+                <h3>
+                    <span class="question-number">Q63</span>
+                    Which AWS support plan provides access to all AWS Trusted Advisor checks?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="63" data-option="A">
+                        <input type="radio" name="q63" value="A">
+                        <strong>A.</strong> Basic
+                    </label>
+        
+                    <label class="option" data-question="63" data-option="B">
+                        <input type="radio" name="q63" value="B">
+                        <strong>B.</strong> Developer
+                    </label>
+        
+                    <label class="option" data-question="63" data-option="C">
+                        <input type="radio" name="q63" value="C">
+                        <strong>C.</strong> Business
+                    </label>
+        
+                    <label class="option" data-question="63" data-option="D">
+                        <input type="radio" name="q63" value="D">
+                        <strong>D.</strong> Enterprise
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation63">
+                    <h4>✓ Correct Answer: C</h4>
+                    <p>AWS Business Support and Enterprise Support plans provide access to the full set of AWS Trusted Advisor checks, while Basic and Developer plans have limited access.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question64">
+                <h3>
+                    <span class="question-number">Q64</span>
+                    Which AWS service provides cost optimization for non-profit organizations?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="64" data-option="A">
+                        <input type="radio" name="q64" value="A">
+                        <strong>A.</strong> AWS Credits for nonprofits
+                    </label>
+        
+                    <label class="option" data-question="64" data-option="B">
+                        <input type="radio" name="q64" value="B">
+                        <strong>B.</strong> AWS Cost Explorer
+                    </label>
+        
+                    <label class="option" data-question="64" data-option="C">
+                        <input type="radio" name="q64" value="C">
+                        <strong>C.</strong> AWS Trusted Advisor
+                    </label>
+        
+                    <label class="option" data-question="64" data-option="D">
+                        <input type="radio" name="q64" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation64">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these options help optimize non-profit costs through credit programs, usage analysis, and best practice recommendations.</p>
+                </div>
+            </div>
+    
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn" onclick="checkAllAnswers()">Check All Answers</button>
+        <button class="btn" onclick="resetQuiz()">Reset Quiz</button>
+        <button class="btn" onclick="showAllExplanations()">Show All Explanations</button>
+    </div>
+
+    <script>
+        const correctAnswers = {
+            1: "C",
+            2: "C",
+            3: "D",
+            4: "D",
+            5: "D",
+            6: "D",
+            7: "D",
+            8: "B",
+            9: "D",
+            10: "D",
+            11: "B",
+            12: "A",
+            13: "D",
+            14: "C",
+            15: "D",
+            16: "B",
+            17: "D",
+            18: "B",
+            19: "D",
+            20: "A",
+            21: "D",
+            22: "C",
+            23: "B,D",
+            24: "B",
+            25: "D",
+            26: "D",
+            27: "B",
+            28: "D",
+            29: "C",
+            30: "D",
+            31: "D",
+            32: "D",
+            33: "C",
+            34: "D",
+            35: "D",
+            36: "D",
+            37: "D",
+            38: "D",
+            39: "D",
+            40: "D",
+            41: "D",
+            42: "B",
+            43: "D",
+            44: "A",
+            45: "A",
+            46: "B",
+            47: "D",
+            48: "C",
+            49: "D",
+            50: "D",
+            51: "D",
+            52: "D",
+            53: "D",
+            54: "D",
+            55: "D",
+            56: "A",
+            57: "D",
+            58: "D",
+            59: "C",
+            60: "B",
+            61: "D",
+            62: "D",
+            63: "C",
+            64: "D",
+        };
+
+        let score = 0;
+        let totalAnswered = 0;
+
+        function updateScore() {
+            document.getElementById('score').textContent = score;
+            document.getElementById('answered').textContent = totalAnswered;
+            const percentage = totalAnswered > 0 ? Math.round((score / totalAnswered) * 100) : 0;
+            document.getElementById('percentage').textContent = percentage + '%';
+
+            const progressPercentage = (totalAnswered / 65) * 100;
+            document.getElementById('progressFill').style.width = progressPercentage + '%';
+        }
+
+        function checkAnswer(questionNum) {
+            const question = document.getElementById('question' + questionNum);
+            const options = question.querySelectorAll('input[type="radio"], input[type="checkbox"]');
+            const selectedValues = [];
+
+            options.forEach(option => {
+                if (option.checked) {
+                    selectedValues.push(option.value);
+                }
+            });
+
+            if (selectedValues.length === 0) return;
+
+            const correctAnswer = correctAnswers[questionNum];
+            const correctValues = correctAnswer.includes(',') ? correctAnswer.split(',') : [correctAnswer];
+
+            // Check if already answered
+            const wasAnswered = question.classList.contains('answered');
+            if (wasAnswered) {
+                // Remove previous score
+                if (question.classList.contains('correct-answer')) {
+                    score--;
+                }
+                totalAnswered--;
+            }
+
+            // Mark as answered
+            question.classList.add('answered');
+            totalAnswered++;
+
+            // Check if answer is correct
+            const isCorrect = selectedValues.length === correctValues.length && 
+                            selectedValues.every(val => correctValues.includes(val));
+
+            // Reset option styles
+            options.forEach(option => {
+                const label = option.closest('.option');
+                label.classList.remove('correct', 'incorrect');
+            });
+
+            if (isCorrect) {
+                score++;
+                question.classList.add('correct-answer');
+                question.classList.remove('incorrect-answer');
+                selectedValues.forEach(val => {
+                    const selectedOption = question.querySelector(`input[value="${val}"]`).closest('.option');
+                    selectedOption.classList.add('correct');
+                });
+            } else {
+                question.classList.add('incorrect-answer');
+                question.classList.remove('correct-answer');
+                selectedValues.forEach(val => {
+                    const selectedOption = question.querySelector(`input[value="${val}"]`).closest('.option');
+                    selectedOption.classList.add('incorrect');
+                });
+                // Highlight correct answers
+                correctValues.forEach(val => {
+                    const correctOption = question.querySelector(`input[value="${val}"]`).closest('.option');
+                    correctOption.classList.add('correct');
+                });
+            }
+
+            // Show explanation
+            const explanation = document.getElementById('explanation' + questionNum);
+            explanation.classList.add('show');
+
+            updateScore();
+        }
+
+        function checkAllAnswers() {
+            for (let i = 1; i <= 65; i++) {
+                const question = document.getElementById('question' + i);
+                const checkedInputs = question.querySelectorAll('input:checked');
+                if (checkedInputs.length > 0) {
+                    checkAnswer(i);
+                }
+            }
+        }
+
+        function resetQuiz() {
+            score = 0;
+            totalAnswered = 0;
+
+            for (let i = 1; i <= 65; i++) {
+                const question = document.getElementById('question' + i);
+                const options = question.querySelectorAll('input');
+                const labels = question.querySelectorAll('.option');
+                const explanation = document.getElementById('explanation' + i);
+
+                options.forEach(option => option.checked = false);
+                labels.forEach(label => {
+                    label.classList.remove('correct', 'incorrect');
+                });
+                explanation.classList.remove('show');
+                question.classList.remove('answered', 'correct-answer', 'incorrect-answer');
+            }
+
+            updateScore();
+        }
+
+        function showAllExplanations() {
+            for (let i = 1; i <= 65; i++) {
+                const explanation = document.getElementById('explanation' + i);
+                explanation.classList.add('show');
+            }
+        }
+
+        // Add event listeners to all options
+        document.addEventListener('DOMContentLoaded', function() {
+            const allOptions = document.querySelectorAll('.option input');
+            allOptions.forEach(option => {
+                option.addEventListener('change', function() {
+                    const questionNum = parseInt(this.name.substring(1));
+                    setTimeout(() => checkAnswer(questionNum), 100);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

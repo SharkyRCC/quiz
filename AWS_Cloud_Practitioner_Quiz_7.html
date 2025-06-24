@@ -1,0 +1,2617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS Cloud Practitioner Quiz 7 - Security, Compliance & Governance</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #FF6B6B, #4ECDC4);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        .header p {
+            margin: 10px 0 0 0;
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        .quiz-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .quiz-info h3 {
+            margin: 0 0 15px 0;
+            color: #495057;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .info-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #4ECDC4;
+        }
+        .info-item strong {
+            color: #495057;
+        }
+        .question-container {
+            padding: 30px;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.3s ease;
+        }
+        .question-container:hover {
+            background-color: #f8f9fa;
+        }
+        .question-container:last-child {
+            border-bottom: none;
+        }
+        .question {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            line-height: 1.5;
+        }
+        .question-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #FF6B6B, #4ECDC4);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-right: 15px;
+            min-width: 30px;
+            text-align: center;
+        }
+        .options {
+            display: grid;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .option {
+            display: flex;
+            align-items: flex-start;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        .option:hover {
+            border-color: #4ECDC4;
+            background: #f0fdfc;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(78, 205, 196, 0.2);
+        }
+        .option input[type="radio"] {
+            margin-right: 12px;
+            margin-top: 2px;
+            transform: scale(1.2);
+        }
+        .option label {
+            cursor: pointer;
+            flex: 1;
+            font-weight: 500;
+        }
+        .option.correct {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+        .option.incorrect {
+            border-color: #dc3545;
+            background: #f8d7da;
+        }
+        .option.correct::after {
+            content: "✓";
+            color: #28a745;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-left: auto;
+        }
+        .option.incorrect::after {
+            content: "✗";
+            color: #dc3545;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-left: auto;
+        }
+        .explanation {
+            background: #e8f4f8;
+            border-left: 4px solid #4ECDC4;
+            padding: 20px;
+            margin-top: 15px;
+            border-radius: 0 8px 8px 0;
+            display: none;
+        }
+        .explanation.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .explanation h4 {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+            font-size: 1.1em;
+        }
+        .explanation p {
+            margin: 0;
+            color: #495057;
+            line-height: 1.6;
+        }
+        .submit-btn {
+            background: linear-gradient(135deg, #FF6B6B, #4ECDC4);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .results {
+            background: #f8f9fa;
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid #dee2e6;
+            display: none;
+        }
+        .results.show {
+            display: block;
+        }
+        .score {
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .score.excellent { color: #28a745; }
+        .score.good { color: #17a2b8; }
+        .score.average { color: #ffc107; }
+        .score.poor { color: #dc3545; }
+        .score-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .score-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .score-item h4 {
+            margin: 0 0 10px 0;
+            color: #495057;
+        }
+        .score-item .number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #4ECDC4;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FF6B6B, #4ECDC4);
+            width: 0%;
+            transition: width 1s ease;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+            .header {
+                padding: 20px;
+            }
+            .header h1 {
+                font-size: 2em;
+            }
+            .question-container {
+                padding: 20px;
+            }
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>AWS Cloud Practitioner Quiz 7</h1>
+            <p>Security, Compliance & Governance</p>
+        </div>
+
+        <div class="quiz-info">
+            <h3>🔒 Quiz Information</h3>
+            <div class="info-grid">
+                <div class="info-item">
+                    <strong>Questions:</strong> 65
+                </div>
+                <div class="info-item">
+                    <strong>Focus Areas:</strong> IAM, Security Groups, GuardDuty, CloudTrail, Compliance
+                </div>
+                <div class="info-item">
+                    <strong>Time:</strong> No time limit
+                </div>
+                <div class="info-item">
+                    <strong>Format:</strong> Multiple Choice
+                </div>
+            </div>
+        </div>
+
+        <form id="quizForm">
+
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q1</span>
+                    Which AWS service provides the ability to create custom security rules for your specific use case?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q0_option0" name="question0" value="0">
+                        <label for="q0_option0">A. Amazon GuardDuty</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q0_option1" name="question0" value="1">
+                        <label for="q0_option1">B. AWS Config</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q0_option2" name="question0" value="2">
+                        <label for="q0_option2">C. AWS Security Hub</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q0_option3" name="question0" value="3">
+                        <label for="q0_option3">D. All of the above</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(0)">Check Answer</button>
+                <div class="explanation" id="explanation0">
+                    <h4>🔐 Explanation:</h4>
+                    <p>All of these services allow custom security rules: GuardDuty supports custom threat detection rules, AWS Config allows custom compliance rules, and AWS Security Hub supports custom security standards and findings. Each provides flexibility for specific security requirements.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q2</span>
+                    A company uses Amazon S3 to store records that can contain personally identifiable information (PII). The company wants a solution that can monitor all S3 buckets for PII and immediately alert staff about vulnerabilities. Which AWS service will meet these requirements?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q1_option0" name="question1" value="0">
+                        <label for="q1_option0">A. Amazon GuardDuty</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q1_option1" name="question1" value="1">
+                        <label for="q1_option1">B. Amazon Detective</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q1_option2" name="question1" value="2">
+                        <label for="q1_option2">C. Amazon Macie</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q1_option3" name="question1" value="3">
+                        <label for="q1_option3">D. AWS Shield</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(1)">Check Answer</button>
+                <div class="explanation" id="explanation1">
+                    <h4>🔐 Explanation:</h4>
+                    <p>Amazon Macie is specifically designed to discover and protect sensitive data, including PII, stored in Amazon S3. Macie continuously monitors S3 buckets, identifies PII using machine learning and pattern matching, and generates alerts when vulnerabilities or data security risks are detected.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q3</span>
+                    Which AWS service provides real-time threat intelligence feeds?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q2_option0" name="question2" value="0">
+                        <label for="q2_option0">A. Amazon GuardDuty</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q2_option1" name="question2" value="1">
+                        <label for="q2_option1">B. AWS Security Hub</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q2_option2" name="question2" value="2">
+                        <label for="q2_option2">C. AWS WAF</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q2_option3" name="question2" value="3">
+                        <label for="q2_option3">D. Amazon Inspector</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(2)">Check Answer</button>
+                <div class="explanation" id="explanation2">
+                    <h4>🔐 Explanation:</h4>
+                    <p>Amazon GuardDuty uses real-time threat intelligence feeds from AWS, CrowdStrike, and Proofpoint to enhance its threat detection capabilities. These feeds help GuardDuty identify known malicious IP addresses, domains, and other threat indicators.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q4</span>
+                    A company wants to ensure their AWS resources comply with CIS benchmarks. Which service can help with this?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q3_option0" name="question3" value="0">
+                        <label for="q3_option0">A. AWS Config</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q3_option1" name="question3" value="1">
+                        <label for="q3_option1">B. AWS Security Hub</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q3_option2" name="question3" value="2">
+                        <label for="q3_option2">C. AWS Trusted Advisor</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q3_option3" name="question3" value="3">
+                        <label for="q3_option3">D. Amazon Inspector</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(3)">Check Answer</button>
+                <div class="explanation" id="explanation3">
+                    <h4>🔐 Explanation:</h4>
+                    <p>AWS Security Hub includes security standards like CIS AWS Foundations Benchmark. It automatically runs security checks against these standards and provides a compliance score, helping you ensure your AWS resources comply with industry benchmarks and best practices.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q5</span>
+                    Which AWS service can help you implement continuous compliance monitoring?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q4_option0" name="question4" value="0">
+                        <label for="q4_option0">A. AWS Config</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q4_option1" name="question4" value="1">
+                        <label for="q4_option1">B. AWS Security Hub</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q4_option2" name="question4" value="2">
+                        <label for="q4_option2">C. AWS Systems Manager Compliance</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q4_option3" name="question4" value="3">
+                        <label for="q4_option3">D. All of the above</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(4)">Check Answer</button>
+                <div class="explanation" id="explanation4">
+                    <h4>🔐 Explanation:</h4>
+                    <p>All of these services support continuous compliance monitoring: AWS Config continuously evaluates resource configurations against compliance rules, AWS Security Hub provides ongoing compliance scoring against security standards, and AWS Systems Manager Compliance tracks patch compliance and other system-level compliance requirements.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q6</span>
+                    What is the main difference between AWS Shield Standard and AWS Shield Advanced?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q5_option0" name="question5" value="0">
+                        <label for="q5_option0">A. Standard is free, Advanced costs extra and provides enhanced protection</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q5_option1" name="question5" value="1">
+                        <label for="q5_option1">B. Standard protects web apps, Advanced protects databases</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q5_option2" name="question5" value="2">
+                        <label for="q5_option2">C. Standard is for small businesses, Advanced is for enterprises</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q5_option3" name="question5" value="3">
+                        <label for="q5_option3">D. There is no difference</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(5)">Check Answer</button>
+                <div class="explanation" id="explanation5">
+                    <h4>🔐 Explanation:</h4>
+                    <p>AWS Shield Standard is free and automatically enabled for all AWS customers, providing basic DDoS protection. AWS Shield Advanced is a paid service that provides enhanced DDoS protection, 24/7 access to the DDoS Response Team, and advanced attack diagnostics.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q7</span>
+                    Which AWS service or feature can a user configure to limit network access at the subnet level?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q6_option0" name="question6" value="0">
+                        <label for="q6_option0">A. AWS Shield</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q6_option1" name="question6" value="1">
+                        <label for="q6_option1">B. AWS WAF</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q6_option2" name="question6" value="2">
+                        <label for="q6_option2">C. Network ACL</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q6_option3" name="question6" value="3">
+                        <label for="q6_option3">D. Security group</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(6)">Check Answer</button>
+                <div class="explanation" id="explanation6">
+                    <h4>🔐 Explanation:</h4>
+                    <p>Network Access Control Lists (NACLs) are the primary mechanism for controlling inbound and outbound network traffic at the subnet level within a VPC. They act as a stateless firewall, evaluating traffic entering and exiting a subnet against defined rules.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q8</span>
+                    A company website is experiencing DDoS attacks. Which AWS service can help protect the company website against these attacks?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q7_option0" name="question7" value="0">
+                        <label for="q7_option0">A. AWS Resource Access Manager</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q7_option1" name="question7" value="1">
+                        <label for="q7_option1">B. AWS Amplify</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q7_option2" name="question7" value="2">
+                        <label for="q7_option2">C. AWS Shield</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q7_option3" name="question7" value="3">
+                        <label for="q7_option3">D. Amazon GuardDuty</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(7)">Check Answer</button>
+                <div class="explanation" id="explanation7">
+                    <h4>🔐 Explanation:</h4>
+                    <p>AWS Shield is designed specifically to protect applications running on AWS from DDoS attacks. It provides always-on detection and automatic inline mitigations that minimize application downtime and latency. AWS Shield comes in two tiers: Standard and Advanced.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q9</span>
+                    Which AWS service can help you create a security baseline for your AWS accounts?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q8_option0" name="question8" value="0">
+                        <label for="q8_option0">A. AWS Control Tower</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q8_option1" name="question8" value="1">
+                        <label for="q8_option1">B. AWS Organizations</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q8_option2" name="question8" value="2">
+                        <label for="q8_option2">C. AWS Config</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q8_option3" name="question8" value="3">
+                        <label for="q8_option3">D. AWS Security Hub</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(8)">Check Answer</button>
+                <div class="explanation" id="explanation8">
+                    <h4>🔐 Explanation:</h4>
+                    <p>AWS Control Tower helps you set up and govern a secure, multi-account AWS environment based on best practices. It provides pre-configured security baselines (guardrails) and automates the setup of a landing zone with security and compliance controls.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q10</span>
+                    Which AWS service can help identify IAM users who have not enabled multi-factor authentication (MFA)?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q9_option0" name="question9" value="0">
+                        <label for="q9_option0">A. AWS Cost and Usage Report</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q9_option1" name="question9" value="1">
+                        <label for="q9_option1">B. IAM credential reports</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q9_option2" name="question9" value="2">
+                        <label for="q9_option2">C. AWS Artifact</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q9_option3" name="question9" value="3">
+                        <label for="q9_option3">D. Amazon CloudFront reports</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(9)">Check Answer</button>
+                <div class="explanation" id="explanation9">
+                    <h4>🔐 Explanation:</h4>
+                    <p>IAM credential reports provide a comprehensive overview of the status of various security credentials for all IAM users in an AWS account. This includes details about password usage, access keys, and the status of MFA, allowing administrators to identify users who do not have MFA enabled.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q11</span>
+                    What is the main advantage of using AWS Secrets Manager over storing secrets in environment variables?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q10_option0" name="question10" value="0">
+                        <label for="q10_option0">A. Lower cost</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q10_option1" name="question10" value="1">
+                        <label for="q10_option1">B. Automatic rotation and encryption</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q10_option2" name="question10" value="2">
+                        <label for="q10_option2">C. Easier setup</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q10_option3" name="question10" value="3">
+                        <label for="q10_option3">D. Better performance</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(10)">Check Answer</button>
+                <div class="explanation" id="explanation10">
+                    <h4>🔐 Explanation:</h4>
+                    <p>The main advantage of AWS Secrets Manager is automatic rotation and encryption of secrets. Unlike environment variables, Secrets Manager provides secure storage, automatic rotation capabilities, fine-grained access control, and audit trails for secret access.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q12</span>
+                    What is the primary purpose of Service Control Policies (SCPs) in AWS Organizations?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q11_option0" name="question11" value="0">
+                        <label for="q11_option0">A. Cost control</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q11_option1" name="question11" value="1">
+                        <label for="q11_option1">B. Performance optimization</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q11_option2" name="question11" value="2">
+                        <label for="q11_option2">C. Security guardrails and permission boundaries</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q11_option3" name="question11" value="3">
+                        <label for="q11_option3">D. Resource tagging</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(11)">Check Answer</button>
+                <div class="explanation" id="explanation11">
+                    <h4>🔐 Explanation:</h4>
+                    <p>Service Control Policies (SCPs) in AWS Organizations serve as security guardrails and permission boundaries. They define the maximum permissions that can be granted to users and roles in member accounts, helping enforce security policies across the entire organization.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q13</span>
+                    Which AWS service can help you understand the blast radius of a security incident?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q12_option0" name="question12" value="0">
+                        <label for="q12_option0">A. Amazon Detective</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q12_option1" name="question12" value="1">
+                        <label for="q12_option1">B. Amazon GuardDuty</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q12_option2" name="question12" value="2">
+                        <label for="q12_option2">C. AWS Security Hub</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q12_option3" name="question12" value="3">
+                        <label for="q12_option3">D. AWS CloudTrail</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(12)">Check Answer</button>
+                <div class="explanation" id="explanation12">
+                    <h4>🔐 Explanation:</h4>
+                    <p>Amazon Detective analyzes log data to investigate security findings and conduct root cause analysis. It helps you understand the blast radius of a security incident by visualizing the relationships between AWS resources and activities, making it easier to determine what was affected.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q14</span>
+                    Which AWS service can help you manage and rotate database credentials automatically?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q13_option0" name="question13" value="0">
+                        <label for="q13_option0">A. AWS IAM</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q13_option1" name="question13" value="1">
+                        <label for="q13_option1">B. AWS Secrets Manager</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q13_option2" name="question13" value="2">
+                        <label for="q13_option2">C. AWS Systems Manager</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q13_option3" name="question13" value="3">
+                        <label for="q13_option3">D. AWS Certificate Manager</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(13)">Check Answer</button>
+                <div class="explanation" id="explanation13">
+                    <h4>🔐 Explanation:</h4>
+                    <p>AWS Secrets Manager helps you manage, retrieve, and rotate database credentials, API keys, and other secrets throughout their lifecycle. It can automatically rotate credentials for supported databases like RDS, reducing the operational burden of manual credential management.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q15</span>
+                    A company wants to use a managed service to identify and protect sensitive data that is stored in Amazon S3. Which AWS service will meet these requirements?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q14_option0" name="question14" value="0">
+                        <label for="q14_option0">A. AWS IAM Access Analyzer</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q14_option1" name="question14" value="1">
+                        <label for="q14_option1">B. Amazon GuardDuty</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q14_option2" name="question14" value="2">
+                        <label for="q14_option2">C. Amazon Inspector</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q14_option3" name="question14" value="3">
+                        <label for="q14_option3">D. Amazon Macie</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(14)">Check Answer</button>
+                <div class="explanation" id="explanation14">
+                    <h4>🔐 Explanation:</h4>
+                    <p>Amazon Macie uses machine learning and pattern matching to discover, classify, and protect sensitive data, such as personally identifiable information (PII) or protected health information (PHI), stored in S3. It automates the process of data discovery and provides alerts and dashboards to monitor data security posture.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q16</span>
+                    Which AWS service can automatically block IP addresses that are generating malicious traffic?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q15_option0" name="question15" value="0">
+                        <label for="q15_option0">A. AWS WAF</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q15_option1" name="question15" value="1">
+                        <label for="q15_option1">B. Security Groups</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q15_option2" name="question15" value="2">
+                        <label for="q15_option2">C. Network ACLs</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q15_option3" name="question15" value="3">
+                        <label for="q15_option3">D. AWS Shield</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(15)">Check Answer</button>
+                <div class="explanation" id="explanation15">
+                    <h4>🔐 Explanation:</h4>
+                    <p>AWS WAF can automatically block IP addresses based on various conditions including rate limiting, geographic restrictions, and integration with threat intelligence feeds. It can dynamically update rules to block malicious IP addresses generating suspicious traffic.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q17</span>
+                    A company needs to encrypt data at rest in Amazon S3. Who is responsible for managing this encryption according to the AWS shared responsibility model?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q16_option0" name="question16" value="0">
+                        <label for="q16_option0">A. AWS is fully responsible</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q16_option1" name="question16" value="1">
+                        <label for="q16_option1">B. The customer is fully responsible</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q16_option2" name="question16" value="2">
+                        <label for="q16_option2">C. Both AWS and customer share responsibility</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q16_option3" name="question16" value="3">
+                        <label for="q16_option3">D. Third-party vendors are responsible</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(16)">Check Answer</button>
+                <div class="explanation" id="explanation16">
+                    <h4>🔐 Explanation:</h4>
+                    <p>According to the AWS shared responsibility model, the customer is responsible for data encryption at rest. This includes choosing the encryption method, managing encryption keys, and configuring encryption settings. AWS provides the tools and services, but the customer controls the implementation.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q18</span>
+                    Which AWS service can help you identify and respond to potential insider threats?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q17_option0" name="question17" value="0">
+                        <label for="q17_option0">A. Amazon GuardDuty</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q17_option1" name="question17" value="1">
+                        <label for="q17_option1">B. AWS CloudTrail</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q17_option2" name="question17" value="2">
+                        <label for="q17_option2">C. Amazon Detective</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q17_option3" name="question17" value="3">
+                        <label for="q17_option3">D. All of the above</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(17)">Check Answer</button>
+                <div class="explanation" id="explanation17">
+                    <h4>🔐 Explanation:</h4>
+                    <p>All of these services can help with insider threat detection: GuardDuty detects unusual behavior patterns, CloudTrail provides detailed audit logs of user activities, and Detective helps investigate and analyze suspicious activities. They work together to provide comprehensive insider threat detection.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q19</span>
+                    A company needs to ensure that all S3 buckets are encrypted. Which AWS service can help monitor and enforce this requirement?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q18_option0" name="question18" value="0">
+                        <label for="q18_option0">A. AWS Config</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q18_option1" name="question18" value="1">
+                        <label for="q18_option1">B. Amazon S3</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q18_option2" name="question18" value="2">
+                        <label for="q18_option2">C. AWS CloudTrail</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q18_option3" name="question18" value="3">
+                        <label for="q18_option3">D. Amazon GuardDuty</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(18)">Check Answer</button>
+                <div class="explanation" id="explanation18">
+                    <h4>🔐 Explanation:</h4>
+                    <p>AWS Config can monitor S3 bucket encryption settings using managed rules like &#x27;s3-bucket-server-side-encryption-enabled&#x27;. It can detect non-compliant buckets and trigger automatic remediation actions to ensure all S3 buckets are encrypted.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q20</span>
+                    Which AWS service provides centralized management of firewall rules across multiple AWS accounts?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q19_option0" name="question19" value="0">
+                        <label for="q19_option0">A. AWS WAF</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q19_option1" name="question19" value="1">
+                        <label for="q19_option1">B. AWS Firewall Manager</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q19_option2" name="question19" value="2">
+                        <label for="q19_option2">C. Security Groups</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q19_option3" name="question19" value="3">
+                        <label for="q19_option3">D. Network ACLs</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(19)">Check Answer</button>
+                <div class="explanation" id="explanation19">
+                    <h4>🔐 Explanation:</h4>
+                    <p>AWS Firewall Manager is used to centrally manage firewall rules across multiple AWS accounts and resources, providing a single pane of glass for security policy enforcement. It helps you configure and manage firewall rules across your accounts and applications.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q21</span>
+                    A company wants to monitor for data exfiltration attempts. Which AWS service would be most appropriate?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q20_option0" name="question20" value="0">
+                        <label for="q20_option0">A. Amazon CloudWatch</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q20_option1" name="question20" value="1">
+                        <label for="q20_option1">B. Amazon GuardDuty</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q20_option2" name="question20" value="2">
+                        <label for="q20_option2">C. AWS Config</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q20_option3" name="question20" value="3">
+                        <label for="q20_option3">D. Amazon Inspector</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(20)">Check Answer</button>
+                <div class="explanation" id="explanation20">
+                    <h4>🔐 Explanation:</h4>
+                    <p>Amazon GuardDuty can detect data exfiltration attempts by analyzing network traffic patterns, DNS queries, and other behavioral indicators. It uses machine learning to identify unusual data transfer patterns that might indicate unauthorized data exfiltration.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q22</span>
+                    A company wants to automatically remediate security findings. Which AWS service can help with this?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q21_option0" name="question21" value="0">
+                        <label for="q21_option0">A. Amazon GuardDuty</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q21_option1" name="question21" value="1">
+                        <label for="q21_option1">B. AWS Security Hub</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q21_option2" name="question21" value="2">
+                        <label for="q21_option2">C. AWS Config Rules</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q21_option3" name="question21" value="3">
+                        <label for="q21_option3">D. Amazon Inspector</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(21)">Check Answer</button>
+                <div class="explanation" id="explanation21">
+                    <h4>🔐 Explanation:</h4>
+                    <p>AWS Config Rules can automatically remediate non-compliant resources when combined with AWS Systems Manager Automation documents or AWS Lambda functions. Config Rules evaluate whether your AWS resources comply with your desired configurations and can trigger automatic remediation actions.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q23</span>
+                    A company wants to ensure that all their AWS resources are tagged according to their security policy. Which service can help enforce this?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q22_option0" name="question22" value="0">
+                        <label for="q22_option0">A. AWS Config</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q22_option1" name="question22" value="1">
+                        <label for="q22_option1">B. AWS Organizations</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q22_option2" name="question22" value="2">
+                        <label for="q22_option2">C. AWS Resource Groups</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q22_option3" name="question22" value="3">
+                        <label for="q22_option3">D. AWS Systems Manager</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(22)">Check Answer</button>
+                <div class="explanation" id="explanation22">
+                    <h4>🔐 Explanation:</h4>
+                    <p>AWS Config can enforce tagging policies using Config Rules. It can automatically detect resources that don&#x27;t comply with tagging requirements and trigger remediation actions to ensure all resources are properly tagged according to security policies.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q24</span>
+                    A company needs to ensure that sensitive data is automatically discovered and classified across their AWS environment. Which service combination would be most effective?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q23_option0" name="question23" value="0">
+                        <label for="q23_option0">A. Amazon Macie + AWS Config</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q23_option1" name="question23" value="1">
+                        <label for="q23_option1">B. Amazon GuardDuty + AWS CloudTrail</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q23_option2" name="question23" value="2">
+                        <label for="q23_option2">C. AWS Security Hub + Amazon Inspector</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q23_option3" name="question23" value="3">
+                        <label for="q23_option3">D. Amazon Detective + AWS WAF</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(23)">Check Answer</button>
+                <div class="explanation" id="explanation23">
+                    <h4>🔐 Explanation:</h4>
+                    <p>Amazon Macie automatically discovers and classifies sensitive data in S3, while AWS Config can monitor and ensure compliance with data classification policies. This combination provides comprehensive data discovery, classification, and governance capabilities.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q25</span>
+                    A company needs to ensure that their AWS environment complies with HIPAA requirements. Which AWS service provides HIPAA compliance guidance?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q24_option0" name="question24" value="0">
+                        <label for="q24_option0">A. AWS Artifact</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q24_option1" name="question24" value="1">
+                        <label for="q24_option1">B. AWS Security Hub</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q24_option2" name="question24" value="2">
+                        <label for="q24_option2">C. AWS Config</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q24_option3" name="question24" value="3">
+                        <label for="q24_option3">D. AWS Trusted Advisor</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(24)">Check Answer</button>
+                <div class="explanation" id="explanation24">
+                    <h4>🔐 Explanation:</h4>
+                    <p>AWS Artifact provides access to AWS compliance reports and agreements, including HIPAA compliance documentation. It offers guidance on how to configure AWS services to meet HIPAA requirements and provides the necessary compliance artifacts for audits.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q26</span>
+                    Which AWS service can be used to retrieve compliance reports on demand?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q25_option0" name="question25" value="0">
+                        <label for="q25_option0">A. AWS Secrets Manager</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q25_option1" name="question25" value="1">
+                        <label for="q25_option1">B. AWS Artifact</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q25_option2" name="question25" value="2">
+                        <label for="q25_option2">C. AWS Security Hub</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q25_option3" name="question25" value="3">
+                        <label for="q25_option3">D. AWS Certificate Manager</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(25)">Check Answer</button>
+                <div class="explanation" id="explanation25">
+                    <h4>🔐 Explanation:</h4>
+                    <p>AWS Artifact is a comprehensive, self-service portal that provides on-demand access to AWS&#x27; compliance reports (e.g., SOC, PCI, ISO) and online agreements. It serves as a central resource for auditing and compliance information.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q27</span>
+                    Which AWS service can help you implement data residency requirements for compliance?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q26_option0" name="question26" value="0">
+                        <label for="q26_option0">A. AWS Regions</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q26_option1" name="question26" value="1">
+                        <label for="q26_option1">B. AWS Config</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q26_option2" name="question26" value="2">
+                        <label for="q26_option2">C. AWS Organizations</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q26_option3" name="question26" value="3">
+                        <label for="q26_option3">D. AWS Control Tower</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(26)">Check Answer</button>
+                <div class="explanation" id="explanation26">
+                    <h4>🔐 Explanation:</h4>
+                    <p>AWS Regions help implement data residency requirements by allowing you to choose specific geographic locations where your data is stored and processed. This helps meet compliance requirements that mandate data must remain within certain geographic boundaries.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q28</span>
+                    What is the primary purpose of AWS CloudTrail?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q27_option0" name="question27" value="0">
+                        <label for="q27_option0">A. Monitor application performance</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q27_option1" name="question27" value="1">
+                        <label for="q27_option1">B. Enable traceability of API calls and user activities</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q27_option2" name="question27" value="2">
+                        <label for="q27_option2">C. Manage EC2 instances</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q27_option3" name="question27" value="3">
+                        <label for="q27_option3">D. Store application logs</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(27)">Check Answer</button>
+                <div class="explanation" id="explanation27">
+                    <h4>🔐 Explanation:</h4>
+                    <p>AWS CloudTrail&#x27;s primary purpose is to enable traceability by providing a detailed audit trail of who did what, when, and from where within your AWS infrastructure. It records API calls and user activities, which is essential for security investigations, compliance reporting, and troubleshooting.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q29</span>
+                    Which AWS service provides automated security assessments for container images?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q28_option0" name="question28" value="0">
+                        <label for="q28_option0">A. Amazon GuardDuty</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q28_option1" name="question28" value="1">
+                        <label for="q28_option1">B. Amazon Inspector</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q28_option2" name="question28" value="2">
+                        <label for="q28_option2">C. AWS Security Hub</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q28_option3" name="question28" value="3">
+                        <label for="q28_option3">D. Amazon Macie</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(28)">Check Answer</button>
+                <div class="explanation" id="explanation28">
+                    <h4>🔐 Explanation:</h4>
+                    <p>Amazon Inspector provides automated security assessments for both EC2 instances and container images. It can scan container images stored in Amazon ECR for software vulnerabilities and provide detailed findings to help improve security posture.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q30</span>
+                    What is the primary security benefit of using AWS Systems Manager Parameter Store?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q29_option0" name="question29" value="0">
+                        <label for="q29_option0">A. Cost reduction</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q29_option1" name="question29" value="1">
+                        <label for="q29_option1">B. Secure storage of configuration data and secrets</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q29_option2" name="question29" value="2">
+                        <label for="q29_option2">C. Performance improvement</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q29_option3" name="question29" value="3">
+                        <label for="q29_option3">D. Simplified deployment</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(29)">Check Answer</button>
+                <div class="explanation" id="explanation29">
+                    <h4>🔐 Explanation:</h4>
+                    <p>The primary security benefit of AWS Systems Manager Parameter Store is secure storage of configuration data and secrets. It provides encryption at rest, fine-grained access control, and audit trails for parameter access, making it more secure than storing sensitive data in code or configuration files.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q31</span>
+                    Which AWS service can help you implement network segmentation in your VPC?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q30_option0" name="question30" value="0">
+                        <label for="q30_option0">A. Security Groups only</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q30_option1" name="question30" value="1">
+                        <label for="q30_option1">B. Network ACLs only</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q30_option2" name="question30" value="2">
+                        <label for="q30_option2">C. Both Security Groups and Network ACLs</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q30_option3" name="question30" value="3">
+                        <label for="q30_option3">D. AWS WAF</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(30)">Check Answer</button>
+                <div class="explanation" id="explanation30">
+                    <h4>🔐 Explanation:</h4>
+                    <p>Both Security Groups and Network ACLs can help implement network segmentation in your VPC. Security Groups provide instance-level segmentation, while Network ACLs provide subnet-level segmentation. Using both together provides defense in depth.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q32</span>
+                    What is the difference between Security Groups and Network ACLs?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q31_option0" name="question31" value="0">
+                        <label for="q31_option0">A. Security Groups are stateful, Network ACLs are stateless</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q31_option1" name="question31" value="1">
+                        <label for="q31_option1">B. Security Groups are stateless, Network ACLs are stateful</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q31_option2" name="question31" value="2">
+                        <label for="q31_option2">C. Both are stateful</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q31_option3" name="question31" value="3">
+                        <label for="q31_option3">D. Both are stateless</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(31)">Check Answer</button>
+                <div class="explanation" id="explanation31">
+                    <h4>🔐 Explanation:</h4>
+                    <p>Security Groups are stateful, meaning they automatically allow return traffic for established connections. Network ACLs are stateless, meaning they evaluate each packet independently and require explicit rules for both inbound and outbound traffic.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q33</span>
+                    What is the purpose of AWS Systems Manager Session Manager?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q32_option0" name="question32" value="0">
+                        <label for="q32_option0">A. Database session management</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q32_option1" name="question32" value="1">
+                        <label for="q32_option1">B. Secure shell access to EC2 instances</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q32_option2" name="question32" value="2">
+                        <label for="q32_option2">C. Web application session management</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q32_option3" name="question32" value="3">
+                        <label for="q32_option3">D. API session management</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(32)">Check Answer</button>
+                <div class="explanation" id="explanation32">
+                    <h4>🔐 Explanation:</h4>
+                    <p>AWS Systems Manager Session Manager provides secure shell access to EC2 instances without the need to open inbound ports, manage SSH keys, or use bastion hosts. It provides a secure way to access instances while maintaining full audit trails.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q34</span>
+                    What type of security control are Security Groups in AWS?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q33_option0" name="question33" value="0">
+                        <label for="q33_option0">A. Physical security control</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q33_option1" name="question33" value="1">
+                        <label for="q33_option1">B. Detective security control</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q33_option2" name="question33" value="2">
+                        <label for="q33_option2">C. Preventive security control</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q33_option3" name="question33" value="3">
+                        <label for="q33_option3">D. Corrective security control</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(33)">Check Answer</button>
+                <div class="explanation" id="explanation33">
+                    <h4>🔐 Explanation:</h4>
+                    <p>Security Groups are preventive security controls because they prevent unauthorized network traffic from reaching EC2 instances by filtering traffic based on predefined rules. They act as virtual firewalls that block unwanted traffic before it can access your instances.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q35</span>
+                    Which AWS service provides the most comprehensive view of your security posture across all AWS accounts?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q34_option0" name="question34" value="0">
+                        <label for="q34_option0">A. Amazon GuardDuty</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q34_option1" name="question34" value="1">
+                        <label for="q34_option1">B. AWS Security Hub</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q34_option2" name="question34" value="2">
+                        <label for="q34_option2">C. AWS Config</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q34_option3" name="question34" value="3">
+                        <label for="q34_option3">D. Amazon Inspector</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(34)">Check Answer</button>
+                <div class="explanation" id="explanation34">
+                    <h4>🔐 Explanation:</h4>
+                    <p>AWS Security Hub provides the most comprehensive view of your security posture by aggregating security findings from multiple AWS security services and third-party tools across all your AWS accounts. It provides a centralized dashboard for security management.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q36</span>
+                    Which AWS service can help you implement zero-trust network access for your applications?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q35_option0" name="question35" value="0">
+                        <label for="q35_option0">A. AWS VPN</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q35_option1" name="question35" value="1">
+                        <label for="q35_option1">B. AWS PrivateLink</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q35_option2" name="question35" value="2">
+                        <label for="q35_option2">C. AWS Direct Connect</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q35_option3" name="question35" value="3">
+                        <label for="q35_option3">D. Amazon API Gateway</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(35)">Check Answer</button>
+                <div class="explanation" id="explanation35">
+                    <h4>🔐 Explanation:</h4>
+                    <p>AWS PrivateLink enables private connectivity between VPCs and AWS services without exposing traffic to the public internet. It supports zero-trust network access by providing secure, private connections that don&#x27;t rely on network location for security decisions.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q37</span>
+                    What is the purpose of AWS Resource Access Manager (RAM)?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q36_option0" name="question36" value="0">
+                        <label for="q36_option0">A. Memory management for EC2</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q36_option1" name="question36" value="1">
+                        <label for="q36_option1">B. Sharing AWS resources across accounts</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q36_option2" name="question36" value="2">
+                        <label for="q36_option2">C. Access control for databases</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q36_option3" name="question36" value="3">
+                        <label for="q36_option3">D. Network resource management</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(36)">Check Answer</button>
+                <div class="explanation" id="explanation36">
+                    <h4>🔐 Explanation:</h4>
+                    <p>AWS Resource Access Manager (RAM) enables you to securely share AWS resources across AWS accounts within your organization. It helps you avoid resource duplication and provides centralized management of shared resources while maintaining security boundaries.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q38</span>
+                    Which AWS service can help you identify unused IAM roles and users?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q37_option0" name="question37" value="0">
+                        <label for="q37_option0">A. AWS Trusted Advisor</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q37_option1" name="question37" value="1">
+                        <label for="q37_option1">B. AWS IAM Access Analyzer</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q37_option2" name="question37" value="2">
+                        <label for="q37_option2">C. AWS Config</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q37_option3" name="question37" value="3">
+                        <label for="q37_option3">D. Amazon Inspector</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(37)">Check Answer</button>
+                <div class="explanation" id="explanation37">
+                    <h4>🔐 Explanation:</h4>
+                    <p>AWS IAM Access Analyzer can help identify unused IAM roles and users by analyzing access patterns and last used information. It provides insights into which IAM entities are not being used, helping you clean up unnecessary permissions and reduce security risks.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q39</span>
+                    Which AWS service can help you implement data loss prevention (DLP) for sensitive data in S3?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q38_option0" name="question38" value="0">
+                        <label for="q38_option0">A. Amazon Macie</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q38_option1" name="question38" value="1">
+                        <label for="q38_option1">B. AWS WAF</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q38_option2" name="question38" value="2">
+                        <label for="q38_option2">C. Amazon GuardDuty</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q38_option3" name="question38" value="3">
+                        <label for="q38_option3">D. AWS Config</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(38)">Check Answer</button>
+                <div class="explanation" id="explanation38">
+                    <h4>🔐 Explanation:</h4>
+                    <p>Amazon Macie can help implement data loss prevention by continuously monitoring S3 buckets for sensitive data like PII, PHI, and financial information. It can detect and alert on policy violations and unauthorized access to sensitive data.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q40</span>
+                    A company runs many Amazon EC2 instances in its VPC. The company wants to use a native AWS security resource to control network traffic between certain EC2 instances. Which AWS service or feature will meet this requirement?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q39_option0" name="question39" value="0">
+                        <label for="q39_option0">A. Network ACLs</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q39_option1" name="question39" value="1">
+                        <label for="q39_option1">B. AWS WAF</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q39_option2" name="question39" value="2">
+                        <label for="q39_option2">C. Amazon GuardDuty</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q39_option3" name="question39" value="3">
+                        <label for="q39_option3">D. Security groups</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(39)">Check Answer</button>
+                <div class="explanation" id="explanation39">
+                    <h4>🔐 Explanation:</h4>
+                    <p>Security Groups act as virtual firewalls for your EC2 instances, controlling inbound and outbound traffic at the instance level. They use a stateful model and are associated with EC2 instances, allowing you to control traffic based on protocols, port numbers, and source/destination IP addresses.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q41</span>
+                    What is the primary purpose of AWS CloudHSM?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q40_option0" name="question40" value="0">
+                        <label for="q40_option0">A. Cloud monitoring</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q40_option1" name="question40" value="1">
+                        <label for="q40_option1">B. Hardware security module for key management</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q40_option2" name="question40" value="2">
+                        <label for="q40_option2">C. Network security</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q40_option3" name="question40" value="3">
+                        <label for="q40_option3">D. Identity management</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(40)">Check Answer</button>
+                <div class="explanation" id="explanation40">
+                    <h4>🔐 Explanation:</h4>
+                    <p>AWS CloudHSM provides hardware security modules (HSMs) in the cloud for generating and using encryption keys. It offers dedicated hardware for cryptographic operations and key management, providing higher security assurance than software-based solutions.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q42</span>
+                    Which AWS service can help you automate incident response procedures?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q41_option0" name="question41" value="0">
+                        <label for="q41_option0">A. AWS Lambda</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q41_option1" name="question41" value="1">
+                        <label for="q41_option1">B. AWS Systems Manager</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q41_option2" name="question41" value="2">
+                        <label for="q41_option2">C. Amazon EventBridge</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q41_option3" name="question41" value="3">
+                        <label for="q41_option3">D. All of the above</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(41)">Check Answer</button>
+                <div class="explanation" id="explanation41">
+                    <h4>🔐 Explanation:</h4>
+                    <p>All of these services can help automate incident response: AWS Lambda can execute response functions, AWS Systems Manager can automate remediation actions, and Amazon EventBridge can trigger automated responses based on security events. They often work together in incident response automation.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q43</span>
+                    A company wants to use a centralized AWS service to enforce compliance with organizational business standards. The company wants to use an AWS service that can govern and control who can deploy, manage, and decommission AWS resources. Which AWS service will meet these requirements?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q42_option0" name="question42" value="0">
+                        <label for="q42_option0">A. Amazon CloudWatch</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q42_option1" name="question42" value="1">
+                        <label for="q42_option1">B. AWS Service Catalog</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q42_option2" name="question42" value="2">
+                        <label for="q42_option2">C. Amazon GuardDuty</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q42_option3" name="question42" value="3">
+                        <label for="q42_option3">D. AWS Security Hub</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(42)">Check Answer</button>
+                <div class="explanation" id="explanation42">
+                    <h4>🔐 Explanation:</h4>
+                    <p>AWS Service Catalog allows organizations to create and manage catalogs of IT services that are approved for use on AWS. Service Catalog enables central governance and compliance by letting administrators define which AWS resources are available to end-users, pre-configuring them with appropriate settings, and establishing standardized deployment processes.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q44</span>
+                    Which AWS service can help detect unusual API activity that might indicate a security breach?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q43_option0" name="question43" value="0">
+                        <label for="q43_option0">A. AWS Config</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q43_option1" name="question43" value="1">
+                        <label for="q43_option1">B. Amazon GuardDuty</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q43_option2" name="question43" value="2">
+                        <label for="q43_option2">C. AWS CloudTrail</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q43_option3" name="question43" value="3">
+                        <label for="q43_option3">D. Amazon Inspector</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(43)">Check Answer</button>
+                <div class="explanation" id="explanation43">
+                    <h4>🔐 Explanation:</h4>
+                    <p>Amazon GuardDuty uses machine learning to analyze CloudTrail logs, VPC Flow Logs, and DNS logs to detect unusual API activity and other suspicious behaviors that might indicate a security breach. It continuously monitors for malicious activity and unauthorized behavior.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q45</span>
+                    Which AWS service provides centralized logging for security events across multiple AWS accounts?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q44_option0" name="question44" value="0">
+                        <label for="q44_option0">A. Amazon CloudWatch Logs</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q44_option1" name="question44" value="1">
+                        <label for="q44_option1">B. AWS CloudTrail</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q44_option2" name="question44" value="2">
+                        <label for="q44_option2">C. AWS Security Hub</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q44_option3" name="question44" value="3">
+                        <label for="q44_option3">D. AWS Config</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(44)">Check Answer</button>
+                <div class="explanation" id="explanation44">
+                    <h4>🔐 Explanation:</h4>
+                    <p>AWS CloudTrail can be configured to log API calls across multiple AWS accounts into a centralized location. When combined with AWS Organizations, CloudTrail can provide organization-wide logging of security events and API activities.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q46</span>
+                    What is the primary purpose of AWS KMS?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q45_option0" name="question45" value="0">
+                        <label for="q45_option0">A. Identity management</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q45_option1" name="question45" value="1">
+                        <label for="q45_option1">B. Key management and encryption</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q45_option2" name="question45" value="2">
+                        <label for="q45_option2">C. Network security</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q45_option3" name="question45" value="3">
+                        <label for="q45_option3">D. Compliance reporting</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(45)">Check Answer</button>
+                <div class="explanation" id="explanation45">
+                    <h4>🔐 Explanation:</h4>
+                    <p>AWS Key Management Service (KMS) is primarily used for key management and encryption. It provides a managed service for creating and controlling encryption keys used to encrypt your data across AWS services and applications.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q47</span>
+                    Which AWS service can help identify overly permissive IAM policies?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q46_option0" name="question46" value="0">
+                        <label for="q46_option0">A. AWS IAM Access Analyzer</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q46_option1" name="question46" value="1">
+                        <label for="q46_option1">B. AWS Trusted Advisor</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q46_option2" name="question46" value="2">
+                        <label for="q46_option2">C. AWS Config</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q46_option3" name="question46" value="3">
+                        <label for="q46_option3">D. Amazon Inspector</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(46)">Check Answer</button>
+                <div class="explanation" id="explanation46">
+                    <h4>🔐 Explanation:</h4>
+                    <p>AWS IAM Access Analyzer helps identify overly permissive IAM policies by analyzing resource policies and identifying resources that are shared with external entities. It helps you understand and refine access permissions to follow the principle of least privilege.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q48</span>
+                    A company needs to ensure that all changes to AWS resources are tracked and audited. Which AWS service should they use?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q47_option0" name="question47" value="0">
+                        <label for="q47_option0">A. AWS Config</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q47_option1" name="question47" value="1">
+                        <label for="q47_option1">B. AWS CloudTrail</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q47_option2" name="question47" value="2">
+                        <label for="q47_option2">C. Amazon CloudWatch</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q47_option3" name="question47" value="3">
+                        <label for="q47_option3">D. AWS Systems Manager</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(47)">Check Answer</button>
+                <div class="explanation" id="explanation47">
+                    <h4>🔐 Explanation:</h4>
+                    <p>AWS Config tracks and records configuration changes to AWS resources over time. It provides a detailed history of changes made to resources and supports compliance and governance efforts by enabling you to assess, audit, and evaluate the configurations of your AWS resources.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q49</span>
+                    Which AWS service provides the most detailed forensic capabilities for security investigations?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q48_option0" name="question48" value="0">
+                        <label for="q48_option0">A. AWS CloudTrail</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q48_option1" name="question48" value="1">
+                        <label for="q48_option1">B. Amazon Detective</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q48_option2" name="question48" value="2">
+                        <label for="q48_option2">C. Amazon GuardDuty</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q48_option3" name="question48" value="3">
+                        <label for="q48_option3">D. AWS Security Hub</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(48)">Check Answer</button>
+                <div class="explanation" id="explanation48">
+                    <h4>🔐 Explanation:</h4>
+                    <p>Amazon Detective provides the most detailed forensic capabilities by analyzing and visualizing security data from multiple sources. It creates interactive graphs showing relationships between AWS resources, IP addresses, and user activities, making it easier to conduct thorough security investigations.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q50</span>
+                    Which AWS service provides SSL/TLS certificate management?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q49_option0" name="question49" value="0">
+                        <label for="q49_option0">A. AWS Secrets Manager</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q49_option1" name="question49" value="1">
+                        <label for="q49_option1">B. AWS Certificate Manager</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q49_option2" name="question49" value="2">
+                        <label for="q49_option2">C. AWS IAM</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q49_option3" name="question49" value="3">
+                        <label for="q49_option3">D. AWS KMS</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(49)">Check Answer</button>
+                <div class="explanation" id="explanation49">
+                    <h4>🔐 Explanation:</h4>
+                    <p>AWS Certificate Manager (ACM) provides SSL/TLS certificate management. It lets you easily provision, manage, and deploy SSL/TLS certificates for use with AWS services like CloudFront, Application Load Balancer, and API Gateway.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q51</span>
+                    A company wants to ensure that their EC2 instances are not exposed to the internet unnecessarily. Which AWS service can help identify this?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q50_option0" name="question50" value="0">
+                        <label for="q50_option0">A. Amazon Inspector</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q50_option1" name="question50" value="1">
+                        <label for="q50_option1">B. AWS Trusted Advisor</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q50_option2" name="question50" value="2">
+                        <label for="q50_option2">C. AWS Config</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q50_option3" name="question50" value="3">
+                        <label for="q50_option3">D. Amazon GuardDuty</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(50)">Check Answer</button>
+                <div class="explanation" id="explanation50">
+                    <h4>🔐 Explanation:</h4>
+                    <p>AWS Trusted Advisor includes security checks that can identify EC2 instances with unrestricted access (0.0.0.0/0) in their security groups. It helps identify instances that might be unnecessarily exposed to the internet, which could pose security risks.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q52</span>
+                    Which AWS service provides protection against common web application attacks like SQL injection and cross-site scripting?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q51_option0" name="question51" value="0">
+                        <label for="q51_option0">A. AWS Shield</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q51_option1" name="question51" value="1">
+                        <label for="q51_option1">B. AWS WAF</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q51_option2" name="question51" value="2">
+                        <label for="q51_option2">C. Amazon GuardDuty</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q51_option3" name="question51" value="3">
+                        <label for="q51_option3">D. Security Groups</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(51)">Check Answer</button>
+                <div class="explanation" id="explanation51">
+                    <h4>🔐 Explanation:</h4>
+                    <p>AWS WAF (Web Application Firewall) protects web applications from common web exploits like SQL injection and cross-site scripting (XSS) attacks. It allows you to create custom rules to block malicious traffic patterns and protect your applications at the application layer.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q53</span>
+                    Which AWS service allows users to download security and compliance reports about the AWS infrastructure on demand?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q52_option0" name="question52" value="0">
+                        <label for="q52_option0">A. Amazon GuardDuty</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q52_option1" name="question52" value="1">
+                        <label for="q52_option1">B. AWS Security Hub</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q52_option2" name="question52" value="2">
+                        <label for="q52_option2">C. AWS Artifact</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q52_option3" name="question52" value="3">
+                        <label for="q52_option3">D. AWS Shield</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(52)">Check Answer</button>
+                <div class="explanation" id="explanation52">
+                    <h4>🔐 Explanation:</h4>
+                    <p>AWS Artifact is a self-service portal for on-demand access to AWS compliance reports and agreements. It provides users with centralized access to AWS security and compliance documentation, such as SOC reports, PCI DSS compliance packages, and ISO certifications.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q54</span>
+                    What is the primary benefit of using AWS Organizations for security?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q53_option0" name="question53" value="0">
+                        <label for="q53_option0">A. Cost optimization</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q53_option1" name="question53" value="1">
+                        <label for="q53_option1">B. Centralized billing</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q53_option2" name="question53" value="2">
+                        <label for="q53_option2">C. Centralized security policy management</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q53_option3" name="question53" value="3">
+                        <label for="q53_option3">D. Performance monitoring</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(53)">Check Answer</button>
+                <div class="explanation" id="explanation53">
+                    <h4>🔐 Explanation:</h4>
+                    <p>The primary security benefit of AWS Organizations is centralized security policy management. It allows you to apply Service Control Policies (SCPs) across multiple accounts, ensuring consistent security controls and governance across your entire AWS environment.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q55</span>
+                    A company needs to ensure that all API calls are logged and cannot be tampered with. Which AWS service feature helps with this?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q54_option0" name="question54" value="0">
+                        <label for="q54_option0">A. CloudTrail log file integrity validation</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q54_option1" name="question54" value="1">
+                        <label for="q54_option1">B. CloudWatch log encryption</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q54_option2" name="question54" value="2">
+                        <label for="q54_option2">C. Config rule evaluation</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q54_option3" name="question54" value="3">
+                        <label for="q54_option3">D. GuardDuty threat detection</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(54)">Check Answer</button>
+                <div class="explanation" id="explanation54">
+                    <h4>🔐 Explanation:</h4>
+                    <p>CloudTrail log file integrity validation uses cryptographic hashing to ensure that log files have not been tampered with after they were created. This feature helps maintain the integrity of your audit trail for compliance and security purposes.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q56</span>
+                    A company wants to monitor for cryptocurrency mining activities on their EC2 instances. Which AWS service would detect this?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q55_option0" name="question55" value="0">
+                        <label for="q55_option0">A. AWS Config</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q55_option1" name="question55" value="1">
+                        <label for="q55_option1">B. Amazon GuardDuty</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q55_option2" name="question55" value="2">
+                        <label for="q55_option2">C. Amazon Inspector</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q55_option3" name="question55" value="3">
+                        <label for="q55_option3">D. AWS CloudTrail</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(55)">Check Answer</button>
+                <div class="explanation" id="explanation55">
+                    <h4>🔐 Explanation:</h4>
+                    <p>Amazon GuardDuty can detect cryptocurrency mining activities by analyzing network traffic patterns, DNS queries, and other behavioral indicators. It has specific threat detection capabilities for identifying cryptocurrency mining malware and activities.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q57</span>
+                    A company uses AWS security services and tools. The company needs a service to help manage the security alerts and must organize the alerts into a single dashboard. Which AWS service should the company use to meet these requirements?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q56_option0" name="question56" value="0">
+                        <label for="q56_option0">A. Amazon GuardDuty</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q56_option1" name="question56" value="1">
+                        <label for="q56_option1">B. Amazon Inspector</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q56_option2" name="question56" value="2">
+                        <label for="q56_option2">C. Amazon Macie</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q56_option3" name="question56" value="3">
+                        <label for="q56_option3">D. AWS Security Hub</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(56)">Check Answer</button>
+                <div class="explanation" id="explanation56">
+                    <h4>🔐 Explanation:</h4>
+                    <p>AWS Security Hub acts as a central hub, collecting and correlating security findings across your AWS environment. It aggregates, organizes, and prioritizes security alerts from multiple AWS services (like GuardDuty, Inspector, Macie), integrated partner products, and custom findings into a single dashboard.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q58</span>
+                    A company needs a threat detection service that will continuously monitor its AWS accounts, workloads, and Amazon S3 buckets for malicious activity and unauthorized behavior. Which AWS service meets these requirements?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q57_option0" name="question57" value="0">
+                        <label for="q57_option0">A. AWS Shield</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q57_option1" name="question57" value="1">
+                        <label for="q57_option1">B. AWS Firewall Manager</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q57_option2" name="question57" value="2">
+                        <label for="q57_option2">C. Amazon GuardDuty</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q57_option3" name="question57" value="3">
+                        <label for="q57_option3">D. Amazon Inspector</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(57)">Check Answer</button>
+                <div class="explanation" id="explanation57">
+                    <h4>🔐 Explanation:</h4>
+                    <p>Amazon GuardDuty is a threat detection service that continuously monitors for malicious activity and unauthorized behavior. It analyzes CloudTrail Logs, VPC Flow Logs, and DNS Logs to identify potential security threats. GuardDuty can also detect anomalous activity within EC2 instances, container workloads, and serverless applications.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q59</span>
+                    A company is hosting a web application on Amazon EC2 instances. The company wants to implement custom conditions to filter and control inbound web traffic. Which AWS service will meet these requirements?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q58_option0" name="question58" value="0">
+                        <label for="q58_option0">A. Amazon GuardDuty</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q58_option1" name="question58" value="1">
+                        <label for="q58_option1">B. AWS WAF</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q58_option2" name="question58" value="2">
+                        <label for="q58_option2">C. Amazon Macie</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q58_option3" name="question58" value="3">
+                        <label for="q58_option3">D. AWS Shield</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(58)">Check Answer</button>
+                <div class="explanation" id="explanation58">
+                    <h4>🔐 Explanation:</h4>
+                    <p>AWS WAF (Web Application Firewall) helps protect web applications from common web exploits and bots. It allows you to define customizable web security rules (Web ACLs) that control which traffic is allowed or blocked based on various criteria such as IP addresses, HTTP headers, HTTP body, URI strings, and geographic location.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q60</span>
+                    Which AWS service enables users to check for vulnerabilities on Amazon EC2 instances by using predefined assessment templates?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q59_option0" name="question59" value="0">
+                        <label for="q59_option0">A. AWS WAF</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q59_option1" name="question59" value="1">
+                        <label for="q59_option1">B. AWS Trusted Advisor</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q59_option2" name="question59" value="2">
+                        <label for="q59_option2">C. Amazon Inspector</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q59_option3" name="question59" value="3">
+                        <label for="q59_option3">D. AWS Shield</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(59)">Check Answer</button>
+                <div class="explanation" id="explanation59">
+                    <h4>🔐 Explanation:</h4>
+                    <p>Amazon Inspector is an automated security assessment service that helps improve the security and compliance of applications deployed on AWS. It assesses EC2 instances and container images for security vulnerabilities and deviations from security best practices using predefined assessment templates.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q61</span>
+                    A company wants to monitor for privilege escalation attempts in their AWS environment. Which service would be most effective?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q60_option0" name="question60" value="0">
+                        <label for="q60_option0">A. AWS CloudTrail</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q60_option1" name="question60" value="1">
+                        <label for="q60_option1">B. Amazon GuardDuty</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q60_option2" name="question60" value="2">
+                        <label for="q60_option2">C. AWS Config</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q60_option3" name="question60" value="3">
+                        <label for="q60_option3">D. Amazon Detective</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(60)">Check Answer</button>
+                <div class="explanation" id="explanation60">
+                    <h4>🔐 Explanation:</h4>
+                    <p>Amazon GuardDuty is most effective for detecting privilege escalation attempts as it uses machine learning to analyze user behavior and API patterns. It can detect unusual IAM activities, suspicious role assumptions, and other indicators of privilege escalation attacks.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q62</span>
+                    Which AWS service provides network-level DDoS protection?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q61_option0" name="question61" value="0">
+                        <label for="q61_option0">A. AWS WAF</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q61_option1" name="question61" value="1">
+                        <label for="q61_option1">B. AWS Shield Standard</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q61_option2" name="question61" value="2">
+                        <label for="q61_option2">C. Security Groups</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q61_option3" name="question61" value="3">
+                        <label for="q61_option3">D. Network ACLs</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(61)">Check Answer</button>
+                <div class="explanation" id="explanation61">
+                    <h4>🔐 Explanation:</h4>
+                    <p>AWS Shield Standard provides network-level DDoS protection and is automatically enabled for all AWS customers at no additional cost. It protects against common, frequently occurring network and transport layer DDoS attacks.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q63</span>
+                    Which AWS service provides detailed logging of API calls made within an AWS account?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q62_option0" name="question62" value="0">
+                        <label for="q62_option0">A. Amazon CloudWatch</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q62_option1" name="question62" value="1">
+                        <label for="q62_option1">B. AWS CloudTrail</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q62_option2" name="question62" value="2">
+                        <label for="q62_option2">C. AWS Config</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q62_option3" name="question62" value="3">
+                        <label for="q62_option3">D. AWS X-Ray</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(62)">Check Answer</button>
+                <div class="explanation" id="explanation62">
+                    <h4>🔐 Explanation:</h4>
+                    <p>AWS CloudTrail provides detailed logging of API calls made within an AWS account. It records who made the call, when it was made, what service was called, and what actions were performed, providing a comprehensive audit trail for security and compliance purposes.</p>
+                </div>
+            </div>
+    
+        </form>
+
+        <div class="results" id="results">
+            <h2>🎉 Quiz Complete!</h2>
+            <div class="score" id="finalScore">0%</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="score-details">
+                <div class="score-item">
+                    <h4>Correct Answers</h4>
+                    <div class="number" id="correctCount">0</div>
+                </div>
+                <div class="score-item">
+                    <h4>Incorrect Answers</h4>
+                    <div class="number" id="incorrectCount">0</div>
+                </div>
+                <div class="score-item">
+                    <h4>Total Questions</h4>
+                    <div class="number">65</div>
+                </div>
+                <div class="score-item">
+                    <h4>Percentage</h4>
+                    <div class="number" id="percentage">0%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const answers = [3, 2, 0, 1, 3, 0, 2, 2, 0, 1, 1, 2, 0, 1, 3, 0, 1, 3, 0, 1, 1, 2, 0, 0, 0, 1, 0, 1, 1, 1, 2, 0, 1, 2, 1, 1, 1, 1, 0, 3, 1, 3, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 2, 2, 0, 1, 3, 2, 1, 2, 1, 1, 1];
+        let userAnswers = {};
+        let checkedQuestions = new Set();
+
+        function checkAnswer(questionIndex) {
+            const selectedOption = document.querySelector(`input[name="question${questionIndex}"]:checked`);
+
+            if (!selectedOption) {
+                alert('Please select an answer first!');
+                return;
+            }
+
+            const userAnswer = parseInt(selectedOption.value);
+            const correctAnswer = answers[questionIndex];
+
+            userAnswers[questionIndex] = userAnswer;
+            checkedQuestions.add(questionIndex);
+
+            // Show explanation
+            const explanation = document.getElementById(`explanation${questionIndex}`);
+            explanation.classList.add('show');
+
+            // Highlight options
+            const options = document.querySelectorAll(`input[name="question${questionIndex}"]`).forEach((input, index) => {
+                const optionDiv = input.closest('.option');
+                optionDiv.style.pointerEvents = 'none';
+
+                if (index === correctAnswer) {
+                    optionDiv.classList.add('correct');
+                } else if (index === userAnswer && userAnswer !== correctAnswer) {
+                    optionDiv.classList.add('incorrect');
+                }
+            });
+
+            // Disable the check button
+            event.target.disabled = true;
+            event.target.style.opacity = '0.6';
+            event.target.textContent = 'Answer Checked ✓';
+
+            // Check if all questions are answered
+            if (checkedQuestions.size === answers.length) {
+                setTimeout(showResults, 1000);
+            }
+        }
+
+        function showResults() {
+            let correctCount = 0;
+
+            for (let i = 0; i < answers.length; i++) {
+                if (userAnswers[i] === answers[i]) {
+                    correctCount++;
+                }
+            }
+
+            const percentage = Math.round((correctCount / answers.length) * 100);
+            const incorrectCount = answers.length - correctCount;
+
+            // Update results
+            document.getElementById('correctCount').textContent = correctCount;
+            document.getElementById('incorrectCount').textContent = incorrectCount;
+            document.getElementById('percentage').textContent = percentage + '%';
+            document.getElementById('finalScore').textContent = percentage + '%';
+
+            // Set score color
+            const scoreElement = document.getElementById('finalScore');
+            if (percentage >= 90) scoreElement.className = 'score excellent';
+            else if (percentage >= 75) scoreElement.className = 'score good';
+            else if (percentage >= 60) scoreElement.className = 'score average';
+            else scoreElement.className = 'score poor';
+
+            // Animate progress bar
+            setTimeout(() => {
+                document.getElementById('progressFill').style.width = percentage + '%';
+            }, 500);
+
+            // Show results
+            document.getElementById('results').classList.add('show');
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Add some interactive features
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click handlers for options
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const radio = this.querySelector('input[type="radio"]');
+                    if (radio && !radio.disabled) {
+                        radio.checked = true;
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

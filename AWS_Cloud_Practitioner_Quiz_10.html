@@ -1,0 +1,2929 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS Cloud Practitioner Quiz 10 - Comprehensive Mixed Review</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #FF9500 0%, #FF6B35 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .quiz-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 3px solid #FF9500;
+        }
+
+        .quiz-info h2 {
+            color: #FF6B35;
+            margin-bottom: 15px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .info-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #FF9500;
+        }
+
+        .info-item strong {
+            color: #FF6B35;
+        }
+
+        .quiz-content {
+            padding: 30px;
+        }
+
+        .question {
+            background: #f8f9fa;
+            margin-bottom: 25px;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 5px solid #FF9500;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .question h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            line-height: 1.4;
+        }
+
+        .question-number {
+            background: #FF9500;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .options {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .options li {
+            margin-bottom: 12px;
+        }
+
+        .options label {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1em;
+        }
+
+        .options label:hover {
+            border-color: #FF9500;
+            background: #fff8f0;
+            transform: translateX(5px);
+        }
+
+        .options input[type="radio"] {
+            margin-right: 12px;
+            transform: scale(1.2);
+            accent-color: #FF9500;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #FF9500 0%, #FF6B35 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 149, 0, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 149, 0, 0.4);
+        }
+
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .feedback.correct {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .feedback.incorrect {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        .feedback strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .results {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border-left: 5px solid #FF9500;
+            min-width: 200px;
+            z-index: 1000;
+        }
+
+        .results h3 {
+            color: #FF6B35;
+            margin-bottom: 10px;
+        }
+
+        .score {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #FF9500;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FF9500, #FF6B35);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .quiz-content {
+                padding: 20px;
+            }
+
+            .results {
+                position: static;
+                margin: 20px 0;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .topic-tag {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏆 AWS Cloud Practitioner Quiz 10</h1>
+            <p>Comprehensive Mixed Review - All Topics</p>
+        </div>
+
+        <div class="quiz-info">
+            <h2>📋 Quiz Information</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <strong>Questions:</strong> 65 Multiple Choice
+                </div>
+                <div class="info-item">
+                    <strong>Topics:</strong> All AWS Cloud Practitioner Areas
+                </div>
+                <div class="info-item">
+                    <strong>Format:</strong> Interactive with Instant Feedback
+                </div>
+                <div class="info-item">
+                    <strong>Focus:</strong> Comprehensive Review & Exam Prep
+                </div>
+            </div>
+            <p><strong>📚 Coverage:</strong> This quiz covers all major AWS Cloud Practitioner topics including Cloud Concepts, Security, Technology, Billing & Pricing, Well-Architected Framework, Cloud Adoption Framework, and AWS Services across all domains.</p>
+        </div>
+
+        <div class="results">
+            <h3>📊 Your Progress</h3>
+            <div class="score">0/65</div>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+            <p>Correct: <span id="correct-count">0</span></p>
+            <p>Incorrect: <span id="incorrect-count">0</span></p>
+        </div>
+
+        <div class="quiz-content">
+
+            <div class="question">
+                <div class="question-number">Question 1</div>
+                <h3>Which AWS service provides a comprehensive view of security posture across AWS accounts?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q1" value="0" onchange="checkAnswer(1, 0, 1)">
+                            <span>A. AWS Config</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q1" value="1" onchange="checkAnswer(1, 1, 1)">
+                            <span>B. AWS Security Hub</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q1" value="2" onchange="checkAnswer(1, 2, 1)">
+                            <span>C. AWS CloudTrail</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q1" value="3" onchange="checkAnswer(1, 3, 1)">
+                            <span>D. AWS Inspector</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback1">
+                    <strong></strong>
+                    <p>AWS Security Hub provides a comprehensive view of security posture across AWS accounts by aggregating security findings from various AWS services and third-party tools, providing centralized security findings management and compliance status tracking.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 2</div>
+                <h3>Which additional benefit will a company receive with AWS Enterprise Support compared to AWS Business Support?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q2" value="0" onchange="checkAnswer(2, 0, 2)">
+                            <span>A. A full set of AWS Trusted Advisor checks</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q2" value="1" onchange="checkAnswer(2, 1, 2)">
+                            <span>B. Phone, email, and chat access 24/7</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q2" value="2" onchange="checkAnswer(2, 2, 2)">
+                            <span>C. A designated technical account manager (TAM)</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q2" value="3" onchange="checkAnswer(2, 3, 2)">
+                            <span>D. Consultative review and architecture guidance</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback2">
+                    <strong></strong>
+                    <p>AWS Enterprise Support provides a designated Technical Account Manager (TAM) who assists in monitoring and optimization. This is a key differentiator from Business Support, providing personalized and proactive support experience.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 3</div>
+                <h3>What is a key benefit of AWS's pay-as-you-go pricing model compared to traditional on-premises infrastructure?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q3" value="0" onchange="checkAnswer(3, 0, 2)">
+                            <span>A. Guaranteed performance</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q3" value="1" onchange="checkAnswer(3, 1, 2)">
+                            <span>B. Fixed monthly costs</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q3" value="2" onchange="checkAnswer(3, 2, 2)">
+                            <span>C. No upfront capital expenditure</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q3" value="3" onchange="checkAnswer(3, 3, 2)">
+                            <span>D. Unlimited storage capacity</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback3">
+                    <strong></strong>
+                    <p>AWS's pay-as-you-go model eliminates upfront capital expenditure for hardware and infrastructure. You only pay for resources you actually use, providing significant cost savings and flexibility compared to traditional on-premises infrastructure investments.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 4</div>
+                <h3>A company wants to migrate on-premises container infrastructure to AWS Cloud, prevent unplanned costs, and adapt to serverless architecture. Which AWS service meets these requirements?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q4" value="0" onchange="checkAnswer(4, 0, 1)">
+                            <span>A. Amazon Connect</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q4" value="1" onchange="checkAnswer(4, 1, 1)">
+                            <span>B. AWS Fargate</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q4" value="2" onchange="checkAnswer(4, 2, 1)">
+                            <span>C. Amazon Lightsail</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q4" value="3" onchange="checkAnswer(4, 3, 1)">
+                            <span>D. Amazon EC2</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback4">
+                    <strong></strong>
+                    <p>AWS Fargate is a serverless compute engine for containers that eliminates operational overhead of managing EC2 instances. It reduces unplanned administration costs related to patching, scaling, and maintaining underlying infrastructure while providing serverless container deployment.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 5</div>
+                <h3>Which AWS service provides automated backup and point-in-time recovery for databases?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q5" value="0" onchange="checkAnswer(5, 0, 1)">
+                            <span>A. Amazon S3</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q5" value="1" onchange="checkAnswer(5, 1, 1)">
+                            <span>B. Amazon RDS</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q5" value="2" onchange="checkAnswer(5, 2, 1)">
+                            <span>C. Amazon DynamoDB</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q5" value="3" onchange="checkAnswer(5, 3, 1)">
+                            <span>D. AWS Backup</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback5">
+                    <strong></strong>
+                    <p>Amazon RDS provides automated backup and point-in-time recovery capabilities for relational databases. It automatically backs up your database and transaction logs, enabling recovery to any point in time within the backup retention period.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 6</div>
+                <h3>Which AWS Cloud Adoption Framework (AWS CAF) capabilities belong to the governance perspective? (Choose two)</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q6" value="0" onchange="checkAnswer(6, 0, [0,3])">
+                            <span>A. Program and project management</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q6" value="1" onchange="checkAnswer(6, 1, [0,3])">
+                            <span>B. Product management</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q6" value="2" onchange="checkAnswer(6, 2, [0,3])">
+                            <span>C. Portfolio management</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q6" value="3" onchange="checkAnswer(6, 3, [0,3])">
+                            <span>D. Risk management</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback6">
+                    <strong></strong>
+                    <p>The governance perspective focuses on ensuring cloud adoption is aligned with business objectives and managed effectively. Program and project management ensures structured approach to cloud initiatives, while risk management identifies and mitigates potential risks.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 7</div>
+                <h3>Which AWS service provides real-time streaming data processing?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q7" value="0" onchange="checkAnswer(7, 0, 1)">
+                            <span>A. Amazon S3</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q7" value="1" onchange="checkAnswer(7, 1, 1)">
+                            <span>B. Amazon Kinesis</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q7" value="2" onchange="checkAnswer(7, 2, 1)">
+                            <span>C. Amazon RDS</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q7" value="3" onchange="checkAnswer(7, 3, 1)">
+                            <span>D. Amazon SQS</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback7">
+                    <strong></strong>
+                    <p>Amazon Kinesis provides real-time streaming data processing capabilities, allowing you to collect, process, and analyze streaming data in real-time for applications like real-time analytics, machine learning, and monitoring.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 8</div>
+                <h3>What is the purpose of AWS Identity and Access Management (IAM)?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q8" value="0" onchange="checkAnswer(8, 0, 1)">
+                            <span>A. Monitor network traffic</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q8" value="1" onchange="checkAnswer(8, 1, 1)">
+                            <span>B. Manage user access and permissions</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q8" value="2" onchange="checkAnswer(8, 2, 1)">
+                            <span>C. Store application data</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q8" value="3" onchange="checkAnswer(8, 3, 1)">
+                            <span>D. Provide DNS services</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback8">
+                    <strong></strong>
+                    <p>AWS IAM manages user access and permissions to AWS services and resources. It enables you to create and manage users, groups, roles, and policies to control who can access what resources in your AWS account.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 9</div>
+                <h3>Which AWS service provides DNS (Domain Name System) services?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q9" value="0" onchange="checkAnswer(9, 0, 1)">
+                            <span>A. Amazon CloudFront</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q9" value="1" onchange="checkAnswer(9, 1, 1)">
+                            <span>B. Amazon Route 53</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q9" value="2" onchange="checkAnswer(9, 2, 1)">
+                            <span>C. AWS Direct Connect</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q9" value="3" onchange="checkAnswer(9, 3, 1)">
+                            <span>D. Amazon VPC</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback9">
+                    <strong></strong>
+                    <p>Amazon Route 53 is AWS's DNS service that provides domain name registration, DNS routing, and health checking services. It translates domain names to IP addresses and routes traffic to appropriate resources.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 10</div>
+                <h3>What is the primary benefit of using Amazon QuickSight?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q10" value="0" onchange="checkAnswer(10, 0, 1)">
+                            <span>A. Data storage</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q10" value="1" onchange="checkAnswer(10, 1, 1)">
+                            <span>B. Business intelligence and analytics</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q10" value="2" onchange="checkAnswer(10, 2, 1)">
+                            <span>C. API management</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q10" value="3" onchange="checkAnswer(10, 3, 1)">
+                            <span>D. Content delivery</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback10">
+                    <strong></strong>
+                    <p>Amazon QuickSight is a business intelligence service that provides fast, cloud-powered business analytics. It enables users to create and publish interactive dashboards and perform ad-hoc analysis with automatic scaling.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 11</div>
+                <h3>Which AWS service provides notification capabilities?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q11" value="0" onchange="checkAnswer(11, 0, 1)">
+                            <span>A. Amazon SQS</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q11" value="1" onchange="checkAnswer(11, 1, 1)">
+                            <span>B. Amazon SNS</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q11" value="2" onchange="checkAnswer(11, 2, 1)">
+                            <span>C. Amazon SES</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q11" value="3" onchange="checkAnswer(11, 3, 1)">
+                            <span>D. Amazon Connect</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback11">
+                    <strong></strong>
+                    <p>Amazon SNS (Simple Notification Service) provides notification capabilities, enabling you to send messages to multiple subscribers through various protocols including email, SMS, HTTP endpoints, and mobile push notifications.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 12</div>
+                <h3>What is the main purpose of AWS Systems Manager?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q12" value="0" onchange="checkAnswer(12, 0, 1)">
+                            <span>A. Database management</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q12" value="1" onchange="checkAnswer(12, 1, 1)">
+                            <span>B. Infrastructure management and automation</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q12" value="2" onchange="checkAnswer(12, 2, 1)">
+                            <span>C. Content delivery</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q12" value="3" onchange="checkAnswer(12, 3, 1)">
+                            <span>D. User authentication</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback12">
+                    <strong></strong>
+                    <p>AWS Systems Manager provides infrastructure management and automation capabilities, allowing you to manage your AWS resources and on-premises systems at scale through a unified interface for operational tasks.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 13</div>
+                <h3>What is the main advantage of using AWS Batch?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q13" value="0" onchange="checkAnswer(13, 0, 1)">
+                            <span>A. Real-time processing</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q13" value="1" onchange="checkAnswer(13, 1, 1)">
+                            <span>B. Batch job processing at scale</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q13" value="2" onchange="checkAnswer(13, 2, 1)">
+                            <span>C. Data storage</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q13" value="3" onchange="checkAnswer(13, 3, 1)">
+                            <span>D. API management</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback13">
+                    <strong></strong>
+                    <p>AWS Batch enables developers to easily and efficiently run batch computing workloads at any scale. It dynamically provisions optimal compute resources based on volume and requirements of submitted batch jobs.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 14</div>
+                <h3>Which AWS service provides content delivery network (CDN) capabilities?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q14" value="0" onchange="checkAnswer(14, 0, 1)">
+                            <span>A. Amazon S3</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q14" value="1" onchange="checkAnswer(14, 1, 1)">
+                            <span>B. Amazon CloudFront</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q14" value="2" onchange="checkAnswer(14, 2, 1)">
+                            <span>C. Amazon Route 53</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q14" value="3" onchange="checkAnswer(14, 3, 1)">
+                            <span>D. AWS Direct Connect</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback14">
+                    <strong></strong>
+                    <p>Amazon CloudFront is AWS's content delivery network (CDN) service that delivers content to users with low latency by caching content at edge locations worldwide, improving website and application performance globally.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 15</div>
+                <h3>Which AWS service provides managed Kubernetes orchestration?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q15" value="0" onchange="checkAnswer(15, 0, 1)">
+                            <span>A. Amazon ECS</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q15" value="1" onchange="checkAnswer(15, 1, 1)">
+                            <span>B. Amazon EKS</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q15" value="2" onchange="checkAnswer(15, 2, 1)">
+                            <span>C. AWS Fargate</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q15" value="3" onchange="checkAnswer(15, 3, 1)">
+                            <span>D. Amazon EC2</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback15">
+                    <strong></strong>
+                    <p>Amazon EKS (Elastic Kubernetes Service) provides managed Kubernetes orchestration, handling the Kubernetes control plane management while allowing you to run containerized applications using Kubernetes on AWS infrastructure.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 16</div>
+                <h3>Which AWS service allows users to securely store encrypted credentials and retrieve them when required?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q16" value="0" onchange="checkAnswer(16, 0, 2)">
+                            <span>A. AWS Encryption SDK</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q16" value="1" onchange="checkAnswer(16, 1, 2)">
+                            <span>B. AWS Security Hub</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q16" value="2" onchange="checkAnswer(16, 2, 2)">
+                            <span>C. AWS Secrets Manager</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q16" value="3" onchange="checkAnswer(16, 3, 2)">
+                            <span>D. AWS Artifact</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback16">
+                    <strong></strong>
+                    <p>AWS Secrets Manager is specifically designed to securely store and manage secrets like database passwords and API keys. It encrypts secrets at rest and during transit, and applications can retrieve them programmatically using AWS SDK or CLI.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 17</div>
+                <h3>Which AWS service provides data warehousing capabilities?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q17" value="0" onchange="checkAnswer(17, 0, 2)">
+                            <span>A. Amazon RDS</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q17" value="1" onchange="checkAnswer(17, 1, 2)">
+                            <span>B. Amazon DynamoDB</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q17" value="2" onchange="checkAnswer(17, 2, 2)">
+                            <span>C. Amazon Redshift</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q17" value="3" onchange="checkAnswer(17, 3, 2)">
+                            <span>D. Amazon S3</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback17">
+                    <strong></strong>
+                    <p>Amazon Redshift is AWS's data warehousing service designed for online analytical processing (OLAP) and business intelligence applications. It provides fast query performance on large datasets using columnar storage and parallel processing.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 18</div>
+                <h3>What is the main purpose of Amazon VPC (Virtual Private Cloud)?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q18" value="0" onchange="checkAnswer(18, 0, 1)">
+                            <span>A. Store files and documents</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q18" value="1" onchange="checkAnswer(18, 1, 1)">
+                            <span>B. Provide isolated network environment</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q18" value="2" onchange="checkAnswer(18, 2, 1)">
+                            <span>C. Monitor application logs</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q18" value="3" onchange="checkAnswer(18, 3, 1)">
+                            <span>D. Manage database connections</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback18">
+                    <strong></strong>
+                    <p>Amazon VPC provides an isolated network environment within AWS where you can launch resources in a virtual network that you define. It gives you complete control over networking configuration, including IP address ranges, subnets, and routing tables.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 19</div>
+                <h3>Which AWS service provides file system storage for EC2 instances?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q19" value="0" onchange="checkAnswer(19, 0, 2)">
+                            <span>A. Amazon S3</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q19" value="1" onchange="checkAnswer(19, 1, 2)">
+                            <span>B. Amazon EBS</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q19" value="2" onchange="checkAnswer(19, 2, 2)">
+                            <span>C. Amazon EFS</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q19" value="3" onchange="checkAnswer(19, 3, 2)">
+                            <span>D. Amazon FSx</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback19">
+                    <strong></strong>
+                    <p>Amazon EFS (Elastic File System) provides scalable file system storage for EC2 instances. It can be mounted on multiple instances simultaneously and scales automatically as files are added or removed.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 20</div>
+                <h3>What is the main advantage of using Amazon DynamoDB?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q20" value="0" onchange="checkAnswer(20, 0, 1)">
+                            <span>A. SQL compatibility</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q20" value="1" onchange="checkAnswer(20, 1, 1)">
+                            <span>B. NoSQL scalability and performance</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q20" value="2" onchange="checkAnswer(20, 2, 1)">
+                            <span>C. Lower cost than RDS</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q20" value="3" onchange="checkAnswer(20, 3, 1)">
+                            <span>D. Built-in analytics</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback20">
+                    <strong></strong>
+                    <p>Amazon DynamoDB is a NoSQL database service that provides fast and predictable performance with seamless scalability. It's designed for applications that need consistent, single-digit millisecond latency at any scale.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 21</div>
+                <h3>What is the primary purpose of AWS CloudFormation?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q21" value="0" onchange="checkAnswer(21, 0, 2)">
+                            <span>A. Monitor application performance</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q21" value="1" onchange="checkAnswer(21, 1, 2)">
+                            <span>B. Manage user identities</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q21" value="2" onchange="checkAnswer(21, 2, 2)">
+                            <span>C. Provision infrastructure as code</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q21" value="3" onchange="checkAnswer(21, 3, 2)">
+                            <span>D. Store and retrieve data</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback21">
+                    <strong></strong>
+                    <p>AWS CloudFormation is an Infrastructure as Code (IaC) service that allows you to provision and manage AWS resources using templates. It enables consistent, repeatable, and automated infrastructure deployment and management.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 22</div>
+                <h3>What is the main benefit of using AWS Direct Connect?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q22" value="0" onchange="checkAnswer(22, 0, 1)">
+                            <span>A. Lower costs</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q22" value="1" onchange="checkAnswer(22, 1, 1)">
+                            <span>B. Dedicated network connection to AWS</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q22" value="2" onchange="checkAnswer(22, 2, 1)">
+                            <span>C. Better security only</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q22" value="3" onchange="checkAnswer(22, 3, 1)">
+                            <span>D. Faster internet speeds</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback22">
+                    <strong></strong>
+                    <p>AWS Direct Connect provides a dedicated network connection from your premises to AWS, offering more consistent network performance, reduced bandwidth costs, and enhanced security compared to internet-based connections.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 23</div>
+                <h3>Which of the following are pillars of the AWS Well-Architected Framework? (Choose two)</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q23" value="0" onchange="checkAnswer(23, 0, [1,3])">
+                            <span>A. Resource scalability</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q23" value="1" onchange="checkAnswer(23, 1, [1,3])">
+                            <span>B. Performance efficiency</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q23" value="2" onchange="checkAnswer(23, 2, [1,3])">
+                            <span>C. System elasticity</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q23" value="3" onchange="checkAnswer(23, 3, [1,3])">
+                            <span>D. Operational excellence</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback23">
+                    <strong></strong>
+                    <p>The AWS Well-Architected Framework has five pillars: Operational Excellence, Security, Reliability, Performance Efficiency, and Cost Optimization. Performance Efficiency focuses on using computing resources efficiently, while Operational Excellence focuses on running and monitoring systems to deliver business value.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 24</div>
+                <h3>Which AWS service provides blockchain capabilities?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q24" value="0" onchange="checkAnswer(24, 0, 1)">
+                            <span>A. Amazon EC2</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q24" value="1" onchange="checkAnswer(24, 1, 1)">
+                            <span>B. Amazon Managed Blockchain</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q24" value="2" onchange="checkAnswer(24, 2, 1)">
+                            <span>C. AWS Lambda</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q24" value="3" onchange="checkAnswer(24, 3, 1)">
+                            <span>D. Amazon ECS</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback24">
+                    <strong></strong>
+                    <p>Amazon Managed Blockchain is a fully managed service that makes it easy to create and manage scalable blockchain networks using popular open-source frameworks like Hyperledger Fabric and Ethereum.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 25</div>
+                <h3>What is the primary purpose of AWS Glue?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q25" value="0" onchange="checkAnswer(25, 0, 1)">
+                            <span>A. Data storage</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q25" value="1" onchange="checkAnswer(25, 1, 1)">
+                            <span>B. ETL (Extract, Transform, Load) service</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q25" value="2" onchange="checkAnswer(25, 2, 1)">
+                            <span>C. API management</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q25" value="3" onchange="checkAnswer(25, 3, 1)">
+                            <span>D. Content delivery</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback25">
+                    <strong></strong>
+                    <p>AWS Glue is a fully managed ETL (Extract, Transform, Load) service that makes it easy to prepare and transform data for analytics. It automatically discovers and catalogs data, making it searchable and available for ETL.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 26</div>
+                <h3>Which AWS service provides IoT device management?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q26" value="0" onchange="checkAnswer(26, 0, 1)">
+                            <span>A. Amazon EC2</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q26" value="1" onchange="checkAnswer(26, 1, 1)">
+                            <span>B. AWS IoT Core</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q26" value="2" onchange="checkAnswer(26, 2, 1)">
+                            <span>C. Amazon S3</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q26" value="3" onchange="checkAnswer(26, 3, 1)">
+                            <span>D. AWS Lambda</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback26">
+                    <strong></strong>
+                    <p>AWS IoT Core provides IoT device management capabilities, enabling secure communication between IoT devices and AWS services. It supports billions of devices and trillions of messages, routing them to AWS services reliably and securely.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 27</div>
+                <h3>Which AWS service provides message queuing capabilities?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q27" value="0" onchange="checkAnswer(27, 0, 1)">
+                            <span>A. Amazon SNS</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q27" value="1" onchange="checkAnswer(27, 1, 1)">
+                            <span>B. Amazon SQS</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q27" value="2" onchange="checkAnswer(27, 2, 1)">
+                            <span>C. Amazon SES</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q27" value="3" onchange="checkAnswer(27, 3, 1)">
+                            <span>D. Amazon Kinesis</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback27">
+                    <strong></strong>
+                    <p>Amazon SQS (Simple Queue Service) provides message queuing capabilities, enabling decoupling of application components by allowing messages to be sent, stored, and received between software components at any volume.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 28</div>
+                <h3>Which AWS service provides hybrid cloud storage connectivity?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q28" value="0" onchange="checkAnswer(28, 0, 1)">
+                            <span>A. Amazon S3</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q28" value="1" onchange="checkAnswer(28, 1, 1)">
+                            <span>B. AWS Storage Gateway</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q28" value="2" onchange="checkAnswer(28, 2, 1)">
+                            <span>C. Amazon EBS</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q28" value="3" onchange="checkAnswer(28, 3, 1)">
+                            <span>D. Amazon EFS</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback28">
+                    <strong></strong>
+                    <p>AWS Storage Gateway connects on-premises environments to AWS cloud storage services like S3, providing hybrid cloud storage connectivity through various gateway types for different use cases.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 29</div>
+                <h3>Which AWS service provides machine learning model deployment and hosting?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q29" value="0" onchange="checkAnswer(29, 0, 1)">
+                            <span>A. Amazon EC2</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q29" value="1" onchange="checkAnswer(29, 1, 1)">
+                            <span>B. Amazon SageMaker</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q29" value="2" onchange="checkAnswer(29, 2, 1)">
+                            <span>C. AWS Lambda</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q29" value="3" onchange="checkAnswer(29, 3, 1)">
+                            <span>D. Amazon ECS</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback29">
+                    <strong></strong>
+                    <p>Amazon SageMaker provides a fully managed platform for machine learning, including model training, deployment, and hosting. It simplifies the process of building, training, and deploying machine learning models at scale.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 30</div>
+                <h3>What is the primary benefit of using AWS Elastic Beanstalk?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q30" value="0" onchange="checkAnswer(30, 0, 1)">
+                            <span>A. Lower costs</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q30" value="1" onchange="checkAnswer(30, 1, 1)">
+                            <span>B. Simplified application deployment</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q30" value="2" onchange="checkAnswer(30, 2, 1)">
+                            <span>C. Better security</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q30" value="3" onchange="checkAnswer(30, 3, 1)">
+                            <span>D. Faster performance</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback30">
+                    <strong></strong>
+                    <p>AWS Elastic Beanstalk simplifies application deployment by handling the deployment details of capacity provisioning, load balancing, auto-scaling, and application health monitoring for applications uploaded to the platform.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 31</div>
+                <h3>Which option is an AWS Cloud Adoption Framework (AWS CAF) business perspective capability?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q31" value="0" onchange="checkAnswer(31, 0, 2)">
+                            <span>A. Culture evolution</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q31" value="1" onchange="checkAnswer(31, 1, 2)">
+                            <span>B. Event management</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q31" value="2" onchange="checkAnswer(31, 2, 2)">
+                            <span>C. Data monetization</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q31" value="3" onchange="checkAnswer(31, 3, 2)">
+                            <span>D. Platform architecture</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback31">
+                    <strong></strong>
+                    <p>Data monetization directly ties into the business perspective by generating revenue or value from data assets. It requires understanding business opportunities, defining KPIs, and building data-driven business models, placing it firmly within the AWS CAF Business Perspective.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 32</div>
+                <h3>A company has migrated workloads to AWS and wants to adopt AWS at scale while operating more efficiently and securely. Which AWS service should the company use for operational support?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q32" value="0" onchange="checkAnswer(32, 0, 2)">
+                            <span>A. AWS Support</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q32" value="1" onchange="checkAnswer(32, 1, 2)">
+                            <span>B. AWS Cloud Adoption Framework (AWS CAF)</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q32" value="2" onchange="checkAnswer(32, 2, 2)">
+                            <span>C. AWS Managed Services (AMS)</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q32" value="3" onchange="checkAnswer(32, 3, 2)">
+                            <span>D. AWS Well-Architected Framework</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback32">
+                    <strong></strong>
+                    <p>AWS Managed Services (AMS) provides ongoing operational support for AWS infrastructure, automating common activities like change requests, incident management, security patching, and cost optimization, enabling companies to operate more efficiently and securely at scale.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 33</div>
+                <h3>Which AWS Cloud Adoption Framework (AWS CAF) perspective will meet the requirements for monitoring workload performance and ensuring cloud services meet business needs?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q33" value="0" onchange="checkAnswer(33, 0, 3)">
+                            <span>A. Business</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q33" value="1" onchange="checkAnswer(33, 1, 3)">
+                            <span>B. Governance</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q33" value="2" onchange="checkAnswer(33, 2, 3)">
+                            <span>C. Platform</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q33" value="3" onchange="checkAnswer(33, 3, 3)">
+                            <span>D. Operations</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback33">
+                    <strong></strong>
+                    <p>The Operations perspective focuses on how to operate and manage the cloud environment after it has been built. It covers aspects such as monitoring, logging, incident management, performance management, and disaster recovery. Ensuring cloud services are delivered at a level that meets business needs is a core tenet of operations.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 34</div>
+                <h3>Which AWS service provides container registry capabilities?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q34" value="0" onchange="checkAnswer(34, 0, 1)">
+                            <span>A. Amazon ECS</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q34" value="1" onchange="checkAnswer(34, 1, 1)">
+                            <span>B. Amazon ECR</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q34" value="2" onchange="checkAnswer(34, 2, 1)">
+                            <span>C. AWS Fargate</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q34" value="3" onchange="checkAnswer(34, 3, 1)">
+                            <span>D. Amazon EKS</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback34">
+                    <strong></strong>
+                    <p>Amazon ECR (Elastic Container Registry) is a fully managed container registry service that makes it easy to store, manage, share, and deploy container images and artifacts anywhere.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 35</div>
+                <h3>A company wants EC2 instances in different locations within the same geographic area, using multiple power grids and independent networking. Which solution meets these requirements?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q35" value="0" onchange="checkAnswer(35, 0, 1)">
+                            <span>A. Multiple edge locations in same AWS Region</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q35" value="1" onchange="checkAnswer(35, 1, 1)">
+                            <span>B. Multiple Availability Zones in same AWS Region</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q35" value="2" onchange="checkAnswer(35, 2, 1)">
+                            <span>C. Multiple AWS Regions</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q35" value="3" onchange="checkAnswer(35, 3, 1)">
+                            <span>D. Multiple Local Zones</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback35">
+                    <strong></strong>
+                    <p>Multiple Availability Zones within the same AWS Region provide different physical locations within the same geographic area, each with independent power grids, networking, and connectivity, while maintaining low-latency connections between zones.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 36</div>
+                <h3>Which AWS service provides data lake capabilities?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q36" value="0" onchange="checkAnswer(36, 0, 1)">
+                            <span>A. Amazon RDS</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q36" value="1" onchange="checkAnswer(36, 1, 1)">
+                            <span>B. Amazon S3</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q36" value="2" onchange="checkAnswer(36, 2, 1)">
+                            <span>C. Amazon DynamoDB</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q36" value="3" onchange="checkAnswer(36, 3, 1)">
+                            <span>D. Amazon Redshift</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback36">
+                    <strong></strong>
+                    <p>Amazon S3 provides the foundation for data lakes by offering virtually unlimited scalable storage for any type of data. It can store structured and unstructured data at any scale, making it ideal for data lake architectures.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 37</div>
+                <h3>What is the primary purpose of AWS Config?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q37" value="0" onchange="checkAnswer(37, 0, 1)">
+                            <span>A. Performance monitoring</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q37" value="1" onchange="checkAnswer(37, 1, 1)">
+                            <span>B. Configuration management and compliance</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q37" value="2" onchange="checkAnswer(37, 2, 1)">
+                            <span>C. Cost optimization</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q37" value="3" onchange="checkAnswer(37, 3, 1)">
+                            <span>D. Security scanning</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback37">
+                    <strong></strong>
+                    <p>AWS Config provides configuration management and compliance monitoring by tracking resource configurations and changes over time. It helps assess compliance with organizational policies and regulatory requirements.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 38</div>
+                <h3>Which options are AWS Cloud Adoption Framework (AWS CAF) cloud transformation journey recommendations? (Choose two)</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q38" value="0" onchange="checkAnswer(38, 0, [0,1])">
+                            <span>A. Envision phase</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q38" value="1" onchange="checkAnswer(38, 1, [0,1])">
+                            <span>B. Align phase</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q38" value="2" onchange="checkAnswer(38, 2, [0,1])">
+                            <span>C. Assess phase</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q38" value="3" onchange="checkAnswer(38, 3, [0,1])">
+                            <span>D. Mobilize phase</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback38">
+                    <strong></strong>
+                    <p>The Envision phase focuses on defining desired business outcomes and benefits through cloud adoption. The Align phase centers around aligning the organization's people, processes, and technology with the cloud strategy. These are the two key foundational phases in the AWS CAF transformation journey.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 39</div>
+                <h3>For migrating 75 PB of data to AWS, which service is most cost-effective and efficient?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q39" value="0" onchange="checkAnswer(39, 0, 1)">
+                            <span>A. AWS Snowball Edge</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q39" value="1" onchange="checkAnswer(39, 1, 1)">
+                            <span>B. AWS Snowmobile</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q39" value="2" onchange="checkAnswer(39, 2, 1)">
+                            <span>C. AWS Direct Connect</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q39" value="3" onchange="checkAnswer(39, 3, 1)">
+                            <span>D. AWS Storage Gateway</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback39">
+                    <strong></strong>
+                    <p>AWS Snowmobile is designed for exabyte-scale data transfer with storage capacity up to 100 PB per Snowmobile. For 75 PB of data, Snowmobile is the most cost-effective and efficient choice, minimizing network congestion and dramatically reducing transfer time.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 40</div>
+                <h3>Which AWS service provides desktop virtualization?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q40" value="0" onchange="checkAnswer(40, 0, 1)">
+                            <span>A. Amazon EC2</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q40" value="1" onchange="checkAnswer(40, 1, 1)">
+                            <span>B. Amazon WorkSpaces</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q40" value="2" onchange="checkAnswer(40, 2, 1)">
+                            <span>C. AWS AppStream</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q40" value="3" onchange="checkAnswer(40, 3, 1)">
+                            <span>D. Amazon Lightsail</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback40">
+                    <strong></strong>
+                    <p>Amazon WorkSpaces provides desktop virtualization service, delivering cloud-based virtual desktops that users can access from various devices, eliminating the need for traditional desktop infrastructure.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 41</div>
+                <h3>Which AWS service provides email sending capabilities?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q41" value="0" onchange="checkAnswer(41, 0, 2)">
+                            <span>A. Amazon SNS</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q41" value="1" onchange="checkAnswer(41, 1, 2)">
+                            <span>B. Amazon SQS</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q41" value="2" onchange="checkAnswer(41, 2, 2)">
+                            <span>C. Amazon SES</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q41" value="3" onchange="checkAnswer(41, 3, 2)">
+                            <span>D. Amazon Connect</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback41">
+                    <strong></strong>
+                    <p>Amazon SES (Simple Email Service) provides email sending capabilities for applications. It's a cost-effective, flexible, and scalable email service that enables developers to send mail from within any application.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 42</div>
+                <h3>What is the main advantage of using Amazon Aurora?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q42" value="0" onchange="checkAnswer(42, 0, 1)">
+                            <span>A. Lower cost than RDS</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q42" value="1" onchange="checkAnswer(42, 1, 1)">
+                            <span>B. MySQL and PostgreSQL compatibility with cloud performance</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q42" value="2" onchange="checkAnswer(42, 2, 1)">
+                            <span>C. NoSQL capabilities</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q42" value="3" onchange="checkAnswer(42, 3, 1)">
+                            <span>D. Built-in caching</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback42">
+                    <strong></strong>
+                    <p>Amazon Aurora provides MySQL and PostgreSQL compatibility with the performance and availability of commercial databases at a fraction of the cost. It offers up to 5x better performance than MySQL and 3x better than PostgreSQL.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 43</div>
+                <h3>In the AWS Shared Responsibility Model, which of the following is AWS's responsibility?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q43" value="0" onchange="checkAnswer(43, 0, 3)">
+                            <span>A. Data encryption in transit</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q43" value="1" onchange="checkAnswer(43, 1, 3)">
+                            <span>B. User access management</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q43" value="2" onchange="checkAnswer(43, 2, 3)">
+                            <span>C. Security group configuration</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q43" value="3" onchange="checkAnswer(43, 3, 3)">
+                            <span>D. Physical security of data centers</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback43">
+                    <strong></strong>
+                    <p>AWS is responsible for security 'of' the cloud, including physical security of data centers, underlying hardware, network infrastructure, and virtualization layer. Customers are responsible for security 'in' the cloud, including data encryption, access management, and security group configuration.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 44</div>
+                <h3>Which AWS Well-Architected Framework pillar focuses on structured and streamlined allocation of computing resources?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q44" value="0" onchange="checkAnswer(44, 0, 2)">
+                            <span>A. Reliability</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q44" value="1" onchange="checkAnswer(44, 1, 2)">
+                            <span>B. Operational excellence</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q44" value="2" onchange="checkAnswer(44, 2, 2)">
+                            <span>C. Performance efficiency</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q44" value="3" onchange="checkAnswer(44, 3, 2)">
+                            <span>D. Sustainability</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback44">
+                    <strong></strong>
+                    <p>Performance Efficiency focuses on using computing resources in the most efficient way to meet requirements. It encompasses selecting the right resource types and sizes, monitoring performance, and making informed decisions about scaling and infrastructure optimization.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 45</div>
+                <h3>What is the main purpose of AWS Certificate Manager?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q45" value="0" onchange="checkAnswer(45, 0, 1)">
+                            <span>A. User authentication</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q45" value="1" onchange="checkAnswer(45, 1, 1)">
+                            <span>B. SSL/TLS certificate management</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q45" value="2" onchange="checkAnswer(45, 2, 1)">
+                            <span>C. API management</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q45" value="3" onchange="checkAnswer(45, 3, 1)">
+                            <span>D. DNS management</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback45">
+                    <strong></strong>
+                    <p>AWS Certificate Manager provides SSL/TLS certificate management, making it easy to provision, manage, and deploy SSL/TLS certificates for use with AWS services and internal connected resources.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 46</div>
+                <h3>What is the main benefit of using AWS Auto Scaling?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q46" value="0" onchange="checkAnswer(46, 0, 1)">
+                            <span>A. Reduced costs only</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q46" value="1" onchange="checkAnswer(46, 1, 1)">
+                            <span>B. Automatic capacity adjustment</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q46" value="2" onchange="checkAnswer(46, 2, 1)">
+                            <span>C. Better security</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q46" value="3" onchange="checkAnswer(46, 3, 1)">
+                            <span>D. Faster deployment</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback46">
+                    <strong></strong>
+                    <p>AWS Auto Scaling automatically adjusts capacity to maintain steady, predictable performance at the lowest possible cost. It scales resources up or down based on demand, ensuring optimal performance while minimizing costs.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 47</div>
+                <h3>Which AWS service provides game development capabilities?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q47" value="0" onchange="checkAnswer(47, 0, 1)">
+                            <span>A. Amazon EC2</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q47" value="1" onchange="checkAnswer(47, 1, 1)">
+                            <span>B. Amazon GameLift</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q47" value="2" onchange="checkAnswer(47, 2, 1)">
+                            <span>C. AWS Lambda</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q47" value="3" onchange="checkAnswer(47, 3, 1)">
+                            <span>D. Amazon S3</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback47">
+                    <strong></strong>
+                    <p>Amazon GameLift provides game development capabilities by offering managed hosting for multiplayer game servers. It handles the heavy lifting of deploying, operating, and scaling dedicated game servers for session-based multiplayer games.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 48</div>
+                <h3>Which AWS service provides distributed tracing for applications?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q48" value="0" onchange="checkAnswer(48, 0, 1)">
+                            <span>A. AWS CloudWatch</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q48" value="1" onchange="checkAnswer(48, 1, 1)">
+                            <span>B. AWS X-Ray</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q48" value="2" onchange="checkAnswer(48, 2, 1)">
+                            <span>C. AWS CloudTrail</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q48" value="3" onchange="checkAnswer(48, 3, 1)">
+                            <span>D. AWS Config</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback48">
+                    <strong></strong>
+                    <p>AWS X-Ray provides distributed tracing for applications, helping developers analyze and debug distributed applications by providing insights into how applications and their underlying services are performing.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 49</div>
+                <h3>What is the main advantage of using Amazon RDS over running databases on EC2?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q49" value="0" onchange="checkAnswer(49, 0, 2)">
+                            <span>A. Lower cost</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q49" value="1" onchange="checkAnswer(49, 1, 2)">
+                            <span>B. Better performance</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q49" value="2" onchange="checkAnswer(49, 2, 2)">
+                            <span>C. Managed database administration</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q49" value="3" onchange="checkAnswer(49, 3, 2)">
+                            <span>D. More storage options</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback49">
+                    <strong></strong>
+                    <p>Amazon RDS provides managed database administration, handling routine tasks like backups, patching, monitoring, and scaling automatically. This reduces operational overhead compared to self-managing databases on EC2 instances.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 50</div>
+                <h3>What is the primary use case for AWS Step Functions?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q50" value="0" onchange="checkAnswer(50, 0, 1)">
+                            <span>A. Data storage</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q50" value="1" onchange="checkAnswer(50, 1, 1)">
+                            <span>B. Workflow orchestration</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q50" value="2" onchange="checkAnswer(50, 2, 1)">
+                            <span>C. Content delivery</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q50" value="3" onchange="checkAnswer(50, 3, 1)">
+                            <span>D. User management</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback50">
+                    <strong></strong>
+                    <p>AWS Step Functions provides workflow orchestration for distributed applications and microservices using visual workflows. It coordinates multiple AWS services into serverless workflows to build and update applications quickly.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 51</div>
+                <h3>Which AWS service provides API management capabilities?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q51" value="0" onchange="checkAnswer(51, 0, 1)">
+                            <span>A. Amazon CloudFront</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q51" value="1" onchange="checkAnswer(51, 1, 1)">
+                            <span>B. Amazon API Gateway</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q51" value="2" onchange="checkAnswer(51, 2, 1)">
+                            <span>C. AWS Lambda</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q51" value="3" onchange="checkAnswer(51, 3, 1)">
+                            <span>D. Amazon Route 53</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback51">
+                    <strong></strong>
+                    <p>Amazon API Gateway is a fully managed service for creating, publishing, maintaining, monitoring, and securing REST, HTTP, and WebSocket APIs at any scale. It acts as a front door for applications to access backend services.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 52</div>
+                <h3>A company needs an AWS service that provides a clear baseline of what runs in its on-premises data centers and projected costs to run workloads in AWS Cloud. What service will meet these requirements?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q52" value="0" onchange="checkAnswer(52, 0, 3)">
+                            <span>A. AWS Compute Optimizer</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q52" value="1" onchange="checkAnswer(52, 1, 3)">
+                            <span>B. AWS Cost Explorer</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q52" value="2" onchange="checkAnswer(52, 2, 3)">
+                            <span>C. AWS Systems Manager Agent (SSM Agent)</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q52" value="3" onchange="checkAnswer(52, 3, 3)">
+                            <span>D. Migration Evaluator</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback52">
+                    <strong></strong>
+                    <p>Migration Evaluator (formerly TSO Logic) discovers and analyzes existing on-premises environments, creates a baseline of current infrastructure, and performs detailed TCO and ROI analyses to project costs for running workloads in AWS.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 53</div>
+                <h3>Which AWS service helps optimize costs by providing recommendations for unused or underutilized resources?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q53" value="0" onchange="checkAnswer(53, 0, 1)">
+                            <span>A. AWS Cost Explorer</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q53" value="1" onchange="checkAnswer(53, 1, 1)">
+                            <span>B. AWS Trusted Advisor</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q53" value="2" onchange="checkAnswer(53, 2, 1)">
+                            <span>C. AWS Budgets</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q53" value="3" onchange="checkAnswer(53, 3, 1)">
+                            <span>D. AWS Cost and Usage Report</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback53">
+                    <strong></strong>
+                    <p>AWS Trusted Advisor provides recommendations for cost optimization by identifying unused or underutilized resources, along with security, performance, and fault tolerance recommendations to help optimize your AWS environment.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 54</div>
+                <h3>What is the main purpose of AWS DataSync?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q54" value="0" onchange="checkAnswer(54, 0, 1)">
+                            <span>A. Real-time streaming</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q54" value="1" onchange="checkAnswer(54, 1, 1)">
+                            <span>B. Data transfer service</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q54" value="2" onchange="checkAnswer(54, 2, 1)">
+                            <span>C. Database management</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q54" value="3" onchange="checkAnswer(54, 3, 1)">
+                            <span>D. API management</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback54">
+                    <strong></strong>
+                    <p>AWS DataSync is a data transfer service that simplifies, automates, and accelerates moving data between on-premises storage systems and AWS storage services, as well as between AWS storage services.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 55</div>
+                <h3>What is the primary benefit of using AWS Organizations?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q55" value="0" onchange="checkAnswer(55, 0, 1)">
+                            <span>A. Cost reduction</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q55" value="1" onchange="checkAnswer(55, 1, 1)">
+                            <span>B. Centralized account management</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q55" value="2" onchange="checkAnswer(55, 2, 1)">
+                            <span>C. Performance improvement</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q55" value="3" onchange="checkAnswer(55, 3, 1)">
+                            <span>D. Security enhancement</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback55">
+                    <strong></strong>
+                    <p>AWS Organizations provides centralized account management for multiple AWS accounts. It enables you to create accounts, apply policies across accounts, and manage billing and access control from a central location.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 56</div>
+                <h3>What is the primary benefit of using AWS Lambda?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q56" value="0" onchange="checkAnswer(56, 0, 1)">
+                            <span>A. Persistent storage</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q56" value="1" onchange="checkAnswer(56, 1, 1)">
+                            <span>B. Serverless computing</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q56" value="2" onchange="checkAnswer(56, 2, 1)">
+                            <span>C. Database management</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q56" value="3" onchange="checkAnswer(56, 3, 1)">
+                            <span>D. Network security</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback56">
+                    <strong></strong>
+                    <p>AWS Lambda provides serverless computing, allowing you to run code without provisioning or managing servers. You pay only for compute time consumed, and Lambda automatically scales your applications by running code in response to triggers.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 57</div>
+                <h3>What is the main benefit of using AWS CodePipeline?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q57" value="0" onchange="checkAnswer(57, 0, 1)">
+                            <span>A. Code storage</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q57" value="1" onchange="checkAnswer(57, 1, 1)">
+                            <span>B. Continuous integration and deployment</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q57" value="2" onchange="checkAnswer(57, 2, 1)">
+                            <span>C. Performance monitoring</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q57" value="3" onchange="checkAnswer(57, 3, 1)">
+                            <span>D. Security scanning</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback57">
+                    <strong></strong>
+                    <p>AWS CodePipeline provides continuous integration and continuous deployment (CI/CD) capabilities, automating the build, test, and deploy phases of your release process every time there is a code change.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 58</div>
+                <h3>What is the primary use case for Amazon ElastiCache?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q58" value="0" onchange="checkAnswer(58, 0, 1)">
+                            <span>A. File storage</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q58" value="1" onchange="checkAnswer(58, 1, 1)">
+                            <span>B. In-memory caching</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q58" value="2" onchange="checkAnswer(58, 2, 1)">
+                            <span>C. Data warehousing</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q58" value="3" onchange="checkAnswer(58, 3, 1)">
+                            <span>D. Content delivery</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback58">
+                    <strong></strong>
+                    <p>Amazon ElastiCache is an in-memory caching service that improves application performance by storing frequently accessed data in memory, reducing database load and improving response times for web applications.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 59</div>
+                <h3>A company wants to migrate its applications to the AWS Cloud and identify business transformation opportunities while evaluating AWS Cloud readiness. Which AWS service or tool should the company use?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q59" value="0" onchange="checkAnswer(59, 0, 0)">
+                            <span>A. AWS Cloud Adoption Framework (AWS CAF)</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q59" value="1" onchange="checkAnswer(59, 1, 0)">
+                            <span>B. AWS Managed Services (AMS)</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q59" value="2" onchange="checkAnswer(59, 2, 0)">
+                            <span>C. AWS Well-Architected Framework</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q59" value="3" onchange="checkAnswer(59, 3, 0)">
+                            <span>D. AWS Migration Hub</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback59">
+                    <strong></strong>
+                    <p>AWS CAF provides a structured approach to cloud adoption, focusing on business, people, governance, platform, security, and operations perspectives. It helps organizations identify gaps in their current state and define a roadmap for successful cloud adoption, including business transformation opportunities.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 60</div>
+                <h3>Which AWS service is best suited for hosting a static website?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q60" value="0" onchange="checkAnswer(60, 0, 1)">
+                            <span>A. Amazon EC2</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q60" value="1" onchange="checkAnswer(60, 1, 1)">
+                            <span>B. Amazon S3</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q60" value="2" onchange="checkAnswer(60, 2, 1)">
+                            <span>C. Amazon RDS</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q60" value="3" onchange="checkAnswer(60, 3, 1)">
+                            <span>D. Amazon ECS</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback60">
+                    <strong></strong>
+                    <p>Amazon S3 (Simple Storage Service) is ideal for hosting static websites. It provides web hosting capabilities for static content like HTML, CSS, JavaScript, and images, with high availability, scalability, and cost-effectiveness for static website hosting.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 61</div>
+                <h3>What is the primary purpose of AWS CloudWatch?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q61" value="0" onchange="checkAnswer(61, 0, 1)">
+                            <span>A. Code deployment</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q61" value="1" onchange="checkAnswer(61, 1, 1)">
+                            <span>B. Monitoring and observability</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q61" value="2" onchange="checkAnswer(61, 2, 1)">
+                            <span>C. Data storage</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q61" value="3" onchange="checkAnswer(61, 3, 1)">
+                            <span>D. User authentication</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback61">
+                    <strong></strong>
+                    <p>AWS CloudWatch provides monitoring and observability for AWS resources and applications. It collects and tracks metrics, monitors log files, sets alarms, and automatically reacts to changes in your AWS resources.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 62</div>
+                <h3>What is the primary use case for Amazon Athena?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q62" value="0" onchange="checkAnswer(62, 0, 1)">
+                            <span>A. Data storage</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q62" value="1" onchange="checkAnswer(62, 1, 1)">
+                            <span>B. Interactive query service for S3</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q62" value="2" onchange="checkAnswer(62, 2, 1)">
+                            <span>C. Real-time streaming</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q62" value="3" onchange="checkAnswer(62, 3, 1)">
+                            <span>D. Database management</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback62">
+                    <strong></strong>
+                    <p>Amazon Athena is an interactive query service that makes it easy to analyze data in Amazon S3 using standard SQL. It's serverless, so there's no infrastructure to manage, and you pay only for queries you run.</p>
+                </div>
+            </div>
+    
+            <div class="question">
+                <div class="question-number">Question 63</div>
+                <h3>Which pillar of the AWS Well-Architected Framework aligns with the ability to make frequent, small, and reversible changes to AWS Cloud architecture?</h3>
+                <ul class="options">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="q63" value="0" onchange="checkAnswer(63, 0, 2)">
+                            <span>A. Security</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q63" value="1" onchange="checkAnswer(63, 1, 2)">
+                            <span>B. Cost optimization</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q63" value="2" onchange="checkAnswer(63, 2, 2)">
+                            <span>C. Operational excellence</span>
+                        </label>
+                    </li>
+        
+                    <li>
+                        <label>
+                            <input type="radio" name="q63" value="3" onchange="checkAnswer(63, 3, 2)">
+                            <span>D. Performance efficiency</span>
+                        </label>
+                    </li>
+        
+                </ul>
+                <div class="feedback" id="feedback63">
+                    <strong></strong>
+                    <p>Operational Excellence encompasses the ability to make frequent, small, and reversible changes within AWS Cloud architecture. It focuses on running and monitoring systems while continuously improving supporting processes through automation and iterative improvements.</p>
+                </div>
+            </div>
+    
+        </div>
+    </div>
+
+    <script>
+        let correctAnswers = 0;
+        let incorrectAnswers = 0;
+        let totalQuestions = 65;
+        let answeredQuestions = new Set();
+
+        function checkAnswer(questionNum, selectedAnswer, correctAnswer) {
+            const feedback = document.getElementById(`feedback${questionNum}`);
+            const questionDiv = feedback.parentElement;
+
+            // Remove previous answer from count if question was already answered
+            if (answeredQuestions.has(questionNum)) {
+                const prevFeedback = document.getElementById(`feedback${questionNum}`);
+                if (prevFeedback.classList.contains('correct')) {
+                    correctAnswers--;
+                } else if (prevFeedback.classList.contains('incorrect')) {
+                    incorrectAnswers--;
+                }
+            }
+
+            // Add question to answered set
+            answeredQuestions.add(questionNum);
+
+            // Check if answer is correct (handle both single answers and multiple choice)
+            let isCorrect = false;
+            if (Array.isArray(correctAnswer)) {
+                isCorrect = correctAnswer.includes(selectedAnswer);
+            } else {
+                isCorrect = selectedAnswer === correctAnswer;
+            }
+
+            // Update counters
+            if (isCorrect) {
+                correctAnswers++;
+                feedback.className = 'feedback correct';
+                feedback.querySelector('strong').textContent = '✅ Correct!';
+                questionDiv.style.borderLeftColor = '#28a745';
+            } else {
+                incorrectAnswers++;
+                feedback.className = 'feedback incorrect';
+                feedback.querySelector('strong').textContent = '❌ Incorrect';
+                questionDiv.style.borderLeftColor = '#dc3545';
+            }
+
+            feedback.style.display = 'block';
+            updateScore();
+        }
+
+        function updateScore() {
+            const scoreElement = document.querySelector('.score');
+            const progressFill = document.querySelector('.progress-fill');
+            const correctCountElement = document.getElementById('correct-count');
+            const incorrectCountElement = document.getElementById('incorrect-count');
+
+            scoreElement.textContent = `${correctAnswers}/${totalQuestions}`;
+            correctCountElement.textContent = correctAnswers;
+            incorrectCountElement.textContent = incorrectAnswers;
+
+            const percentage = (correctAnswers / totalQuestions) * 100;
+            progressFill.style.width = percentage + '%';
+
+            // Change color based on performance
+            if (percentage >= 80) {
+                progressFill.style.background = 'linear-gradient(90deg, #28a745, #20c997)';
+            } else if (percentage >= 60) {
+                progressFill.style.background = 'linear-gradient(90deg, #ffc107, #fd7e14)';
+            } else {
+                progressFill.style.background = 'linear-gradient(90deg, #dc3545, #e83e8c)';
+            }
+        }
+
+        // Add smooth scrolling for better UX
+        document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                setTimeout(() => {
+                    const feedback = this.closest('.question').querySelector('.feedback');
+                    if (feedback.style.display === 'block') {
+                        feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }
+                }, 100);
+            });
+        });
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key >= '1' && e.key <= '4') {
+                const focusedQuestion = document.querySelector('.question:focus-within');
+                if (focusedQuestion) {
+                    const optionIndex = parseInt(e.key) - 1;
+                    const radio = focusedQuestion.querySelectorAll('input[type="radio"]')[optionIndex];
+                    if (radio) {
+                        radio.checked = true;
+                        radio.dispatchEvent(new Event('change'));
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,2477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS Cloud Practitioner Quiz 8 - Monitoring, Logging & Operational Excellence</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #FF6B6B, #4ECDC4);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        .header p {
+            margin: 10px 0 0 0;
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        .quiz-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .quiz-info h3 {
+            margin: 0 0 15px 0;
+            color: #495057;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .info-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #4ECDC4;
+        }
+        .info-item strong {
+            color: #495057;
+        }
+        .question-container {
+            padding: 30px;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.3s ease;
+        }
+        .question-container:hover {
+            background-color: #f8f9fa;
+        }
+        .question-container:last-child {
+            border-bottom: none;
+        }
+        .question {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            line-height: 1.5;
+        }
+        .question-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #FF6B6B, #4ECDC4);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-right: 15px;
+            min-width: 30px;
+            text-align: center;
+        }
+        .options {
+            display: grid;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .option {
+            display: flex;
+            align-items: flex-start;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        .option:hover {
+            border-color: #4ECDC4;
+            background: #f0fdfc;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(78, 205, 196, 0.2);
+        }
+        .option input[type="radio"] {
+            margin-right: 12px;
+            margin-top: 2px;
+            transform: scale(1.2);
+        }
+        .option label {
+            cursor: pointer;
+            flex: 1;
+            font-weight: 500;
+        }
+        .option.correct {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+        .option.incorrect {
+            border-color: #dc3545;
+            background: #f8d7da;
+        }
+        .option.correct::after {
+            content: "✓";
+            color: #28a745;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-left: auto;
+        }
+        .option.incorrect::after {
+            content: "✗";
+            color: #dc3545;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-left: auto;
+        }
+        .explanation {
+            background: #e8f4f8;
+            border-left: 4px solid #4ECDC4;
+            padding: 20px;
+            margin-top: 15px;
+            border-radius: 0 8px 8px 0;
+            display: none;
+        }
+        .explanation.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .explanation h4 {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+            font-size: 1.1em;
+        }
+        .explanation p {
+            margin: 0;
+            color: #495057;
+            line-height: 1.6;
+        }
+        .submit-btn {
+            background: linear-gradient(135deg, #FF6B6B, #4ECDC4);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .results {
+            background: #f8f9fa;
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid #dee2e6;
+            display: none;
+        }
+        .results.show {
+            display: block;
+        }
+        .score {
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .score.excellent { color: #28a745; }
+        .score.good { color: #17a2b8; }
+        .score.average { color: #ffc107; }
+        .score.poor { color: #dc3545; }
+        .score-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .score-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .score-item h4 {
+            margin: 0 0 10px 0;
+            color: #495057;
+        }
+        .score-item .number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #4ECDC4;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FF6B6B, #4ECDC4);
+            width: 0%;
+            transition: width 1s ease;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+            .header {
+                padding: 20px;
+            }
+            .header h1 {
+                font-size: 2em;
+            }
+            .question-container {
+                padding: 20px;
+            }
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>AWS Cloud Practitioner Quiz 8</h1>
+            <p>Monitoring, Logging & Operational Excellence</p>
+        </div>
+
+        <div class="quiz-info">
+            <h3>📊 Quiz Information</h3>
+            <div class="info-grid">
+                <div class="info-item">
+                    <strong>Questions:</strong> 65
+                </div>
+                <div class="info-item">
+                    <strong>Focus Areas:</strong> CloudWatch, X-Ray, Systems Manager, Operational Excellence
+                </div>
+                <div class="info-item">
+                    <strong>Time:</strong> No time limit
+                </div>
+                <div class="info-item">
+                    <strong>Format:</strong> Multiple Choice
+                </div>
+            </div>
+        </div>
+
+        <form id="quizForm">
+
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q1</span>
+                    Which AWS service uses AWS Compute Optimizer to provide sizing recommendations based on workload metrics?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q0_option0" name="question0" value="0">
+                        <label for="q0_option0">A. Amazon EC2</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q0_option1" name="question0" value="1">
+                        <label for="q0_option1">B. Amazon RDS</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q0_option2" name="question0" value="2">
+                        <label for="q0_option2">C. Amazon Lightsail</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q0_option3" name="question0" value="3">
+                        <label for="q0_option3">D. AWS Step Functions</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(0)">Check Answer</button>
+                <div class="explanation" id="explanation0">
+                    <h4>📈 Explanation:</h4>
+                    <p>AWS Compute Optimizer analyzes the utilization metrics of EC2 instances and provides recommendations to right-size them. It leverages metrics from Amazon CloudWatch to assess CPU utilization, memory utilization, disk I/O, and network I/O for EC2 instances, then provides concrete instance type recommendations.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q2</span>
+                    Which AWS service can help you implement blue-green deployments with monitoring?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q1_option0" name="question1" value="0">
+                        <label for="q1_option0">A. AWS CodeDeploy</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q1_option1" name="question1" value="1">
+                        <label for="q1_option1">B. Amazon CloudWatch</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q1_option2" name="question1" value="2">
+                        <label for="q1_option2">C. AWS X-Ray</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q1_option3" name="question1" value="3">
+                        <label for="q1_option3">D. All of the above</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(1)">Check Answer</button>
+                <div class="explanation" id="explanation1">
+                    <h4>📈 Explanation:</h4>
+                    <p>All of these services can support blue-green deployments with monitoring: CodeDeploy can orchestrate blue-green deployments, CloudWatch can monitor the health of both environments, and X-Ray can trace requests to ensure proper functionality during the deployment process.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q3</span>
+                    Which AWS service can help you monitor the cost impact of your operational changes?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q2_option0" name="question2" value="0">
+                        <label for="q2_option0">A. AWS Cost Explorer</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q2_option1" name="question2" value="1">
+                        <label for="q2_option1">B. AWS Budgets</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q2_option2" name="question2" value="2">
+                        <label for="q2_option2">C. Amazon CloudWatch</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q2_option3" name="question2" value="3">
+                        <label for="q2_option3">D. All of the above</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(2)">Check Answer</button>
+                <div class="explanation" id="explanation2">
+                    <h4>📈 Explanation:</h4>
+                    <p>All of these services can help monitor cost impact: Cost Explorer shows spending trends over time, Budgets can alert on cost thresholds, and CloudWatch can monitor resource utilization that impacts costs. Together they provide comprehensive cost monitoring for operational changes.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q4</span>
+                    Which AWS service can help you implement automated remediation for operational issues?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q3_option0" name="question3" value="0">
+                        <label for="q3_option0">A. AWS Systems Manager Automation</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q3_option1" name="question3" value="1">
+                        <label for="q3_option1">B. AWS Lambda</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q3_option2" name="question3" value="2">
+                        <label for="q3_option2">C. Amazon EventBridge</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q3_option3" name="question3" value="3">
+                        <label for="q3_option3">D. All of the above</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(3)">Check Answer</button>
+                <div class="explanation" id="explanation3">
+                    <h4>📈 Explanation:</h4>
+                    <p>All of these services can implement automated remediation: Systems Manager Automation provides pre-built and custom automation documents, Lambda can execute remediation functions, and EventBridge can trigger remediation actions based on events. They often work together for comprehensive automation.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q5</span>
+                    Which AWS service can help you implement centralized logging for serverless applications?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q4_option0" name="question4" value="0">
+                        <label for="q4_option0">A. Amazon CloudWatch Logs</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q4_option1" name="question4" value="1">
+                        <label for="q4_option1">B. AWS X-Ray</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q4_option2" name="question4" value="2">
+                        <label for="q4_option2">C. AWS CloudTrail</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q4_option3" name="question4" value="3">
+                        <label for="q4_option3">D. All of the above</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(4)">Check Answer</button>
+                <div class="explanation" id="explanation4">
+                    <h4>📈 Explanation:</h4>
+                    <p>All of these services support serverless logging: CloudWatch Logs automatically collects logs from Lambda functions, X-Ray provides tracing for serverless applications, and CloudTrail logs API calls made by serverless services. Together they provide comprehensive serverless observability.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q6</span>
+                    What is the purpose of Amazon CloudWatch Alarms?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q5_option0" name="question5" value="0">
+                        <label for="q5_option0">A. Store log files</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q5_option1" name="question5" value="1">
+                        <label for="q5_option1">B. Monitor API calls</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q5_option2" name="question5" value="2">
+                        <label for="q5_option2">C. Trigger actions based on metric thresholds</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q5_option3" name="question5" value="3">
+                        <label for="q5_option3">D. Manage user permissions</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(5)">Check Answer</button>
+                <div class="explanation" id="explanation5">
+                    <h4>📈 Explanation:</h4>
+                    <p>Amazon CloudWatch Alarms are used to trigger actions based on metric thresholds. When a metric crosses a specified threshold, the alarm can trigger actions such as sending notifications, auto scaling, or stopping/starting EC2 instances.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q7</span>
+                    An ecommerce company wants to use Amazon EC2 Auto Scaling to add and remove EC2 instances based on CPU utilization. Which AWS service or feature can initiate an Amazon EC2 Auto Scaling action to achieve this goal?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q6_option0" name="question6" value="0">
+                        <label for="q6_option0">A. Amazon Simple Queue Service (Amazon SQS)</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q6_option1" name="question6" value="1">
+                        <label for="q6_option1">B. Amazon Simple Notification Service (Amazon SNS)</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q6_option2" name="question6" value="2">
+                        <label for="q6_option2">C. AWS Systems Manager</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q6_option3" name="question6" value="3">
+                        <label for="q6_option3">D. Amazon CloudWatch alarm</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(6)">Check Answer</button>
+                <div class="explanation" id="explanation6">
+                    <h4>📈 Explanation:</h4>
+                    <p>Amazon CloudWatch alarm can monitor CPU utilization and trigger Auto Scaling actions. When CPU utilization crosses a predefined threshold, the CloudWatch alarm state changes, and Auto Scaling can be configured to respond to these state changes by launching or terminating EC2 instances.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q8</span>
+                    A company wants to monitor their application&#x27;s user experience. Which AWS service provides real user monitoring (RUM) capabilities?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q7_option0" name="question7" value="0">
+                        <label for="q7_option0">A. Amazon CloudWatch RUM</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q7_option1" name="question7" value="1">
+                        <label for="q7_option1">B. AWS X-Ray</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q7_option2" name="question7" value="2">
+                        <label for="q7_option2">C. Amazon CloudWatch Synthetics</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q7_option3" name="question7" value="3">
+                        <label for="q7_option3">D. AWS Systems Manager</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(7)">Check Answer</button>
+                <div class="explanation" id="explanation7">
+                    <h4>📈 Explanation:</h4>
+                    <p>Amazon CloudWatch RUM (Real User Monitoring) provides real user monitoring capabilities by collecting and analyzing data from actual user sessions. It helps you understand how real users experience your web applications by measuring performance metrics from the user&#x27;s perspective.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q9</span>
+                    What is the primary purpose of AWS CloudTrail?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q8_option0" name="question8" value="0">
+                        <label for="q8_option0">A. Monitor application performance</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q8_option1" name="question8" value="1">
+                        <label for="q8_option1">B. Enable traceability of API calls and user activities</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q8_option2" name="question8" value="2">
+                        <label for="q8_option2">C. Manage EC2 instances</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q8_option3" name="question8" value="3">
+                        <label for="q8_option3">D. Store application logs</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(8)">Check Answer</button>
+                <div class="explanation" id="explanation8">
+                    <h4>📈 Explanation:</h4>
+                    <p>AWS CloudTrail&#x27;s primary purpose is to enable traceability by providing a detailed audit trail of API calls and user activities within the AWS environment. It records who did what, when, and from where, which is essential for security investigations, compliance reporting, and troubleshooting.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q10</span>
+                    Which AWS service feature helps you understand the blast radius of operational changes?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q9_option0" name="question9" value="0">
+                        <label for="q9_option0">A. AWS Config Relationships</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q9_option1" name="question9" value="1">
+                        <label for="q9_option1">B. AWS X-Ray Service Map</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q9_option2" name="question9" value="2">
+                        <label for="q9_option2">C. CloudWatch Insights</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q9_option3" name="question9" value="3">
+                        <label for="q9_option3">D. All of the above</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(9)">Check Answer</button>
+                <div class="explanation" id="explanation9">
+                    <h4>📈 Explanation:</h4>
+                    <p>All of these features help understand blast radius: Config Relationships show resource dependencies, X-Ray Service Map visualizes application component relationships, and CloudWatch Insights can analyze the impact of changes across your infrastructure. Together they provide comprehensive impact analysis.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q11</span>
+                    A company wants to automate the patching of their EC2 instances. Which AWS service should they use?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q10_option0" name="question10" value="0">
+                        <label for="q10_option0">A. AWS Systems Manager</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q10_option1" name="question10" value="1">
+                        <label for="q10_option1">B. Amazon CloudWatch</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q10_option2" name="question10" value="2">
+                        <label for="q10_option2">C. AWS Config</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q10_option3" name="question10" value="3">
+                        <label for="q10_option3">D. AWS CloudTrail</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(10)">Check Answer</button>
+                <div class="explanation" id="explanation10">
+                    <h4>📈 Explanation:</h4>
+                    <p>AWS Systems Manager provides patch management capabilities through Patch Manager, which automates the process of patching managed instances with security-related and other types of updates. It can schedule and automate patching across your EC2 fleet.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q12</span>
+                    Which AWS service provides centralized logging for applications running on EC2 instances?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q11_option0" name="question11" value="0">
+                        <label for="q11_option0">A. AWS CloudTrail</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q11_option1" name="question11" value="1">
+                        <label for="q11_option1">B. Amazon CloudWatch Logs</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q11_option2" name="question11" value="2">
+                        <label for="q11_option2">C. AWS Config</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q11_option3" name="question11" value="3">
+                        <label for="q11_option3">D. Amazon S3</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(11)">Check Answer</button>
+                <div class="explanation" id="explanation11">
+                    <h4>📈 Explanation:</h4>
+                    <p>Amazon CloudWatch Logs provides centralized logging capabilities for applications running on EC2 instances. You can use the CloudWatch agent to collect and send log files from EC2 instances to CloudWatch Logs for centralized monitoring and analysis.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q13</span>
+                    A company wants to automatically scale their application based on custom metrics. Which combination of AWS services would be most appropriate?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q12_option0" name="question12" value="0">
+                        <label for="q12_option0">A. CloudWatch + Auto Scaling</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q12_option1" name="question12" value="1">
+                        <label for="q12_option1">B. X-Ray + Lambda</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q12_option2" name="question12" value="2">
+                        <label for="q12_option2">C. Config + Systems Manager</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q12_option3" name="question12" value="3">
+                        <label for="q12_option3">D. CloudTrail + SNS</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(12)">Check Answer</button>
+                <div class="explanation" id="explanation12">
+                    <h4>📈 Explanation:</h4>
+                    <p>CloudWatch + Auto Scaling is the most appropriate combination. CloudWatch can collect custom metrics from your application, and Auto Scaling can use these custom metrics to automatically scale your infrastructure based on application-specific requirements.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q14</span>
+                    A company wants to track changes to their AWS resources over time. Which service should they use?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q13_option0" name="question13" value="0">
+                        <label for="q13_option0">A. AWS CloudTrail</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q13_option1" name="question13" value="1">
+                        <label for="q13_option1">B. AWS Config</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q13_option2" name="question13" value="2">
+                        <label for="q13_option2">C. Amazon CloudWatch</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q13_option3" name="question13" value="3">
+                        <label for="q13_option3">D. AWS Systems Manager</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(13)">Check Answer</button>
+                <div class="explanation" id="explanation13">
+                    <h4>📈 Explanation:</h4>
+                    <p>AWS Config is designed to track changes to AWS resources over time. It records configuration changes, maintains a history of resource configurations, and can show you how your resources have changed over time, making it ideal for tracking resource changes.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q15</span>
+                    Which AWS service provides real-time streaming of CloudWatch metrics?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q14_option0" name="question14" value="0">
+                        <label for="q14_option0">A. Amazon Kinesis</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q14_option1" name="question14" value="1">
+                        <label for="q14_option1">B. AWS CloudTrail</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q14_option2" name="question14" value="2">
+                        <label for="q14_option2">C. Amazon CloudWatch</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q14_option3" name="question14" value="3">
+                        <label for="q14_option3">D. AWS Config</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(14)">Check Answer</button>
+                <div class="explanation" id="explanation14">
+                    <h4>📈 Explanation:</h4>
+                    <p>Amazon Kinesis can be used to stream CloudWatch metrics in real-time. CloudWatch can publish metrics to Kinesis Data Streams, enabling real-time processing and analysis of metrics data for custom monitoring and alerting solutions.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q16</span>
+                    A company wants to monitor their Kubernetes applications running on Amazon EKS. Which AWS service provides container-specific monitoring?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q15_option0" name="question15" value="0">
+                        <label for="q15_option0">A. Amazon CloudWatch Container Insights</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q15_option1" name="question15" value="1">
+                        <label for="q15_option1">B. AWS X-Ray</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q15_option2" name="question15" value="2">
+                        <label for="q15_option2">C. Amazon CloudWatch Logs</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q15_option3" name="question15" value="3">
+                        <label for="q15_option3">D. All of the above</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(15)">Check Answer</button>
+                <div class="explanation" id="explanation15">
+                    <h4>📈 Explanation:</h4>
+                    <p>All of these services support EKS monitoring: Container Insights provides container-specific metrics and logs, X-Ray can trace requests through containerized applications, and CloudWatch Logs collects logs from containers. Together they provide comprehensive Kubernetes application monitoring.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q17</span>
+                    Which AWS service can help you automate responses to operational events?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q16_option0" name="question16" value="0">
+                        <label for="q16_option0">A. Amazon EventBridge</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q16_option1" name="question16" value="1">
+                        <label for="q16_option1">B. AWS Lambda</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q16_option2" name="question16" value="2">
+                        <label for="q16_option2">C. AWS Systems Manager</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q16_option3" name="question16" value="3">
+                        <label for="q16_option3">D. All of the above</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(16)">Check Answer</button>
+                <div class="explanation" id="explanation16">
+                    <h4>📈 Explanation:</h4>
+                    <p>All of these services can help automate responses to operational events: EventBridge can route events to targets, Lambda can execute response functions, and Systems Manager can automate operational tasks. They often work together to create comprehensive event-driven automation.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q18</span>
+                    What is the benefit of using AWS CloudWatch Composite Alarms?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q17_option0" name="question17" value="0">
+                        <label for="q17_option0">A. Reduce alarm noise</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q17_option1" name="question17" value="1">
+                        <label for="q17_option1">B. Combine multiple alarms with logic</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q17_option2" name="question17" value="2">
+                        <label for="q17_option2">C. Provide more accurate alerting</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q17_option3" name="question17" value="3">
+                        <label for="q17_option3">D. All of the above</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(17)">Check Answer</button>
+                <div class="explanation" id="explanation17">
+                    <h4>📈 Explanation:</h4>
+                    <p>AWS CloudWatch Composite Alarms provide all these benefits: they reduce alarm noise by combining multiple conditions, use Boolean logic to create more sophisticated alerting rules, and provide more accurate alerting by considering multiple metrics and conditions together.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q19</span>
+                    Which AWS service can help you understand the dependencies between your AWS resources?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q18_option0" name="question18" value="0">
+                        <label for="q18_option0">A. AWS Config</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q18_option1" name="question18" value="1">
+                        <label for="q18_option1">B. AWS Systems Manager</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q18_option2" name="question18" value="2">
+                        <label for="q18_option2">C. AWS X-Ray</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q18_option3" name="question18" value="3">
+                        <label for="q18_option3">D. Amazon CloudWatch</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(18)">Check Answer</button>
+                <div class="explanation" id="explanation18">
+                    <h4>📈 Explanation:</h4>
+                    <p>AWS Config can help you understand the dependencies between your AWS resources by tracking resource relationships and configuration changes. It provides a detailed view of how resources are related and how changes to one resource might affect others.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q20</span>
+                    Which AWS Cloud Adoption Framework (AWS CAF) capability belongs to the business perspective?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q19_option0" name="question19" value="0">
+                        <label for="q19_option0">A. Program and project management</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q19_option1" name="question19" value="1">
+                        <label for="q19_option1">B. Data science</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q19_option2" name="question19" value="2">
+                        <label for="q19_option2">C. Observability</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q19_option3" name="question19" value="3">
+                        <label for="q19_option3">D. Change and release management</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(19)">Check Answer</button>
+                <div class="explanation" id="explanation19">
+                    <h4>📈 Explanation:</h4>
+                    <p>Data Science is a capability that belongs to the Business Perspective within the AWS CAF. The Business Perspective focuses on ensuring that cloud adoption aligns with business needs and delivers tangible business outcomes, including data-driven decision making.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q21</span>
+                    What is the primary purpose of AWS Config Rules?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q20_option0" name="question20" value="0">
+                        <label for="q20_option0">A. Monitor API calls</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q20_option1" name="question20" value="1">
+                        <label for="q20_option1">B. Evaluate resource configurations for compliance</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q20_option2" name="question20" value="2">
+                        <label for="q20_option2">C. Store application logs</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q20_option3" name="question20" value="3">
+                        <label for="q20_option3">D. Manage user access</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(20)">Check Answer</button>
+                <div class="explanation" id="explanation20">
+                    <h4>📈 Explanation:</h4>
+                    <p>AWS Config Rules are used to evaluate resource configurations for compliance against desired configurations or best practices. They automatically assess whether your AWS resources comply with your organization&#x27;s policies and can trigger remediation actions for non-compliant resources.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q22</span>
+                    What is a benefit of using AWS serverless computing?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q21_option0" name="question21" value="0">
+                        <label for="q21_option0">A. Application deployment and management are not required</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q21_option1" name="question21" value="1">
+                        <label for="q21_option1">B. Application security will be fully managed by AWS</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q21_option2" name="question21" value="2">
+                        <label for="q21_option2">C. Monitoring and logging are not needed</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q21_option3" name="question21" value="3">
+                        <label for="q21_option3">D. Management of infrastructure is offloaded to AWS</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(21)">Check Answer</button>
+                <div class="explanation" id="explanation21">
+                    <h4>📈 Explanation:</h4>
+                    <p>With serverless computing, the management of infrastructure is offloaded to AWS. AWS handles the underlying infrastructure, including operating system maintenance, patching, capacity provisioning, and scaling, allowing developers to focus solely on writing and deploying code.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q23</span>
+                    What is the benefit of using AWS CloudWatch Embedded Metric Format (EMF)?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q22_option0" name="question22" value="0">
+                        <label for="q22_option0">A. Simplified metric publishing</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q22_option1" name="question22" value="1">
+                        <label for="q22_option1">B. Reduced monitoring costs</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q22_option2" name="question22" value="2">
+                        <label for="q22_option2">C. Better log correlation</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q22_option3" name="question22" value="3">
+                        <label for="q22_option3">D. All of the above</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(22)">Check Answer</button>
+                <div class="explanation" id="explanation22">
+                    <h4>📈 Explanation:</h4>
+                    <p>AWS CloudWatch Embedded Metric Format provides all these benefits: it simplifies metric publishing by embedding metrics in log messages, can reduce costs by eliminating separate metric API calls, and provides better correlation between logs and metrics for improved observability.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q24</span>
+                    Which AWS service or feature can be used to monitor for potential disk write spikes on a system that is running on Amazon EC2?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q23_option0" name="question23" value="0">
+                        <label for="q23_option0">A. AWS CloudTrail</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q23_option1" name="question23" value="1">
+                        <label for="q23_option1">B. AWS Health Dashboard</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q23_option2" name="question23" value="2">
+                        <label for="q23_option2">C. AWS Trusted Advisor</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q23_option3" name="question23" value="3">
+                        <label for="q23_option3">D. Amazon CloudWatch</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(23)">Check Answer</button>
+                <div class="explanation" id="explanation23">
+                    <h4>📈 Explanation:</h4>
+                    <p>Amazon CloudWatch is a monitoring service that can collect and track metrics, including disk I/O metrics like disk writes. You can create CloudWatch metrics for disk write operations and set up alarms when thresholds are breached, enabling proactive monitoring for potential disk write spikes.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q25</span>
+                    Which of the following is an AWS Well-Architected Framework design principle for operational excellence in the AWS Cloud?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q24_option0" name="question24" value="0">
+                        <label for="q24_option0">A. Go global in minutes</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q24_option1" name="question24" value="1">
+                        <label for="q24_option1">B. Make frequent, small, reversible changes</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q24_option2" name="question24" value="2">
+                        <label for="q24_option2">C. Implement a strong foundation of identity and access management</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q24_option3" name="question24" value="3">
+                        <label for="q24_option3">D. Stop spending money on hardware infrastructure for data center operations</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(24)">Check Answer</button>
+                <div class="explanation" id="explanation24">
+                    <h4>📈 Explanation:</h4>
+                    <p>Making frequent, small, reversible changes is a key design principle for operational excellence. Small changes reduce deployment risk, and reversibility minimizes the impact of failures and accelerates recovery. This approach enables faster experimentation and continuous improvement in operational practices.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q26</span>
+                    Which AWS service provides synthetic monitoring capabilities?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q25_option0" name="question25" value="0">
+                        <label for="q25_option0">A. Amazon CloudWatch Synthetics</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q25_option1" name="question25" value="1">
+                        <label for="q25_option1">B. AWS X-Ray</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q25_option2" name="question25" value="2">
+                        <label for="q25_option2">C. AWS Config</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q25_option3" name="question25" value="3">
+                        <label for="q25_option3">D. AWS Systems Manager</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(25)">Check Answer</button>
+                <div class="explanation" id="explanation25">
+                    <h4>📈 Explanation:</h4>
+                    <p>Amazon CloudWatch Synthetics provides synthetic monitoring capabilities by running scripts that simulate user interactions with your applications. It can monitor your applications 24/7 and alert you when issues are detected, even when there are no real users accessing your application.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q27</span>
+                    Which AWS service or tool will monitor AWS resources and applications in real time?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q26_option0" name="question26" value="0">
+                        <label for="q26_option0">A. AWS Trusted Advisor</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q26_option1" name="question26" value="1">
+                        <label for="q26_option1">B. Amazon CloudWatch</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q26_option2" name="question26" value="2">
+                        <label for="q26_option2">C. AWS CloudTrail</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q26_option3" name="question26" value="3">
+                        <label for="q26_option3">D. AWS Cost Explorer</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(26)">Check Answer</button>
+                <div class="explanation" id="explanation26">
+                    <h4>📈 Explanation:</h4>
+                    <p>Amazon CloudWatch provides real-time monitoring and observability for AWS resources and applications. It collects monitoring and operational data in the form of logs, metrics, and events, providing a unified view of AWS resources, applications, and services in real-time.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q28</span>
+                    Which AWS service can help you implement Infrastructure as Code (IaC) monitoring?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q27_option0" name="question27" value="0">
+                        <label for="q27_option0">A. AWS CloudFormation</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q27_option1" name="question27" value="1">
+                        <label for="q27_option1">B. AWS Config</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q27_option2" name="question27" value="2">
+                        <label for="q27_option2">C. AWS Systems Manager</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q27_option3" name="question27" value="3">
+                        <label for="q27_option3">D. All of the above</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(27)">Check Answer</button>
+                <div class="explanation" id="explanation27">
+                    <h4>📈 Explanation:</h4>
+                    <p>All of these services support IaC monitoring: CloudFormation can detect stack drift, AWS Config can monitor resource configurations against desired states, and Systems Manager can track compliance and configuration changes. Together they provide comprehensive IaC monitoring.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q29</span>
+                    A systems administrator wants to monitor the CPU utilization of a company&#x27;s Amazon EC2 instances. Which AWS service can provide this information?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q28_option0" name="question28" value="0">
+                        <label for="q28_option0">A. AWS Config</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q28_option1" name="question28" value="1">
+                        <label for="q28_option1">B. AWS Trusted Advisor</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q28_option2" name="question28" value="2">
+                        <label for="q28_option2">C. AWS CloudTrail</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q28_option3" name="question28" value="3">
+                        <label for="q28_option3">D. Amazon CloudWatch</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(28)">Check Answer</button>
+                <div class="explanation" id="explanation28">
+                    <h4>📈 Explanation:</h4>
+                    <p>Amazon CloudWatch provides monitoring and observability services. By default, it provides basic monitoring metrics for EC2 instances, including CPU utilization, disk I/O, network I/O, and status checks. These metrics are collected automatically without requiring additional agent installation.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q30</span>
+                    What is the benefit of using AWS CloudWatch Container Insights?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q29_option0" name="question29" value="0">
+                        <label for="q29_option0">A. Monitor containerized applications</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q29_option1" name="question29" value="1">
+                        <label for="q29_option1">B. Optimize container costs</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q29_option2" name="question29" value="2">
+                        <label for="q29_option2">C. Secure container images</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q29_option3" name="question29" value="3">
+                        <label for="q29_option3">D. Deploy containers</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(29)">Check Answer</button>
+                <div class="explanation" id="explanation29">
+                    <h4>📈 Explanation:</h4>
+                    <p>AWS CloudWatch Container Insights is specifically designed to monitor containerized applications. It provides metrics and logs for containers running on Amazon ECS, EKS, and EC2, helping you understand the performance and health of your containerized workloads.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q31</span>
+                    Which AWS service can help you monitor the health of your applications across multiple AWS accounts?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q30_option0" name="question30" value="0">
+                        <label for="q30_option0">A. Amazon CloudWatch</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q30_option1" name="question30" value="1">
+                        <label for="q30_option1">B. AWS Organizations</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q30_option2" name="question30" value="2">
+                        <label for="q30_option2">C. AWS Control Tower</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q30_option3" name="question30" value="3">
+                        <label for="q30_option3">D. AWS Systems Manager</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(30)">Check Answer</button>
+                <div class="explanation" id="explanation30">
+                    <h4>📈 Explanation:</h4>
+                    <p>Amazon CloudWatch can monitor applications across multiple AWS accounts through cross-account monitoring capabilities. You can create dashboards and alarms that aggregate metrics from multiple accounts, providing a unified view of application health.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q32</span>
+                    Which AWS service makes it easier to monitor and troubleshoot application logs and cloud resources?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q31_option0" name="question31" value="0">
+                        <label for="q31_option0">A. Amazon EC2</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q31_option1" name="question31" value="1">
+                        <label for="q31_option1">B. AWS Identity and Access Management (IAM)</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q31_option2" name="question31" value="2">
+                        <label for="q31_option2">C. Amazon CloudWatch</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q31_option3" name="question31" value="3">
+                        <label for="q31_option3">D. AWS CloudTrail</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(31)">Check Answer</button>
+                <div class="explanation" id="explanation31">
+                    <h4>📈 Explanation:</h4>
+                    <p>Amazon CloudWatch is AWS&#x27;s primary monitoring and observability service. CloudWatch Logs allows you to centralize logs from different sources, facilitating troubleshooting and analysis. You can create dashboards to visualize key metrics and set alarms to trigger notifications when thresholds are breached.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q33</span>
+                    Which AWS service provides application performance monitoring (APM) capabilities?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q32_option0" name="question32" value="0">
+                        <label for="q32_option0">A. AWS X-Ray</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q32_option1" name="question32" value="1">
+                        <label for="q32_option1">B. Amazon CloudWatch</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q32_option2" name="question32" value="2">
+                        <label for="q32_option2">C. AWS Systems Manager</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q32_option3" name="question32" value="3">
+                        <label for="q32_option3">D. All of the above</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(32)">Check Answer</button>
+                <div class="explanation" id="explanation32">
+                    <h4>📈 Explanation:</h4>
+                    <p>All of these services provide APM capabilities: X-Ray provides distributed tracing, CloudWatch provides metrics and logs monitoring, and Systems Manager provides operational insights. Together they provide comprehensive application performance monitoring.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q34</span>
+                    What is the purpose of AWS Systems Manager Session Manager?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q33_option0" name="question33" value="0">
+                        <label for="q33_option0">A. Database session management</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q33_option1" name="question33" value="1">
+                        <label for="q33_option1">B. Secure shell access to EC2 instances</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q33_option2" name="question33" value="2">
+                        <label for="q33_option2">C. Web application session management</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q33_option3" name="question33" value="3">
+                        <label for="q33_option3">D. API session management</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(33)">Check Answer</button>
+                <div class="explanation" id="explanation33">
+                    <h4>📈 Explanation:</h4>
+                    <p>AWS Systems Manager Session Manager provides secure shell access to EC2 instances without the need to open inbound ports, manage SSH keys, or use bastion hosts. It provides a secure way to access instances while maintaining full audit trails.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q35</span>
+                    Which AWS service can help you implement chaos engineering practices?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q34_option0" name="question34" value="0">
+                        <label for="q34_option0">A. AWS Fault Injection Simulator</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q34_option1" name="question34" value="1">
+                        <label for="q34_option1">B. AWS X-Ray</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q34_option2" name="question34" value="2">
+                        <label for="q34_option2">C. Amazon CloudWatch</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q34_option3" name="question34" value="3">
+                        <label for="q34_option3">D. AWS Config</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(34)">Check Answer</button>
+                <div class="explanation" id="explanation34">
+                    <h4>📈 Explanation:</h4>
+                    <p>AWS Fault Injection Simulator (FIS) is designed to help implement chaos engineering practices. It allows you to run controlled fault injection experiments on your AWS workloads to test their resilience and identify weaknesses in your applications.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q36</span>
+                    Which AWS service will help a company plan a migration to AWS by collecting the configuration, usage, and behavior data of on-premises data centers?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q35_option0" name="question35" value="0">
+                        <label for="q35_option0">A. AWS Resource Groups</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q35_option1" name="question35" value="1">
+                        <label for="q35_option1">B. AWS Application Discovery Service</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q35_option2" name="question35" value="2">
+                        <label for="q35_option2">C. AWS Service Catalog</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q35_option3" name="question35" value="3">
+                        <label for="q35_option3">D. AWS Systems Manager</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(35)">Check Answer</button>
+                <div class="explanation" id="explanation35">
+                    <h4>📈 Explanation:</h4>
+                    <p>AWS Application Discovery Service (ADS) is specifically designed to gather information about on-premises environments to facilitate migration planning. It collects configuration, usage, and behavior data from on-premises data centers to help plan AWS migrations.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q37</span>
+                    Which AWS service provides log aggregation from multiple sources?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q36_option0" name="question36" value="0">
+                        <label for="q36_option0">A. AWS CloudTrail</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q36_option1" name="question36" value="1">
+                        <label for="q36_option1">B. Amazon CloudWatch Logs</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q36_option2" name="question36" value="2">
+                        <label for="q36_option2">C. AWS Config</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q36_option3" name="question36" value="3">
+                        <label for="q36_option3">D. Amazon S3</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(36)">Check Answer</button>
+                <div class="explanation" id="explanation36">
+                    <h4>📈 Explanation:</h4>
+                    <p>Amazon CloudWatch Logs provides log aggregation capabilities from multiple sources. It can collect logs from EC2 instances, Lambda functions, VPC Flow Logs, and other AWS services, providing a centralized location for log management and analysis.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q38</span>
+                    A company wants to monitor their application&#x27;s response time and error rates. Which AWS service should they use?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q37_option0" name="question37" value="0">
+                        <label for="q37_option0">A. AWS CloudTrail</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q37_option1" name="question37" value="1">
+                        <label for="q37_option1">B. Amazon CloudWatch</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q37_option2" name="question37" value="2">
+                        <label for="q37_option2">C. AWS Config</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q37_option3" name="question37" value="3">
+                        <label for="q37_option3">D. AWS Systems Manager</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(37)">Check Answer</button>
+                <div class="explanation" id="explanation37">
+                    <h4>📈 Explanation:</h4>
+                    <p>Amazon CloudWatch is the appropriate service for monitoring application response time and error rates. It can collect custom metrics from applications and provide dashboards and alarms to monitor application performance metrics.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q39</span>
+                    Which AWS service can help you implement distributed tracing across multiple programming languages?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q38_option0" name="question38" value="0">
+                        <label for="q38_option0">A. AWS X-Ray</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q38_option1" name="question38" value="1">
+                        <label for="q38_option1">B. Amazon CloudWatch</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q38_option2" name="question38" value="2">
+                        <label for="q38_option2">C. AWS CloudTrail</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q38_option3" name="question38" value="3">
+                        <label for="q38_option3">D. AWS Config</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(38)">Check Answer</button>
+                <div class="explanation" id="explanation38">
+                    <h4>📈 Explanation:</h4>
+                    <p>AWS X-Ray provides distributed tracing capabilities across multiple programming languages including Java, .NET, Node.js, Python, Ruby, and Go. It can trace requests across different services and languages in your distributed application architecture.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q40</span>
+                    Which AWS service can help you identify unused or underutilized resources?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q39_option0" name="question39" value="0">
+                        <label for="q39_option0">A. AWS Trusted Advisor</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q39_option1" name="question39" value="1">
+                        <label for="q39_option1">B. AWS Compute Optimizer</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q39_option2" name="question39" value="2">
+                        <label for="q39_option2">C. AWS Cost Explorer</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q39_option3" name="question39" value="3">
+                        <label for="q39_option3">D. All of the above</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(39)">Check Answer</button>
+                <div class="explanation" id="explanation39">
+                    <h4>📈 Explanation:</h4>
+                    <p>All of these services can help identify unused or underutilized resources: Trusted Advisor provides recommendations for resource optimization, Compute Optimizer analyzes utilization patterns, and Cost Explorer shows spending patterns that can indicate underutilized resources.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q41</span>
+                    What is the primary benefit of using AWS CloudWatch Cross-Account Observability?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q40_option0" name="question40" value="0">
+                        <label for="q40_option0">A. Unified monitoring across accounts</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q40_option1" name="question40" value="1">
+                        <label for="q40_option1">B. Reduced monitoring costs</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q40_option2" name="question40" value="2">
+                        <label for="q40_option2">C. Improved security</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q40_option3" name="question40" value="3">
+                        <label for="q40_option3">D. Simplified access management</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(40)">Check Answer</button>
+                <div class="explanation" id="explanation40">
+                    <h4>📈 Explanation:</h4>
+                    <p>The primary benefit of AWS CloudWatch Cross-Account Observability is unified monitoring across multiple AWS accounts. It allows you to monitor and troubleshoot applications that span multiple accounts from a single monitoring account, providing a centralized view of your distributed applications.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q42</span>
+                    A company wants to monitor their database query performance. Which AWS service provides detailed database performance insights?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q41_option0" name="question41" value="0">
+                        <label for="q41_option0">A. Amazon CloudWatch</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q41_option1" name="question41" value="1">
+                        <label for="q41_option1">B. Amazon RDS Performance Insights</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q41_option2" name="question41" value="2">
+                        <label for="q41_option2">C. AWS X-Ray</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q41_option3" name="question41" value="3">
+                        <label for="q41_option3">D. AWS Systems Manager</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(41)">Check Answer</button>
+                <div class="explanation" id="explanation41">
+                    <h4>📈 Explanation:</h4>
+                    <p>Amazon RDS Performance Insights provides detailed database performance monitoring, including query-level analysis, wait events, and database load information. It&#x27;s specifically designed for deep database performance analysis and optimization.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q43</span>
+                    A company wants to transform its workforce by attracting and developing a digitally fluent high-performance workforce. Which AWS Cloud Adoption Framework (AWS CAF) perspective will meet these requirements?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q42_option0" name="question42" value="0">
+                        <label for="q42_option0">A. Business</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q42_option1" name="question42" value="1">
+                        <label for="q42_option1">B. People</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q42_option2" name="question42" value="2">
+                        <label for="q42_option2">C. Platform</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q42_option3" name="question42" value="3">
+                        <label for="q42_option3">D. Operations</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(42)">Check Answer</button>
+                <div class="explanation" id="explanation42">
+                    <h4>📈 Explanation:</h4>
+                    <p>The People perspective of AWS CAF focuses specifically on skills, training, and organizational change. It addresses workforce transformation, identifying and developing necessary skills, and evolving organizational structures to support cloud adoption, including attracting and developing a digitally fluent workforce.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q44</span>
+                    A company wants to monitor their AWS Lambda function performance. Which metrics are most important?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q43_option0" name="question43" value="0">
+                        <label for="q43_option0">A. Duration and error rate</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q43_option1" name="question43" value="1">
+                        <label for="q43_option1">B. Memory utilization</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q43_option2" name="question43" value="2">
+                        <label for="q43_option2">C. Concurrent executions</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q43_option3" name="question43" value="3">
+                        <label for="q43_option3">D. All of the above</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(43)">Check Answer</button>
+                <div class="explanation" id="explanation43">
+                    <h4>📈 Explanation:</h4>
+                    <p>All of these metrics are important for Lambda monitoring: Duration shows how long functions take to execute, error rate indicates function reliability, memory utilization helps optimize resource allocation, and concurrent executions help understand scaling patterns.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q45</span>
+                    Which AWS service can help you implement automated scaling based on application-specific metrics?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q44_option0" name="question44" value="0">
+                        <label for="q44_option0">A. Amazon EC2 Auto Scaling</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q44_option1" name="question44" value="1">
+                        <label for="q44_option1">B. AWS Application Auto Scaling</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q44_option2" name="question44" value="2">
+                        <label for="q44_option2">C. Amazon CloudWatch</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q44_option3" name="question44" value="3">
+                        <label for="q44_option3">D. All of the above</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(44)">Check Answer</button>
+                <div class="explanation" id="explanation44">
+                    <h4>📈 Explanation:</h4>
+                    <p>All of these services work together for application-specific scaling: EC2 Auto Scaling for EC2 instances, Application Auto Scaling for other AWS services, and CloudWatch to provide the custom metrics that drive the scaling decisions based on application-specific requirements.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q46</span>
+                    A company wants to create custom dashboards to visualize their AWS resource metrics. Which service should they use?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q45_option0" name="question45" value="0">
+                        <label for="q45_option0">A. AWS CloudTrail</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q45_option1" name="question45" value="1">
+                        <label for="q45_option1">B. Amazon CloudWatch</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q45_option2" name="question45" value="2">
+                        <label for="q45_option2">C. AWS Config</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q45_option3" name="question45" value="3">
+                        <label for="q45_option3">D. AWS Systems Manager</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(45)">Check Answer</button>
+                <div class="explanation" id="explanation45">
+                    <h4>📈 Explanation:</h4>
+                    <p>Amazon CloudWatch provides dashboard capabilities that allow you to create custom dashboards to visualize AWS resource metrics. You can create widgets to display metrics, logs, and alarms in a unified view for monitoring your AWS environment.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q47</span>
+                    A company wants to implement proactive monitoring that predicts issues before they occur. Which AWS service feature would be most helpful?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q46_option0" name="question46" value="0">
+                        <label for="q46_option0">A. CloudWatch Anomaly Detection</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q46_option1" name="question46" value="1">
+                        <label for="q46_option1">B. X-Ray Insights</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q46_option2" name="question46" value="2">
+                        <label for="q46_option2">C. Config Predictive Compliance</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q46_option3" name="question46" value="3">
+                        <label for="q46_option3">D. Systems Manager Predictive Scaling</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(46)">Check Answer</button>
+                <div class="explanation" id="explanation46">
+                    <h4>📈 Explanation:</h4>
+                    <p>CloudWatch Anomaly Detection is most helpful for proactive monitoring as it uses machine learning to identify unusual patterns in metrics and can predict potential issues before they impact your applications, enabling proactive response to emerging problems.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q48</span>
+                    Which AWS service provides performance monitoring for databases?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q47_option0" name="question47" value="0">
+                        <label for="q47_option0">A. Amazon CloudWatch</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q47_option1" name="question47" value="1">
+                        <label for="q47_option1">B. AWS X-Ray</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q47_option2" name="question47" value="2">
+                        <label for="q47_option2">C. Amazon RDS Performance Insights</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q47_option3" name="question47" value="3">
+                        <label for="q47_option3">D. All of the above</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(47)">Check Answer</button>
+                <div class="explanation" id="explanation47">
+                    <h4>📈 Explanation:</h4>
+                    <p>All of these services provide database performance monitoring: CloudWatch provides basic database metrics, X-Ray can trace database calls in applications, and RDS Performance Insights provides detailed database performance analysis. They complement each other for comprehensive database monitoring.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q49</span>
+                    A company wants to implement automated incident response. Which AWS services would be most helpful?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q48_option0" name="question48" value="0">
+                        <label for="q48_option0">A. Amazon EventBridge + AWS Lambda</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q48_option1" name="question48" value="1">
+                        <label for="q48_option1">B. AWS Systems Manager + Amazon SNS</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q48_option2" name="question48" value="2">
+                        <label for="q48_option2">C. AWS Step Functions + Amazon CloudWatch</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q48_option3" name="question48" value="3">
+                        <label for="q48_option3">D. All of the above</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(48)">Check Answer</button>
+                <div class="explanation" id="explanation48">
+                    <h4>📈 Explanation:</h4>
+                    <p>All of these service combinations can support automated incident response: EventBridge + Lambda for event-driven automation, Systems Manager + SNS for operational automation and notifications, and Step Functions + CloudWatch for complex workflow-based responses.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q50</span>
+                    What is the primary purpose of AWS Personal Health Dashboard?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q49_option0" name="question49" value="0">
+                        <label for="q49_option0">A. Monitor personal AWS usage</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q49_option1" name="question49" value="1">
+                        <label for="q49_option1">B. Provide personalized view of AWS service health</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q49_option2" name="question49" value="2">
+                        <label for="q49_option2">C. Manage personal AWS accounts</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q49_option3" name="question49" value="3">
+                        <label for="q49_option3">D. Track personal AWS costs</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(49)">Check Answer</button>
+                <div class="explanation" id="explanation49">
+                    <h4>📈 Explanation:</h4>
+                    <p>AWS Personal Health Dashboard provides a personalized view of AWS service health that is relevant to your specific AWS resources and services. It shows how AWS service issues might affect your resources and provides guidance on actions you can take.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q51</span>
+                    What is the purpose of AWS CloudWatch Anomaly Detection?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q50_option0" name="question50" value="0">
+                        <label for="q50_option0">A. Detect security threats</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q50_option1" name="question50" value="1">
+                        <label for="q50_option1">B. Identify unusual patterns in metrics</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q50_option2" name="question50" value="2">
+                        <label for="q50_option2">C. Monitor API calls</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q50_option3" name="question50" value="3">
+                        <label for="q50_option3">D. Track configuration changes</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(50)">Check Answer</button>
+                <div class="explanation" id="explanation50">
+                    <h4>📈 Explanation:</h4>
+                    <p>AWS CloudWatch Anomaly Detection uses machine learning to identify unusual patterns in metrics. It automatically creates models based on historical data and detects when metrics deviate from normal patterns, helping identify potential issues before they become problems.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q52</span>
+                    Which AWS service can help you implement log-based alerting?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q51_option0" name="question51" value="0">
+                        <label for="q51_option0">A. Amazon CloudWatch Logs</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q51_option1" name="question51" value="1">
+                        <label for="q51_option1">B. AWS CloudTrail</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q51_option2" name="question51" value="2">
+                        <label for="q51_option2">C. Amazon SNS</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q51_option3" name="question51" value="3">
+                        <label for="q51_option3">D. All of the above</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(51)">Check Answer</button>
+                <div class="explanation" id="explanation51">
+                    <h4>📈 Explanation:</h4>
+                    <p>All of these services can support log-based alerting: CloudWatch Logs can create metric filters and alarms based on log patterns, CloudTrail can trigger alerts based on API activity, and SNS can deliver the alert notifications to various endpoints.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q53</span>
+                    Which AWS service can help you trace requests through your distributed applications?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q52_option0" name="question52" value="0">
+                        <label for="q52_option0">A. AWS CloudTrail</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q52_option1" name="question52" value="1">
+                        <label for="q52_option1">B. AWS X-Ray</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q52_option2" name="question52" value="2">
+                        <label for="q52_option2">C. Amazon CloudWatch</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q52_option3" name="question52" value="3">
+                        <label for="q52_option3">D. AWS Config</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(52)">Check Answer</button>
+                <div class="explanation" id="explanation52">
+                    <h4>📈 Explanation:</h4>
+                    <p>AWS X-Ray helps developers analyze and debug distributed applications by providing request tracing capabilities. It shows how requests flow through your application and helps identify performance bottlenecks and errors in microservices architectures.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q54</span>
+                    What is the primary benefit of using AWS CloudWatch Insights?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q53_option0" name="question53" value="0">
+                        <label for="q53_option0">A. Cost optimization</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q53_option1" name="question53" value="1">
+                        <label for="q53_option1">B. Log analysis and querying</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q53_option2" name="question53" value="2">
+                        <label for="q53_option2">C. Security monitoring</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q53_option3" name="question53" value="3">
+                        <label for="q53_option3">D. Performance tuning</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(53)">Check Answer</button>
+                <div class="explanation" id="explanation53">
+                    <h4>📈 Explanation:</h4>
+                    <p>AWS CloudWatch Insights (CloudWatch Logs Insights) is primarily used for log analysis and querying. It provides a powerful query language to search and analyze log data, helping you quickly find and analyze log information across your applications.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q55</span>
+                    Which AWS service can help you implement observability for microservices?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q54_option0" name="question54" value="0">
+                        <label for="q54_option0">A. AWS X-Ray</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q54_option1" name="question54" value="1">
+                        <label for="q54_option1">B. Amazon CloudWatch</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q54_option2" name="question54" value="2">
+                        <label for="q54_option2">C. AWS App Mesh</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q54_option3" name="question54" value="3">
+                        <label for="q54_option3">D. All of the above</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(54)">Check Answer</button>
+                <div class="explanation" id="explanation54">
+                    <h4>📈 Explanation:</h4>
+                    <p>All of these services support microservices observability: X-Ray provides distributed tracing across services, CloudWatch provides metrics and logs, and App Mesh provides service mesh observability features. Together they enable comprehensive microservices monitoring.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q56</span>
+                    A company wants to monitor their application&#x27;s API performance and identify bottlenecks. Which AWS service is most appropriate?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q55_option0" name="question55" value="0">
+                        <label for="q55_option0">A. AWS CloudTrail</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q55_option1" name="question55" value="1">
+                        <label for="q55_option1">B. AWS X-Ray</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q55_option2" name="question55" value="2">
+                        <label for="q55_option2">C. Amazon CloudWatch</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q55_option3" name="question55" value="3">
+                        <label for="q55_option3">D. AWS Config</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(55)">Check Answer</button>
+                <div class="explanation" id="explanation55">
+                    <h4>📈 Explanation:</h4>
+                    <p>AWS X-Ray is most appropriate for monitoring API performance and identifying bottlenecks. It provides detailed tracing of requests through your application, showing response times, errors, and performance bottlenecks in your API calls and microservices.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q57</span>
+                    Which AWS service provides infrastructure monitoring for on-premises resources?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q56_option0" name="question56" value="0">
+                        <label for="q56_option0">A. Amazon CloudWatch</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q56_option1" name="question56" value="1">
+                        <label for="q56_option1">B. AWS Systems Manager</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q56_option2" name="question56" value="2">
+                        <label for="q56_option2">C. AWS Outposts</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q56_option3" name="question56" value="3">
+                        <label for="q56_option3">D. All of the above</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(56)">Check Answer</button>
+                <div class="explanation" id="explanation56">
+                    <h4>📈 Explanation:</h4>
+                    <p>All of these services can monitor on-premises resources: CloudWatch can collect custom metrics from on-premises systems, Systems Manager can manage on-premises servers, and Outposts extends AWS infrastructure to on-premises locations with full monitoring capabilities.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q58</span>
+                    What is the primary purpose of AWS Systems Manager OpsCenter?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q57_option0" name="question57" value="0">
+                        <label for="q57_option0">A. Centralize operational issues</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q57_option1" name="question57" value="1">
+                        <label for="q57_option1">B. Monitor system performance</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q57_option2" name="question57" value="2">
+                        <label for="q57_option2">C. Manage user access</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q57_option3" name="question57" value="3">
+                        <label for="q57_option3">D. Store configuration data</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(57)">Check Answer</button>
+                <div class="explanation" id="explanation57">
+                    <h4>📈 Explanation:</h4>
+                    <p>AWS Systems Manager OpsCenter is designed to centralize operational issues (OpsItems) from multiple AWS services. It provides a central location to view, investigate, and resolve operational work items related to your AWS resources.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q59</span>
+                    Which AWS service can automatically remediate configuration drift?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q58_option0" name="question58" value="0">
+                        <label for="q58_option0">A. AWS Config</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q58_option1" name="question58" value="1">
+                        <label for="q58_option1">B. AWS Systems Manager</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q58_option2" name="question58" value="2">
+                        <label for="q58_option2">C. AWS CloudFormation</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q58_option3" name="question58" value="3">
+                        <label for="q58_option3">D. All of the above</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(58)">Check Answer</button>
+                <div class="explanation" id="explanation58">
+                    <h4>📈 Explanation:</h4>
+                    <p>All of these services can help with automatic remediation: AWS Config can trigger remediation actions for non-compliant resources, AWS Systems Manager can automate operational tasks, and AWS CloudFormation can detect and correct stack drift. They often work together for comprehensive remediation.</p>
+                </div>
+            </div>
+    
+        </form>
+
+        <div class="results" id="results">
+            <h2>🎉 Quiz Complete!</h2>
+            <div class="score" id="finalScore">0%</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="score-details">
+                <div class="score-item">
+                    <h4>Correct Answers</h4>
+                    <div class="number" id="correctCount">0</div>
+                </div>
+                <div class="score-item">
+                    <h4>Incorrect Answers</h4>
+                    <div class="number" id="incorrectCount">0</div>
+                </div>
+                <div class="score-item">
+                    <h4>Total Questions</h4>
+                    <div class="number">65</div>
+                </div>
+                <div class="score-item">
+                    <h4>Percentage</h4>
+                    <div class="number" id="percentage">0%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const answers = [0, 3, 3, 3, 3, 2, 3, 0, 1, 3, 0, 1, 0, 1, 0, 3, 3, 3, 0, 1, 1, 3, 3, 3, 1, 0, 1, 3, 3, 0, 0, 2, 3, 1, 0, 1, 1, 1, 0, 3, 0, 1, 1, 3, 3, 1, 0, 3, 3, 1, 1, 3, 1, 1, 3, 1, 3, 0, 3];
+        let userAnswers = {};
+        let checkedQuestions = new Set();
+
+        function checkAnswer(questionIndex) {
+            const selectedOption = document.querySelector(`input[name="question${questionIndex}"]:checked`);
+
+            if (!selectedOption) {
+                alert('Please select an answer first!');
+                return;
+            }
+
+            const userAnswer = parseInt(selectedOption.value);
+            const correctAnswer = answers[questionIndex];
+
+            userAnswers[questionIndex] = userAnswer;
+            checkedQuestions.add(questionIndex);
+
+            // Show explanation
+            const explanation = document.getElementById(`explanation${questionIndex}`);
+            explanation.classList.add('show');
+
+            // Highlight options
+            const options = document.querySelectorAll(`input[name="question${questionIndex}"]`).forEach((input, index) => {
+                const optionDiv = input.closest('.option');
+                optionDiv.style.pointerEvents = 'none';
+
+                if (index === correctAnswer) {
+                    optionDiv.classList.add('correct');
+                } else if (index === userAnswer && userAnswer !== correctAnswer) {
+                    optionDiv.classList.add('incorrect');
+                }
+            });
+
+            // Disable the check button
+            event.target.disabled = true;
+            event.target.style.opacity = '0.6';
+            event.target.textContent = 'Answer Checked ✓';
+
+            // Check if all questions are answered
+            if (checkedQuestions.size === answers.length) {
+                setTimeout(showResults, 1000);
+            }
+        }
+
+        function showResults() {
+            let correctCount = 0;
+
+            for (let i = 0; i < answers.length; i++) {
+                if (userAnswers[i] === answers[i]) {
+                    correctCount++;
+                }
+            }
+
+            const percentage = Math.round((correctCount / answers.length) * 100);
+            const incorrectCount = answers.length - correctCount;
+
+            // Update results
+            document.getElementById('correctCount').textContent = correctCount;
+            document.getElementById('incorrectCount').textContent = incorrectCount;
+            document.getElementById('percentage').textContent = percentage + '%';
+            document.getElementById('finalScore').textContent = percentage + '%';
+
+            // Set score color
+            const scoreElement = document.getElementById('finalScore');
+            if (percentage >= 90) scoreElement.className = 'score excellent';
+            else if (percentage >= 75) scoreElement.className = 'score good';
+            else if (percentage >= 60) scoreElement.className = 'score average';
+            else scoreElement.className = 'score poor';
+
+            // Animate progress bar
+            setTimeout(() => {
+                document.getElementById('progressFill').style.width = percentage + '%';
+            }, 500);
+
+            // Show results
+            document.getElementById('results').classList.add('show');
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Add some interactive features
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click handlers for options
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const radio = this.querySelector('input[type="radio"]');
+                    if (radio && !radio.disabled) {
+                        radio.checked = true;
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

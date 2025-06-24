@@ -1,0 +1,2646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS Cloud Practitioner Quiz 3 - S3, CloudFront & Storage</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            color: #333;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        .header p {
+            margin: 10px 0 0 0;
+            opacity: 0.8;
+            font-size: 1.1em;
+        }
+        .quiz-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            text-align: center;
+        }
+        .info-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .info-item h3 {
+            margin: 0 0 5px 0;
+            color: #333;
+            font-size: 1.8em;
+        }
+        .info-item p {
+            margin: 0;
+            color: #666;
+            font-size: 0.9em;
+        }
+        .content {
+            padding: 30px;
+        }
+        .question {
+            background: #f8f9fa;
+            margin: 25px 0;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 5px solid #28a745;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+        .question h3 {
+            color: #333;
+            margin: 0 0 20px 0;
+            font-size: 1.2em;
+            line-height: 1.4;
+        }
+        .question-number {
+            background: #28a745;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        .options {
+            margin: 20px 0;
+        }
+        .option {
+            display: block;
+            margin: 12px 0;
+            padding: 15px;
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .option:hover {
+            border-color: #28a745;
+            background: #f0fff0;
+            transform: translateX(5px);
+        }
+        .option input[type="radio"] {
+            margin-right: 12px;
+            transform: scale(1.2);
+        }
+        .option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+        .option.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+        .explanation {
+            margin-top: 20px;
+            padding: 20px;
+            background: #e8f5e8;
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+            display: none;
+        }
+        .explanation.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .explanation h4 {
+            color: #155724;
+            margin: 0 0 10px 0;
+        }
+        .controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+        .btn {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #28a745, #20c997);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        .score-display {
+            text-align: center;
+            font-size: 1.2em;
+            margin: 10px 0;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>AWS Cloud Practitioner Quiz 3</h1>
+            <p>S3, CloudFront, Storage & Well-Architected Framework</p>
+        </div>
+
+        <div class="quiz-info">
+            <div class="info-grid">
+                <div class="info-item">
+                    <h3>65</h3>
+                    <p>Total Questions</p>
+                </div>
+                <div class="info-item">
+                    <h3 id="score">0</h3>
+                    <p>Current Score</p>
+                </div>
+                <div class="info-item">
+                    <h3 id="percentage">0%</h3>
+                    <p>Percentage</p>
+                </div>
+                <div class="info-item">
+                    <h3 id="answered">0</h3>
+                    <p>Answered</p>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <div class="content">
+
+            <div class="question" id="question1">
+                <h3>
+                    <span class="question-number">Q1</span>
+                    What is the AWS service that provides satellite ground stations?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="1" data-option="A">
+                        <input type="radio" name="q1" value="A">
+                        <strong>A.</strong> AWS Ground Station
+                    </label>
+        
+                    <label class="option" data-question="1" data-option="B">
+                        <input type="radio" name="q1" value="B">
+                        <strong>B.</strong> Amazon CloudFront
+                    </label>
+        
+                    <label class="option" data-question="1" data-option="C">
+                        <input type="radio" name="q1" value="C">
+                        <strong>C.</strong> AWS Direct Connect
+                    </label>
+        
+                    <label class="option" data-question="1" data-option="D">
+                        <input type="radio" name="q1" value="D">
+                        <strong>D.</strong> Amazon Route 53
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation1">
+                    <h4>✓ Correct Answer: A</h4>
+                    <p>AWS Ground Station is a fully managed service that lets you control satellite communications, process data, and scale your operations.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question2">
+                <h3>
+                    <span class="question-number">Q2</span>
+                    What is the AWS service that provides event-driven architecture?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="2" data-option="A">
+                        <input type="radio" name="q2" value="A">
+                        <strong>A.</strong> Amazon EventBridge
+                    </label>
+        
+                    <label class="option" data-question="2" data-option="B">
+                        <input type="radio" name="q2" value="B">
+                        <strong>B.</strong> AWS Lambda
+                    </label>
+        
+                    <label class="option" data-question="2" data-option="C">
+                        <input type="radio" name="q2" value="C">
+                        <strong>C.</strong> Amazon SNS
+                    </label>
+        
+                    <label class="option" data-question="2" data-option="D">
+                        <input type="radio" name="q2" value="D">
+                        <strong>D.</strong> All of the above
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation2">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>All these services support event-driven architecture: EventBridge for event routing, Lambda for serverless compute, and SNS for pub/sub messaging.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question3">
+                <h3>
+                    <span class="question-number">Q3</span>
+                    Which S3 feature helps prevent accidental deletion of objects?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="3" data-option="A">
+                        <input type="radio" name="q3" value="A">
+                        <strong>A.</strong> S3 Versioning
+                    </label>
+        
+                    <label class="option" data-question="3" data-option="B">
+                        <input type="radio" name="q3" value="B">
+                        <strong>B.</strong> S3 Lifecycle
+                    </label>
+        
+                    <label class="option" data-question="3" data-option="C">
+                        <input type="radio" name="q3" value="C">
+                        <strong>C.</strong> S3 Cross-Region Replication
+                    </label>
+        
+                    <label class="option" data-question="3" data-option="D">
+                        <input type="radio" name="q3" value="D">
+                        <strong>D.</strong> S3 Transfer Acceleration
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation3">
+                    <h4>✓ Correct Answer: A</h4>
+                    <p>S3 Versioning helps protect against accidental deletion by keeping multiple versions of an object in the same bucket.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question4">
+                <h3>
+                    <span class="question-number">Q4</span>
+                    What is the AWS service that provides batch computing?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="4" data-option="A">
+                        <input type="radio" name="q4" value="A">
+                        <strong>A.</strong> AWS Lambda
+                    </label>
+        
+                    <label class="option" data-question="4" data-option="B">
+                        <input type="radio" name="q4" value="B">
+                        <strong>B.</strong> Amazon ECS
+                    </label>
+        
+                    <label class="option" data-question="4" data-option="C">
+                        <input type="radio" name="q4" value="C">
+                        <strong>C.</strong> AWS Batch
+                    </label>
+        
+                    <label class="option" data-question="4" data-option="D">
+                        <input type="radio" name="q4" value="D">
+                        <strong>D.</strong> Amazon EC2
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation4">
+                    <h4>✓ Correct Answer: C</h4>
+                    <p>AWS Batch enables developers to easily and efficiently run hundreds of thousands of batch computing jobs on AWS.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question5">
+                <h3>
+                    <span class="question-number">Q5</span>
+                    What is the AWS service that provides GraphQL APIs?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="5" data-option="A">
+                        <input type="radio" name="q5" value="A">
+                        <strong>A.</strong> Amazon API Gateway
+                    </label>
+        
+                    <label class="option" data-question="5" data-option="B">
+                        <input type="radio" name="q5" value="B">
+                        <strong>B.</strong> AWS AppSync
+                    </label>
+        
+                    <label class="option" data-question="5" data-option="C">
+                        <input type="radio" name="q5" value="C">
+                        <strong>C.</strong> AWS Lambda
+                    </label>
+        
+                    <label class="option" data-question="5" data-option="D">
+                        <input type="radio" name="q5" value="D">
+                        <strong>D.</strong> Amazon DynamoDB
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation5">
+                    <h4>✓ Correct Answer: B</h4>
+                    <p>AWS AppSync is a managed service that uses GraphQL to make it easy for applications to get exactly the data they need.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question6">
+                <h3>
+                    <span class="question-number">Q6</span>
+                    What is the AWS service that provides pub/sub messaging?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="6" data-option="A">
+                        <input type="radio" name="q6" value="A">
+                        <strong>A.</strong> Amazon SNS
+                    </label>
+        
+                    <label class="option" data-question="6" data-option="B">
+                        <input type="radio" name="q6" value="B">
+                        <strong>B.</strong> Amazon SQS
+                    </label>
+        
+                    <label class="option" data-question="6" data-option="C">
+                        <input type="radio" name="q6" value="C">
+                        <strong>C.</strong> Amazon Kinesis
+                    </label>
+        
+                    <label class="option" data-question="6" data-option="D">
+                        <input type="radio" name="q6" value="D">
+                        <strong>D.</strong> AWS Step Functions
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation6">
+                    <h4>✓ Correct Answer: A</h4>
+                    <p>Amazon SNS (Simple Notification Service) is a fully managed pub/sub messaging service.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question7">
+                <h3>
+                    <span class="question-number">Q7</span>
+                    What is the AWS service that provides image and video analysis?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="7" data-option="A">
+                        <input type="radio" name="q7" value="A">
+                        <strong>A.</strong> Amazon SageMaker
+                    </label>
+        
+                    <label class="option" data-question="7" data-option="B">
+                        <input type="radio" name="q7" value="B">
+                        <strong>B.</strong> Amazon Rekognition
+                    </label>
+        
+                    <label class="option" data-question="7" data-option="C">
+                        <input type="radio" name="q7" value="C">
+                        <strong>C.</strong> Amazon Comprehend
+                    </label>
+        
+                    <label class="option" data-question="7" data-option="D">
+                        <input type="radio" name="q7" value="D">
+                        <strong>D.</strong> Amazon Lex
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation7">
+                    <h4>✓ Correct Answer: B</h4>
+                    <p>Amazon Rekognition makes it easy to add image and video analysis to your applications.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question8">
+                <h3>
+                    <span class="question-number">Q8</span>
+                    What is the AWS service that provides workflow orchestration?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="8" data-option="A">
+                        <input type="radio" name="q8" value="A">
+                        <strong>A.</strong> Amazon SNS
+                    </label>
+        
+                    <label class="option" data-question="8" data-option="B">
+                        <input type="radio" name="q8" value="B">
+                        <strong>B.</strong> Amazon SQS
+                    </label>
+        
+                    <label class="option" data-question="8" data-option="C">
+                        <input type="radio" name="q8" value="C">
+                        <strong>C.</strong> Amazon Kinesis
+                    </label>
+        
+                    <label class="option" data-question="8" data-option="D">
+                        <input type="radio" name="q8" value="D">
+                        <strong>D.</strong> AWS Step Functions
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation8">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>AWS Step Functions is a serverless orchestration service that lets you combine AWS Lambda functions and other AWS services to build business-critical applications.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question9">
+                <h3>
+                    <span class="question-number">Q9</span>
+                    Which AWS service provides serverless analytics for S3?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="9" data-option="A">
+                        <input type="radio" name="q9" value="A">
+                        <strong>A.</strong> Amazon Redshift
+                    </label>
+        
+                    <label class="option" data-question="9" data-option="B">
+                        <input type="radio" name="q9" value="B">
+                        <strong>B.</strong> Amazon Athena
+                    </label>
+        
+                    <label class="option" data-question="9" data-option="C">
+                        <input type="radio" name="q9" value="C">
+                        <strong>C.</strong> AWS Glue
+                    </label>
+        
+                    <label class="option" data-question="9" data-option="D">
+                        <input type="radio" name="q9" value="D">
+                        <strong>D.</strong> Amazon EMR
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation9">
+                    <h4>✓ Correct Answer: B</h4>
+                    <p>Amazon Athena is an interactive query service that makes it easy to analyze data in Amazon S3 using standard SQL.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question10">
+                <h3>
+                    <span class="question-number">Q10</span>
+                    What is the primary purpose of Amazon CloudFront?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="10" data-option="A">
+                        <input type="radio" name="q10" value="A">
+                        <strong>A.</strong> Database management
+                    </label>
+        
+                    <label class="option" data-question="10" data-option="B">
+                        <input type="radio" name="q10" value="B">
+                        <strong>B.</strong> Content delivery network
+                    </label>
+        
+                    <label class="option" data-question="10" data-option="C">
+                        <input type="radio" name="q10" value="C">
+                        <strong>C.</strong> Virtual private cloud
+                    </label>
+        
+                    <label class="option" data-question="10" data-option="D">
+                        <input type="radio" name="q10" value="D">
+                        <strong>D.</strong> Identity management
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation10">
+                    <h4>✓ Correct Answer: B</h4>
+                    <p>Amazon CloudFront is a content delivery network (CDN) service that securely delivers data, videos, applications, and APIs to customers globally with low latency and high transfer speeds.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question11">
+                <h3>
+                    <span class="question-number">Q11</span>
+                    What is the AWS service that provides speech-to-text capabilities?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="11" data-option="A">
+                        <input type="radio" name="q11" value="A">
+                        <strong>A.</strong> Amazon Polly
+                    </label>
+        
+                    <label class="option" data-question="11" data-option="B">
+                        <input type="radio" name="q11" value="B">
+                        <strong>B.</strong> Amazon Transcribe
+                    </label>
+        
+                    <label class="option" data-question="11" data-option="C">
+                        <input type="radio" name="q11" value="C">
+                        <strong>C.</strong> Amazon Translate
+                    </label>
+        
+                    <label class="option" data-question="11" data-option="D">
+                        <input type="radio" name="q11" value="D">
+                        <strong>D.</strong> Amazon Lex
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation11">
+                    <h4>✓ Correct Answer: B</h4>
+                    <p>Amazon Transcribe is an automatic speech recognition (ASR) service that makes it easy to convert speech to text.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question12">
+                <h3>
+                    <span class="question-number">Q12</span>
+                    A company wants to save costs by archiving data that is no longer frequently accessed by end users. Which Amazon S3 feature will meet this requirement?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="12" data-option="A">
+                        <input type="radio" name="q12" value="A">
+                        <strong>A.</strong> S3 Versioning
+                    </label>
+        
+                    <label class="option" data-question="12" data-option="B">
+                        <input type="radio" name="q12" value="B">
+                        <strong>B.</strong> S3 Lifecycle
+                    </label>
+        
+                    <label class="option" data-question="12" data-option="C">
+                        <input type="radio" name="q12" value="C">
+                        <strong>C.</strong> S3 Object Lock
+                    </label>
+        
+                    <label class="option" data-question="12" data-option="D">
+                        <input type="radio" name="q12" value="D">
+                        <strong>D.</strong> S3 Inventory
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation12">
+                    <h4>✓ Correct Answer: B</h4>
+                    <p>S3 Lifecycle policies automate the process of transitioning objects between different storage classes in S3 based on pre-defined rules. These rules can be based on object age or date, allowing for automated data archiving to lower-cost storage classes like S3 Glacier.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question13">
+                <h3>
+                    <span class="question-number">Q13</span>
+                    Which AWS design principle emphasizes the reduction of interdependencies between components of an application?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="13" data-option="A">
+                        <input type="radio" name="q13" value="A">
+                        <strong>A.</strong> Scalability
+                    </label>
+        
+                    <label class="option" data-question="13" data-option="B">
+                        <input type="radio" name="q13" value="B">
+                        <strong>B.</strong> Loose coupling
+                    </label>
+        
+                    <label class="option" data-question="13" data-option="C">
+                        <input type="radio" name="q13" value="C">
+                        <strong>C.</strong> Automation
+                    </label>
+        
+                    <label class="option" data-question="13" data-option="D">
+                        <input type="radio" name="q13" value="D">
+                        <strong>D.</strong> Caching
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation13">
+                    <h4>✓ Correct Answer: B</h4>
+                    <p>Loose coupling is the AWS design principle that specifically addresses the reduction of interdependencies between application components. It ensures components are independent and interact through well-defined interfaces.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question14">
+                <h3>
+                    <span class="question-number">Q14</span>
+                    Which AWS service provides text-to-speech capabilities?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="14" data-option="A">
+                        <input type="radio" name="q14" value="A">
+                        <strong>A.</strong> Amazon Polly
+                    </label>
+        
+                    <label class="option" data-question="14" data-option="B">
+                        <input type="radio" name="q14" value="B">
+                        <strong>B.</strong> Amazon Transcribe
+                    </label>
+        
+                    <label class="option" data-question="14" data-option="C">
+                        <input type="radio" name="q14" value="C">
+                        <strong>C.</strong> Amazon Translate
+                    </label>
+        
+                    <label class="option" data-question="14" data-option="D">
+                        <input type="radio" name="q14" value="D">
+                        <strong>D.</strong> Amazon Lex
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation14">
+                    <h4>✓ Correct Answer: A</h4>
+                    <p>Amazon Polly is a service that turns text into lifelike speech, allowing you to create applications that talk.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question15">
+                <h3>
+                    <span class="question-number">Q15</span>
+                    What is the AWS service that provides IoT device connectivity?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="15" data-option="A">
+                        <input type="radio" name="q15" value="A">
+                        <strong>A.</strong> AWS IoT Core
+                    </label>
+        
+                    <label class="option" data-question="15" data-option="B">
+                        <input type="radio" name="q15" value="B">
+                        <strong>B.</strong> AWS IoT Device Management
+                    </label>
+        
+                    <label class="option" data-question="15" data-option="C">
+                        <input type="radio" name="q15" value="C">
+                        <strong>C.</strong> AWS IoT Greengrass
+                    </label>
+        
+                    <label class="option" data-question="15" data-option="D">
+                        <input type="radio" name="q15" value="D">
+                        <strong>D.</strong> AWS IoT Analytics
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation15">
+                    <h4>✓ Correct Answer: A</h4>
+                    <p>AWS IoT Core is a managed cloud service that lets connected devices easily and securely interact with cloud applications and other devices.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question16">
+                <h3>
+                    <span class="question-number">Q16</span>
+                    Which AWS service provides container orchestration?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="16" data-option="A">
+                        <input type="radio" name="q16" value="A">
+                        <strong>A.</strong> Amazon EC2
+                    </label>
+        
+                    <label class="option" data-question="16" data-option="B">
+                        <input type="radio" name="q16" value="B">
+                        <strong>B.</strong> Amazon ECS
+                    </label>
+        
+                    <label class="option" data-question="16" data-option="C">
+                        <input type="radio" name="q16" value="C">
+                        <strong>C.</strong> AWS Lambda
+                    </label>
+        
+                    <label class="option" data-question="16" data-option="D">
+                        <input type="radio" name="q16" value="D">
+                        <strong>D.</strong> AWS Batch
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation16">
+                    <h4>✓ Correct Answer: B</h4>
+                    <p>Amazon ECS (Elastic Container Service) is a fully managed container orchestration service.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question17">
+                <h3>
+                    <span class="question-number">Q17</span>
+                    What is the AWS service that provides workflow automation?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="17" data-option="A">
+                        <input type="radio" name="q17" value="A">
+                        <strong>A.</strong> AWS Step Functions
+                    </label>
+        
+                    <label class="option" data-question="17" data-option="B">
+                        <input type="radio" name="q17" value="B">
+                        <strong>B.</strong> Amazon MWAA
+                    </label>
+        
+                    <label class="option" data-question="17" data-option="C">
+                        <input type="radio" name="q17" value="C">
+                        <strong>C.</strong> Both A and B
+                    </label>
+        
+                    <label class="option" data-question="17" data-option="D">
+                        <input type="radio" name="q17" value="D">
+                        <strong>D.</strong> AWS Lambda
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation17">
+                    <h4>✓ Correct Answer: C</h4>
+                    <p>Both AWS Step Functions and Amazon MWAA (Managed Workflows for Apache Airflow) provide workflow automation capabilities.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question18">
+                <h3>
+                    <span class="question-number">Q18</span>
+                    A company wants to track tags, buckets, and prefixes for its Amazon S3 objects. Which S3 feature will meet this requirement?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="18" data-option="A">
+                        <input type="radio" name="q18" value="A">
+                        <strong>A.</strong> S3 Inventory report
+                    </label>
+        
+                    <label class="option" data-question="18" data-option="B">
+                        <input type="radio" name="q18" value="B">
+                        <strong>B.</strong> S3 Lifecycle
+                    </label>
+        
+                    <label class="option" data-question="18" data-option="C">
+                        <input type="radio" name="q18" value="C">
+                        <strong>C.</strong> S3 Versioning
+                    </label>
+        
+                    <label class="option" data-question="18" data-option="D">
+                        <input type="radio" name="q18" value="D">
+                        <strong>D.</strong> S3 ACLs
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation18">
+                    <h4>✓ Correct Answer: A</h4>
+                    <p>S3 Inventory reports provide scheduled CSV, ORC, or Parquet output files that contain a listing of your objects and their metadata, including tags, bucket names, and prefixes.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question19">
+                <h3>
+                    <span class="question-number">Q19</span>
+                    What is the AWS service that provides blockchain networks?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="19" data-option="A">
+                        <input type="radio" name="q19" value="A">
+                        <strong>A.</strong> Amazon QLDB
+                    </label>
+        
+                    <label class="option" data-question="19" data-option="B">
+                        <input type="radio" name="q19" value="B">
+                        <strong>B.</strong> Amazon Managed Blockchain
+                    </label>
+        
+                    <label class="option" data-question="19" data-option="C">
+                        <input type="radio" name="q19" value="C">
+                        <strong>C.</strong> AWS Lambda
+                    </label>
+        
+                    <label class="option" data-question="19" data-option="D">
+                        <input type="radio" name="q19" value="D">
+                        <strong>D.</strong> Amazon DynamoDB
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation19">
+                    <h4>✓ Correct Answer: B</h4>
+                    <p>Amazon Managed Blockchain is a fully managed service that makes it easy to create and manage scalable blockchain networks.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question20">
+                <h3>
+                    <span class="question-number">Q20</span>
+                    Which AWS service provides IoT device management?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="20" data-option="A">
+                        <input type="radio" name="q20" value="A">
+                        <strong>A.</strong> AWS IoT Core
+                    </label>
+        
+                    <label class="option" data-question="20" data-option="B">
+                        <input type="radio" name="q20" value="B">
+                        <strong>B.</strong> AWS IoT Device Management
+                    </label>
+        
+                    <label class="option" data-question="20" data-option="C">
+                        <input type="radio" name="q20" value="C">
+                        <strong>C.</strong> AWS IoT Greengrass
+                    </label>
+        
+                    <label class="option" data-question="20" data-option="D">
+                        <input type="radio" name="q20" value="D">
+                        <strong>D.</strong> AWS IoT Analytics
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation20">
+                    <h4>✓ Correct Answer: B</h4>
+                    <p>AWS IoT Device Management makes it easy to securely register, organize, monitor, and remotely manage IoT devices at scale.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question21">
+                <h3>
+                    <span class="question-number">Q21</span>
+                    What is the AWS service that provides in-memory caching?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="21" data-option="A">
+                        <input type="radio" name="q21" value="A">
+                        <strong>A.</strong> Amazon RDS
+                    </label>
+        
+                    <label class="option" data-question="21" data-option="B">
+                        <input type="radio" name="q21" value="B">
+                        <strong>B.</strong> Amazon DynamoDB
+                    </label>
+        
+                    <label class="option" data-question="21" data-option="C">
+                        <input type="radio" name="q21" value="C">
+                        <strong>C.</strong> Amazon ElastiCache
+                    </label>
+        
+                    <label class="option" data-question="21" data-option="D">
+                        <input type="radio" name="q21" value="D">
+                        <strong>D.</strong> Amazon S3
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation21">
+                    <h4>✓ Correct Answer: C</h4>
+                    <p>Amazon ElastiCache is a web service that makes it easy to deploy, operate, and scale an in-memory cache in the cloud, supporting both Redis and Memcached.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question22">
+                <h3>
+                    <span class="question-number">Q22</span>
+                    Which S3 storage class is most cost-effective for data with unknown access patterns?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="22" data-option="A">
+                        <input type="radio" name="q22" value="A">
+                        <strong>A.</strong> S3 Standard
+                    </label>
+        
+                    <label class="option" data-question="22" data-option="B">
+                        <input type="radio" name="q22" value="B">
+                        <strong>B.</strong> S3 Standard-IA
+                    </label>
+        
+                    <label class="option" data-question="22" data-option="C">
+                        <input type="radio" name="q22" value="C">
+                        <strong>C.</strong> S3 One Zone-IA
+                    </label>
+        
+                    <label class="option" data-question="22" data-option="D">
+                        <input type="radio" name="q22" value="D">
+                        <strong>D.</strong> S3 Intelligent-Tiering
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation22">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>S3 Intelligent-Tiering is designed to automatically optimize storage costs by moving data between access tiers based on changing access patterns, making it ideal for unknown access patterns.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question23">
+                <h3>
+                    <span class="question-number">Q23</span>
+                    What does the Amazon S3 Intelligent-Tiering storage class offer?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="23" data-option="A">
+                        <input type="radio" name="q23" value="A">
+                        <strong>A.</strong> Payment flexibility by reserving storage capacity
+                    </label>
+        
+                    <label class="option" data-question="23" data-option="B">
+                        <input type="radio" name="q23" value="B">
+                        <strong>B.</strong> Long-term retention of data by copying the data to an encrypted Amazon EBS volume
+                    </label>
+        
+                    <label class="option" data-question="23" data-option="C">
+                        <input type="radio" name="q23" value="C">
+                        <strong>C.</strong> Automatic cost savings by moving objects between tiers based on access pattern changes
+                    </label>
+        
+                    <label class="option" data-question="23" data-option="D">
+                        <input type="radio" name="q23" value="D">
+                        <strong>D.</strong> Secure, durable, and lowest cost storage for data archival
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation23">
+                    <h4>✓ Correct Answer: C</h4>
+                    <p>Amazon S3 Intelligent-Tiering automatically optimizes storage costs by moving data between frequent, infrequent, and archive access tiers without operational overhead based on changing access patterns.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question24">
+                <h3>
+                    <span class="question-number">Q24</span>
+                    What is the AWS service that provides conversational AI?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="24" data-option="A">
+                        <input type="radio" name="q24" value="A">
+                        <strong>A.</strong> Amazon SageMaker
+                    </label>
+        
+                    <label class="option" data-question="24" data-option="B">
+                        <input type="radio" name="q24" value="B">
+                        <strong>B.</strong> Amazon Rekognition
+                    </label>
+        
+                    <label class="option" data-question="24" data-option="C">
+                        <input type="radio" name="q24" value="C">
+                        <strong>C.</strong> Amazon Comprehend
+                    </label>
+        
+                    <label class="option" data-question="24" data-option="D">
+                        <input type="radio" name="q24" value="D">
+                        <strong>D.</strong> Amazon Lex
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation24">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>Amazon Lex is a service for building conversational interfaces into any application using voice and text.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question25">
+                <h3>
+                    <span class="question-number">Q25</span>
+                    Which AWS service provides message queuing?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="25" data-option="A">
+                        <input type="radio" name="q25" value="A">
+                        <strong>A.</strong> Amazon SNS
+                    </label>
+        
+                    <label class="option" data-question="25" data-option="B">
+                        <input type="radio" name="q25" value="B">
+                        <strong>B.</strong> Amazon SQS
+                    </label>
+        
+                    <label class="option" data-question="25" data-option="C">
+                        <input type="radio" name="q25" value="C">
+                        <strong>C.</strong> Amazon Kinesis
+                    </label>
+        
+                    <label class="option" data-question="25" data-option="D">
+                        <input type="radio" name="q25" value="D">
+                        <strong>D.</strong> AWS Step Functions
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation25">
+                    <h4>✓ Correct Answer: B</h4>
+                    <p>Amazon SQS (Simple Queue Service) is a fully managed message queuing service.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question26">
+                <h3>
+                    <span class="question-number">Q26</span>
+                    Which AWS service provides distributed tracing?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="26" data-option="A">
+                        <input type="radio" name="q26" value="A">
+                        <strong>A.</strong> Amazon CloudWatch
+                    </label>
+        
+                    <label class="option" data-question="26" data-option="B">
+                        <input type="radio" name="q26" value="B">
+                        <strong>B.</strong> AWS X-Ray
+                    </label>
+        
+                    <label class="option" data-question="26" data-option="C">
+                        <input type="radio" name="q26" value="C">
+                        <strong>C.</strong> AWS CloudTrail
+                    </label>
+        
+                    <label class="option" data-question="26" data-option="D">
+                        <input type="radio" name="q26" value="D">
+                        <strong>D.</strong> AWS Config
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation26">
+                    <h4>✓ Correct Answer: B</h4>
+                    <p>AWS X-Ray helps developers analyze and debug production, distributed applications, such as those built using a microservices architecture.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question27">
+                <h3>
+                    <span class="question-number">Q27</span>
+                    A company must archive its documents by using a write-once, read-many (WORM) model to meet legal and compliance obligations. Which feature of Amazon S3 can the company use to meet this requirement?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="27" data-option="A">
+                        <input type="radio" name="q27" value="A">
+                        <strong>A.</strong> S3 Versioning
+                    </label>
+        
+                    <label class="option" data-question="27" data-option="B">
+                        <input type="radio" name="q27" value="B">
+                        <strong>B.</strong> S3 bucket policy
+                    </label>
+        
+                    <label class="option" data-question="27" data-option="C">
+                        <input type="radio" name="q27" value="C">
+                        <strong>C.</strong> S3 Glacier Vault Lock
+                    </label>
+        
+                    <label class="option" data-question="27" data-option="D">
+                        <input type="radio" name="q27" value="D">
+                        <strong>D.</strong> S3 multi-factor authentication (MFA) delete
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation27">
+                    <h4>✓ Correct Answer: C</h4>
+                    <p>S3 Glacier Vault Lock is specifically designed to enforce WORM compliance. Once a Vault Lock policy is implemented, it prevents anyone, including the root user, from deleting or modifying the data in the vault according to the specified policy.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question28">
+                <h3>
+                    <span class="question-number">Q28</span>
+                    Which AWS service provides block storage for EC2 instances?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="28" data-option="A">
+                        <input type="radio" name="q28" value="A">
+                        <strong>A.</strong> Amazon S3
+                    </label>
+        
+                    <label class="option" data-question="28" data-option="B">
+                        <input type="radio" name="q28" value="B">
+                        <strong>B.</strong> Amazon EFS
+                    </label>
+        
+                    <label class="option" data-question="28" data-option="C">
+                        <input type="radio" name="q28" value="C">
+                        <strong>C.</strong> Amazon EBS
+                    </label>
+        
+                    <label class="option" data-question="28" data-option="D">
+                        <input type="radio" name="q28" value="D">
+                        <strong>D.</strong> AWS Storage Gateway
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation28">
+                    <h4>✓ Correct Answer: C</h4>
+                    <p>Amazon EBS (Elastic Block Store) provides persistent block storage volumes for use with Amazon EC2 instances.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question29">
+                <h3>
+                    <span class="question-number">Q29</span>
+                    What is the AWS service that provides DNS services?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="29" data-option="A">
+                        <input type="radio" name="q29" value="A">
+                        <strong>A.</strong> Amazon CloudFront
+                    </label>
+        
+                    <label class="option" data-question="29" data-option="B">
+                        <input type="radio" name="q29" value="B">
+                        <strong>B.</strong> Amazon Route 53
+                    </label>
+        
+                    <label class="option" data-question="29" data-option="C">
+                        <input type="radio" name="q29" value="C">
+                        <strong>C.</strong> AWS Direct Connect
+                    </label>
+        
+                    <label class="option" data-question="29" data-option="D">
+                        <input type="radio" name="q29" value="D">
+                        <strong>D.</strong> Amazon VPC
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation29">
+                    <h4>✓ Correct Answer: B</h4>
+                    <p>Amazon Route 53 is a scalable and highly available Domain Name System (DNS) web service.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question30">
+                <h3>
+                    <span class="question-number">Q30</span>
+                    Which AWS service provides quantum computing access?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="30" data-option="A">
+                        <input type="radio" name="q30" value="A">
+                        <strong>A.</strong> Amazon Braket
+                    </label>
+        
+                    <label class="option" data-question="30" data-option="B">
+                        <input type="radio" name="q30" value="B">
+                        <strong>B.</strong> AWS Lambda
+                    </label>
+        
+                    <label class="option" data-question="30" data-option="C">
+                        <input type="radio" name="q30" value="C">
+                        <strong>C.</strong> Amazon SageMaker
+                    </label>
+        
+                    <label class="option" data-question="30" data-option="D">
+                        <input type="radio" name="q30" value="D">
+                        <strong>D.</strong> AWS Batch
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation30">
+                    <h4>✓ Correct Answer: A</h4>
+                    <p>Amazon Braket is a fully managed quantum computing service that helps researchers and developers get started with quantum computing.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question31">
+                <h3>
+                    <span class="question-number">Q31</span>
+                    Which actions are examples of a company's effort to rightsize its AWS resources to control cloud costs? (Choose two.)
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="31" data-option="A">
+                        <input type="checkbox" name="q31" value="A">
+                        <strong>A.</strong> Switch from Amazon RDS to Amazon DynamoDB to accommodate NoSQL datasets
+                    </label>
+        
+                    <label class="option" data-question="31" data-option="B">
+                        <input type="checkbox" name="q31" value="B">
+                        <strong>B.</strong> Base the selection of Amazon EC2 instance types on past utilization patterns
+                    </label>
+        
+                    <label class="option" data-question="31" data-option="C">
+                        <input type="checkbox" name="q31" value="C">
+                        <strong>C.</strong> Use Amazon S3 Lifecycle policies to move objects that users access infrequently to lower-cost storage tiers
+                    </label>
+        
+                    <label class="option" data-question="31" data-option="D">
+                        <input type="checkbox" name="q31" value="D">
+                        <strong>D.</strong> Use Multi-AZ deployments for Amazon RDS
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation31">
+                    <h4>✓ Correct Answer: B,C</h4>
+                    <p>Rightsizing involves optimizing resources to match actual needs. Basing EC2 instance selection on utilization patterns and using S3 Lifecycle policies to move infrequently accessed data to cheaper storage tiers are both examples of rightsizing for cost control.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question32">
+                <h3>
+                    <span class="question-number">Q32</span>
+                    What is the AWS service that provides serverless compute?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="32" data-option="A">
+                        <input type="radio" name="q32" value="A">
+                        <strong>A.</strong> Amazon EC2
+                    </label>
+        
+                    <label class="option" data-question="32" data-option="B">
+                        <input type="radio" name="q32" value="B">
+                        <strong>B.</strong> Amazon ECS
+                    </label>
+        
+                    <label class="option" data-question="32" data-option="C">
+                        <input type="radio" name="q32" value="C">
+                        <strong>C.</strong> AWS Lambda
+                    </label>
+        
+                    <label class="option" data-question="32" data-option="D">
+                        <input type="radio" name="q32" value="D">
+                        <strong>D.</strong> AWS Batch
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation32">
+                    <h4>✓ Correct Answer: C</h4>
+                    <p>AWS Lambda is a serverless compute service that lets you run code without provisioning or managing servers.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question33">
+                <h3>
+                    <span class="question-number">Q33</span>
+                    Which AWS service is best suited for data warehousing and analytics?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="33" data-option="A">
+                        <input type="radio" name="q33" value="A">
+                        <strong>A.</strong> Amazon RDS
+                    </label>
+        
+                    <label class="option" data-question="33" data-option="B">
+                        <input type="radio" name="q33" value="B">
+                        <strong>B.</strong> Amazon DynamoDB
+                    </label>
+        
+                    <label class="option" data-question="33" data-option="C">
+                        <input type="radio" name="q33" value="C">
+                        <strong>C.</strong> Amazon Redshift
+                    </label>
+        
+                    <label class="option" data-question="33" data-option="D">
+                        <input type="radio" name="q33" value="D">
+                        <strong>D.</strong> Amazon ElastiCache
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation33">
+                    <h4>✓ Correct Answer: C</h4>
+                    <p>Amazon Redshift is a fully managed, petabyte-scale data warehouse service designed for analytics and business intelligence workloads.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question34">
+                <h3>
+                    <span class="question-number">Q34</span>
+                    Which AWS service provides big data processing with Apache Spark?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="34" data-option="A">
+                        <input type="radio" name="q34" value="A">
+                        <strong>A.</strong> Amazon EMR
+                    </label>
+        
+                    <label class="option" data-question="34" data-option="B">
+                        <input type="radio" name="q34" value="B">
+                        <strong>B.</strong> AWS Glue
+                    </label>
+        
+                    <label class="option" data-question="34" data-option="C">
+                        <input type="radio" name="q34" value="C">
+                        <strong>C.</strong> Amazon Athena
+                    </label>
+        
+                    <label class="option" data-question="34" data-option="D">
+                        <input type="radio" name="q34" value="D">
+                        <strong>D.</strong> Both A and B
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation34">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>Both Amazon EMR and AWS Glue provide Apache Spark capabilities for big data processing.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question35">
+                <h3>
+                    <span class="question-number">Q35</span>
+                    Which AWS service provides centralized logging?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="35" data-option="A">
+                        <input type="radio" name="q35" value="A">
+                        <strong>A.</strong> Amazon CloudWatch Logs
+                    </label>
+        
+                    <label class="option" data-question="35" data-option="B">
+                        <input type="radio" name="q35" value="B">
+                        <strong>B.</strong> AWS CloudTrail
+                    </label>
+        
+                    <label class="option" data-question="35" data-option="C">
+                        <input type="radio" name="q35" value="C">
+                        <strong>C.</strong> AWS Config
+                    </label>
+        
+                    <label class="option" data-question="35" data-option="D">
+                        <input type="radio" name="q35" value="D">
+                        <strong>D.</strong> Amazon Inspector
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation35">
+                    <h4>✓ Correct Answer: A</h4>
+                    <p>Amazon CloudWatch Logs enables you to centralize the logs from all of your systems, applications, and AWS services.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question36">
+                <h3>
+                    <span class="question-number">Q36</span>
+                    A company is storing data that will not be frequently accessed in the AWS Cloud. If the company needs to access the data, the data needs to be retrieved within 12 hours. The company wants a solution that is cost-effective for storage costs for each gigabyte. Which Amazon S3 storage class will meet these requirements?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="36" data-option="A">
+                        <input type="radio" name="q36" value="A">
+                        <strong>A.</strong> S3 Standard
+                    </label>
+        
+                    <label class="option" data-question="36" data-option="B">
+                        <input type="radio" name="q36" value="B">
+                        <strong>B.</strong> S3 Glacier Flexible Retrieval
+                    </label>
+        
+                    <label class="option" data-question="36" data-option="C">
+                        <input type="radio" name="q36" value="C">
+                        <strong>C.</strong> S3 One Zone-Infrequent Access (S3 One Zone-IA)
+                    </label>
+        
+                    <label class="option" data-question="36" data-option="D">
+                        <input type="radio" name="q36" value="D">
+                        <strong>D.</strong> S3 Standard-Infrequent Access (S3 Standard-IA)
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation36">
+                    <h4>✓ Correct Answer: B</h4>
+                    <p>S3 Glacier Flexible Retrieval is designed for long-term archive data where occasional access is needed. It provides retrieval times ranging from a few minutes to 12 hours and is considerably cheaper than other storage classes for infrequently accessed data.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question37">
+                <h3>
+                    <span class="question-number">Q37</span>
+                    Which AWS service provides load balancing capabilities?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="37" data-option="A">
+                        <input type="radio" name="q37" value="A">
+                        <strong>A.</strong> Amazon Route 53
+                    </label>
+        
+                    <label class="option" data-question="37" data-option="B">
+                        <input type="radio" name="q37" value="B">
+                        <strong>B.</strong> Amazon CloudFront
+                    </label>
+        
+                    <label class="option" data-question="37" data-option="C">
+                        <input type="radio" name="q37" value="C">
+                        <strong>C.</strong> Elastic Load Balancing
+                    </label>
+        
+                    <label class="option" data-question="37" data-option="D">
+                        <input type="radio" name="q37" value="D">
+                        <strong>D.</strong> AWS Lambda
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation37">
+                    <h4>✓ Correct Answer: C</h4>
+                    <p>Elastic Load Balancing automatically distributes incoming application traffic across multiple targets, such as Amazon EC2 instances.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question38">
+                <h3>
+                    <span class="question-number">Q38</span>
+                    Which AWS service provides managed Apache Airflow?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="38" data-option="A">
+                        <input type="radio" name="q38" value="A">
+                        <strong>A.</strong> AWS Step Functions
+                    </label>
+        
+                    <label class="option" data-question="38" data-option="B">
+                        <input type="radio" name="q38" value="B">
+                        <strong>B.</strong> Amazon MWAA
+                    </label>
+        
+                    <label class="option" data-question="38" data-option="C">
+                        <input type="radio" name="q38" value="C">
+                        <strong>C.</strong> AWS Lambda
+                    </label>
+        
+                    <label class="option" data-question="38" data-option="D">
+                        <input type="radio" name="q38" value="D">
+                        <strong>D.</strong> Amazon EventBridge
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation38">
+                    <h4>✓ Correct Answer: B</h4>
+                    <p>Amazon MWAA (Managed Workflows for Apache Airflow) is a managed orchestration service for Apache Airflow.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question39">
+                <h3>
+                    <span class="question-number">Q39</span>
+                    Which AWS service provides machine learning model training and deployment?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="39" data-option="A">
+                        <input type="radio" name="q39" value="A">
+                        <strong>A.</strong> Amazon SageMaker
+                    </label>
+        
+                    <label class="option" data-question="39" data-option="B">
+                        <input type="radio" name="q39" value="B">
+                        <strong>B.</strong> Amazon Rekognition
+                    </label>
+        
+                    <label class="option" data-question="39" data-option="C">
+                        <input type="radio" name="q39" value="C">
+                        <strong>C.</strong> Amazon Comprehend
+                    </label>
+        
+                    <label class="option" data-question="39" data-option="D">
+                        <input type="radio" name="q39" value="D">
+                        <strong>D.</strong> Amazon Lex
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation39">
+                    <h4>✓ Correct Answer: A</h4>
+                    <p>Amazon SageMaker is a fully managed service that provides every developer and data scientist with the ability to build, train, and deploy machine learning models quickly.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question40">
+                <h3>
+                    <span class="question-number">Q40</span>
+                    Which AWS service provides language translation?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="40" data-option="A">
+                        <input type="radio" name="q40" value="A">
+                        <strong>A.</strong> Amazon Polly
+                    </label>
+        
+                    <label class="option" data-question="40" data-option="B">
+                        <input type="radio" name="q40" value="B">
+                        <strong>B.</strong> Amazon Transcribe
+                    </label>
+        
+                    <label class="option" data-question="40" data-option="C">
+                        <input type="radio" name="q40" value="C">
+                        <strong>C.</strong> Amazon Translate
+                    </label>
+        
+                    <label class="option" data-question="40" data-option="D">
+                        <input type="radio" name="q40" value="D">
+                        <strong>D.</strong> Amazon Lex
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation40">
+                    <h4>✓ Correct Answer: C</h4>
+                    <p>Amazon Translate is a neural machine translation service that delivers fast, high-quality, and affordable language translation.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question41">
+                <h3>
+                    <span class="question-number">Q41</span>
+                    Which AWS service provides email sending capabilities?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="41" data-option="A">
+                        <input type="radio" name="q41" value="A">
+                        <strong>A.</strong> Amazon SES
+                    </label>
+        
+                    <label class="option" data-question="41" data-option="B">
+                        <input type="radio" name="q41" value="B">
+                        <strong>B.</strong> Amazon SNS
+                    </label>
+        
+                    <label class="option" data-question="41" data-option="C">
+                        <input type="radio" name="q41" value="C">
+                        <strong>C.</strong> Amazon SQS
+                    </label>
+        
+                    <label class="option" data-question="41" data-option="D">
+                        <input type="radio" name="q41" value="D">
+                        <strong>D.</strong> AWS Lambda
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation41">
+                    <h4>✓ Correct Answer: A</h4>
+                    <p>Amazon SES (Simple Email Service) is a cost-effective, flexible, and scalable email service.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question42">
+                <h3>
+                    <span class="question-number">Q42</span>
+                    Which cloud computing advantage is a company applying when it uses AWS Regions to increase application availability to users in different countries?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="42" data-option="A">
+                        <input type="radio" name="q42" value="A">
+                        <strong>A.</strong> Pay-as-you-go pricing
+                    </label>
+        
+                    <label class="option" data-question="42" data-option="B">
+                        <input type="radio" name="q42" value="B">
+                        <strong>B.</strong> Capacity forecasting
+                    </label>
+        
+                    <label class="option" data-question="42" data-option="C">
+                        <input type="radio" name="q42" value="C">
+                        <strong>C.</strong> Economies of scale
+                    </label>
+        
+                    <label class="option" data-question="42" data-option="D">
+                        <input type="radio" name="q42" value="D">
+                        <strong>D.</strong> Global reach
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation42">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>Global reach refers to the ability to deploy applications and services across multiple geographical locations. By using AWS Regions in different countries, a company can place its applications closer to its users, reducing latency and improving availability.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question43">
+                <h3>
+                    <span class="question-number">Q43</span>
+                    Which AWS service provides configuration compliance monitoring?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="43" data-option="A">
+                        <input type="radio" name="q43" value="A">
+                        <strong>A.</strong> Amazon CloudWatch
+                    </label>
+        
+                    <label class="option" data-question="43" data-option="B">
+                        <input type="radio" name="q43" value="B">
+                        <strong>B.</strong> AWS X-Ray
+                    </label>
+        
+                    <label class="option" data-question="43" data-option="C">
+                        <input type="radio" name="q43" value="C">
+                        <strong>C.</strong> AWS CloudTrail
+                    </label>
+        
+                    <label class="option" data-question="43" data-option="D">
+                        <input type="radio" name="q43" value="D">
+                        <strong>D.</strong> AWS Config
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation43">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>AWS Config is a service that enables you to assess, audit, and evaluate the configurations of your AWS resources.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question44">
+                <h3>
+                    <span class="question-number">Q44</span>
+                    Which AWS service provides natural language processing?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="44" data-option="A">
+                        <input type="radio" name="q44" value="A">
+                        <strong>A.</strong> Amazon SageMaker
+                    </label>
+        
+                    <label class="option" data-question="44" data-option="B">
+                        <input type="radio" name="q44" value="B">
+                        <strong>B.</strong> Amazon Rekognition
+                    </label>
+        
+                    <label class="option" data-question="44" data-option="C">
+                        <input type="radio" name="q44" value="C">
+                        <strong>C.</strong> Amazon Comprehend
+                    </label>
+        
+                    <label class="option" data-question="44" data-option="D">
+                        <input type="radio" name="q44" value="D">
+                        <strong>D.</strong> Amazon Lex
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation44">
+                    <h4>✓ Correct Answer: C</h4>
+                    <p>Amazon Comprehend is a natural language processing (NLP) service that uses machine learning to find insights and relationships in text.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question45">
+                <h3>
+                    <span class="question-number">Q45</span>
+                    What is the AWS service that provides data lakes?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="45" data-option="A">
+                        <input type="radio" name="q45" value="A">
+                        <strong>A.</strong> Amazon S3
+                    </label>
+        
+                    <label class="option" data-question="45" data-option="B">
+                        <input type="radio" name="q45" value="B">
+                        <strong>B.</strong> AWS Lake Formation
+                    </label>
+        
+                    <label class="option" data-question="45" data-option="C">
+                        <input type="radio" name="q45" value="C">
+                        <strong>C.</strong> AWS Glue
+                    </label>
+        
+                    <label class="option" data-question="45" data-option="D">
+                        <input type="radio" name="q45" value="D">
+                        <strong>D.</strong> Amazon Athena
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation45">
+                    <h4>✓ Correct Answer: B</h4>
+                    <p>AWS Lake Formation makes it easy to set up a secure data lake in days instead of months.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question46">
+                <h3>
+                    <span class="question-number">Q46</span>
+                    Which AWS service provides IoT data analytics?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="46" data-option="A">
+                        <input type="radio" name="q46" value="A">
+                        <strong>A.</strong> AWS IoT Core
+                    </label>
+        
+                    <label class="option" data-question="46" data-option="B">
+                        <input type="radio" name="q46" value="B">
+                        <strong>B.</strong> AWS IoT Device Management
+                    </label>
+        
+                    <label class="option" data-question="46" data-option="C">
+                        <input type="radio" name="q46" value="C">
+                        <strong>C.</strong> AWS IoT Greengrass
+                    </label>
+        
+                    <label class="option" data-question="46" data-option="D">
+                        <input type="radio" name="q46" value="D">
+                        <strong>D.</strong> AWS IoT Analytics
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation46">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>AWS IoT Analytics is a fully managed service that makes it easy to run and operationalize sophisticated analytics on massive volumes of IoT data.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question47">
+                <h3>
+                    <span class="question-number">Q47</span>
+                    What is the AWS service that provides edge computing for IoT?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="47" data-option="A">
+                        <input type="radio" name="q47" value="A">
+                        <strong>A.</strong> AWS IoT Core
+                    </label>
+        
+                    <label class="option" data-question="47" data-option="B">
+                        <input type="radio" name="q47" value="B">
+                        <strong>B.</strong> AWS IoT Device Management
+                    </label>
+        
+                    <label class="option" data-question="47" data-option="C">
+                        <input type="radio" name="q47" value="C">
+                        <strong>C.</strong> AWS IoT Greengrass
+                    </label>
+        
+                    <label class="option" data-question="47" data-option="D">
+                        <input type="radio" name="q47" value="D">
+                        <strong>D.</strong> AWS IoT Analytics
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation47">
+                    <h4>✓ Correct Answer: C</h4>
+                    <p>AWS IoT Greengrass extends AWS to edge devices so they can act locally on the data they generate, while still using the cloud for management, analytics, and durable storage.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question48">
+                <h3>
+                    <span class="question-number">Q48</span>
+                    Which AWS service provides real-time data streaming?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="48" data-option="A">
+                        <input type="radio" name="q48" value="A">
+                        <strong>A.</strong> Amazon SNS
+                    </label>
+        
+                    <label class="option" data-question="48" data-option="B">
+                        <input type="radio" name="q48" value="B">
+                        <strong>B.</strong> Amazon SQS
+                    </label>
+        
+                    <label class="option" data-question="48" data-option="C">
+                        <input type="radio" name="q48" value="C">
+                        <strong>C.</strong> Amazon Kinesis
+                    </label>
+        
+                    <label class="option" data-question="48" data-option="D">
+                        <input type="radio" name="q48" value="D">
+                        <strong>D.</strong> AWS Step Functions
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation48">
+                    <h4>✓ Correct Answer: C</h4>
+                    <p>Amazon Kinesis makes it easy to collect, process, and analyze real-time, streaming data.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question49">
+                <h3>
+                    <span class="question-number">Q49</span>
+                    What is the AWS service that provides file storage for multiple EC2 instances?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="49" data-option="A">
+                        <input type="radio" name="q49" value="A">
+                        <strong>A.</strong> Amazon S3
+                    </label>
+        
+                    <label class="option" data-question="49" data-option="B">
+                        <input type="radio" name="q49" value="B">
+                        <strong>B.</strong> Amazon EFS
+                    </label>
+        
+                    <label class="option" data-question="49" data-option="C">
+                        <input type="radio" name="q49" value="C">
+                        <strong>C.</strong> Amazon EBS
+                    </label>
+        
+                    <label class="option" data-question="49" data-option="D">
+                        <input type="radio" name="q49" value="D">
+                        <strong>D.</strong> AWS Storage Gateway
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation49">
+                    <h4>✓ Correct Answer: B</h4>
+                    <p>Amazon EFS (Elastic File System) provides scalable file storage that can be mounted by multiple EC2 instances simultaneously.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question50">
+                <h3>
+                    <span class="question-number">Q50</span>
+                    What is the AWS service that provides managed Kubernetes?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="50" data-option="A">
+                        <input type="radio" name="q50" value="A">
+                        <strong>A.</strong> Amazon ECS
+                    </label>
+        
+                    <label class="option" data-question="50" data-option="B">
+                        <input type="radio" name="q50" value="B">
+                        <strong>B.</strong> Amazon EKS
+                    </label>
+        
+                    <label class="option" data-question="50" data-option="C">
+                        <input type="radio" name="q50" value="C">
+                        <strong>C.</strong> AWS Fargate
+                    </label>
+        
+                    <label class="option" data-question="50" data-option="D">
+                        <input type="radio" name="q50" value="D">
+                        <strong>D.</strong> AWS Batch
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation50">
+                    <h4>✓ Correct Answer: B</h4>
+                    <p>Amazon EKS (Elastic Kubernetes Service) is a managed Kubernetes service that makes it easy to run Kubernetes on AWS.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question51">
+                <h3>
+                    <span class="question-number">Q51</span>
+                    What is the AWS service that provides infrastructure monitoring?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="51" data-option="A">
+                        <input type="radio" name="q51" value="A">
+                        <strong>A.</strong> Amazon CloudWatch
+                    </label>
+        
+                    <label class="option" data-question="51" data-option="B">
+                        <input type="radio" name="q51" value="B">
+                        <strong>B.</strong> AWS X-Ray
+                    </label>
+        
+                    <label class="option" data-question="51" data-option="C">
+                        <input type="radio" name="q51" value="C">
+                        <strong>C.</strong> AWS CloudTrail
+                    </label>
+        
+                    <label class="option" data-question="51" data-option="D">
+                        <input type="radio" name="q51" value="D">
+                        <strong>D.</strong> AWS Config
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation51">
+                    <h4>✓ Correct Answer: A</h4>
+                    <p>Amazon CloudWatch is a monitoring and observability service for AWS cloud resources and applications.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question52">
+                <h3>
+                    <span class="question-number">Q52</span>
+                    A company is designing its AWS workloads so that components can be updated regularly and so that changes can be made in small, reversible increments. Which pillar of the AWS Well-Architected Framework does this design support?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="52" data-option="A">
+                        <input type="radio" name="q52" value="A">
+                        <strong>A.</strong> Security
+                    </label>
+        
+                    <label class="option" data-question="52" data-option="B">
+                        <input type="radio" name="q52" value="B">
+                        <strong>B.</strong> Performance efficiency
+                    </label>
+        
+                    <label class="option" data-question="52" data-option="C">
+                        <input type="radio" name="q52" value="C">
+                        <strong>C.</strong> Operational excellence
+                    </label>
+        
+                    <label class="option" data-question="52" data-option="D">
+                        <input type="radio" name="q52" value="D">
+                        <strong>D.</strong> Reliability
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation52">
+                    <h4>✓ Correct Answer: C</h4>
+                    <p>Operational excellence focuses on running and monitoring systems to deliver business value and continually improve supporting processes. Small, frequent, reversible changes enable faster feedback loops and continuous improvement.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question53">
+                <h3>
+                    <span class="question-number">Q53</span>
+                    What is the default encryption method for Amazon S3?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="53" data-option="A">
+                        <input type="radio" name="q53" value="A">
+                        <strong>A.</strong> Client-side encryption
+                    </label>
+        
+                    <label class="option" data-question="53" data-option="B">
+                        <input type="radio" name="q53" value="B">
+                        <strong>B.</strong> Server-side encryption with S3-managed keys (SSE-S3)
+                    </label>
+        
+                    <label class="option" data-question="53" data-option="C">
+                        <input type="radio" name="q53" value="C">
+                        <strong>C.</strong> Server-side encryption with KMS keys (SSE-KMS)
+                    </label>
+        
+                    <label class="option" data-question="53" data-option="D">
+                        <input type="radio" name="q53" value="D">
+                        <strong>D.</strong> No encryption by default
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation53">
+                    <h4>✓ Correct Answer: B</h4>
+                    <p>Amazon S3 applies server-side encryption with Amazon S3-managed keys (SSE-S3) as the base level of encryption for every bucket by default.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question54">
+                <h3>
+                    <span class="question-number">Q54</span>
+                    What is the AWS service that provides ETL (Extract, Transform, Load) capabilities?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="54" data-option="A">
+                        <input type="radio" name="q54" value="A">
+                        <strong>A.</strong> Amazon Athena
+                    </label>
+        
+                    <label class="option" data-question="54" data-option="B">
+                        <input type="radio" name="q54" value="B">
+                        <strong>B.</strong> AWS Glue
+                    </label>
+        
+                    <label class="option" data-question="54" data-option="C">
+                        <input type="radio" name="q54" value="C">
+                        <strong>C.</strong> Amazon EMR
+                    </label>
+        
+                    <label class="option" data-question="54" data-option="D">
+                        <input type="radio" name="q54" value="D">
+                        <strong>D.</strong> Amazon Redshift
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation54">
+                    <h4>✓ Correct Answer: B</h4>
+                    <p>AWS Glue is a fully managed extract, transform, and load (ETL) service that makes it easy to prepare and load data for analytics.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question55">
+                <h3>
+                    <span class="question-number">Q55</span>
+                    What is the maximum object size that can be stored in Amazon S3?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="55" data-option="A">
+                        <input type="radio" name="q55" value="A">
+                        <strong>A.</strong> 5 GB
+                    </label>
+        
+                    <label class="option" data-question="55" data-option="B">
+                        <input type="radio" name="q55" value="B">
+                        <strong>B.</strong> 5 TB
+                    </label>
+        
+                    <label class="option" data-question="55" data-option="C">
+                        <input type="radio" name="q55" value="C">
+                        <strong>C.</strong> 50 TB
+                    </label>
+        
+                    <label class="option" data-question="55" data-option="D">
+                        <input type="radio" name="q55" value="D">
+                        <strong>D.</strong> 500 TB
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation55">
+                    <h4>✓ Correct Answer: B</h4>
+                    <p>The maximum object size that can be stored in Amazon S3 is 5 TB (terabytes). For objects larger than 100 MB, multipart upload is recommended.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question56">
+                <h3>
+                    <span class="question-number">Q56</span>
+                    A company has a website with users around the world. The company wants to improve the website's performance for these global users. Which AWS service should the company use?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="56" data-option="A">
+                        <input type="radio" name="q56" value="A">
+                        <strong>A.</strong> Amazon Route 53
+                    </label>
+        
+                    <label class="option" data-question="56" data-option="B">
+                        <input type="radio" name="q56" value="B">
+                        <strong>B.</strong> Amazon CloudFront
+                    </label>
+        
+                    <label class="option" data-question="56" data-option="C">
+                        <input type="radio" name="q56" value="C">
+                        <strong>C.</strong> Elastic Load Balancing
+                    </label>
+        
+                    <label class="option" data-question="56" data-option="D">
+                        <input type="radio" name="q56" value="D">
+                        <strong>D.</strong> AWS Lambda
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation56">
+                    <h4>✓ Correct Answer: B</h4>
+                    <p>Amazon CloudFront is a content delivery network (CDN) that caches content in edge locations globally. When users request content, CloudFront serves it from the nearest edge location, minimizing latency and improving performance.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question57">
+                <h3>
+                    <span class="question-number">Q57</span>
+                    What is the AWS service that provides robotics development?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="57" data-option="A">
+                        <input type="radio" name="q57" value="A">
+                        <strong>A.</strong> AWS RoboMaker
+                    </label>
+        
+                    <label class="option" data-question="57" data-option="B">
+                        <input type="radio" name="q57" value="B">
+                        <strong>B.</strong> AWS Lambda
+                    </label>
+        
+                    <label class="option" data-question="57" data-option="C">
+                        <input type="radio" name="q57" value="C">
+                        <strong>C.</strong> Amazon EC2
+                    </label>
+        
+                    <label class="option" data-question="57" data-option="D">
+                        <input type="radio" name="q57" value="D">
+                        <strong>D.</strong> Amazon ECS
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation57">
+                    <h4>✓ Correct Answer: A</h4>
+                    <p>AWS RoboMaker is a service that makes it easy to develop, simulate, and deploy intelligent robotics applications at scale.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question58">
+                <h3>
+                    <span class="question-number">Q58</span>
+                    Which AWS service provides serverless containers?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="58" data-option="A">
+                        <input type="radio" name="q58" value="A">
+                        <strong>A.</strong> Amazon ECS
+                    </label>
+        
+                    <label class="option" data-question="58" data-option="B">
+                        <input type="radio" name="q58" value="B">
+                        <strong>B.</strong> Amazon EKS
+                    </label>
+        
+                    <label class="option" data-question="58" data-option="C">
+                        <input type="radio" name="q58" value="C">
+                        <strong>C.</strong> AWS Fargate
+                    </label>
+        
+                    <label class="option" data-question="58" data-option="D">
+                        <input type="radio" name="q58" value="D">
+                        <strong>D.</strong> AWS Lambda
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation58">
+                    <h4>✓ Correct Answer: C</h4>
+                    <p>AWS Fargate is a serverless compute engine for containers that works with both Amazon ECS and Amazon EKS.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question59">
+                <h3>
+                    <span class="question-number">Q59</span>
+                    What is the AWS service that provides API call logging?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="59" data-option="A">
+                        <input type="radio" name="q59" value="A">
+                        <strong>A.</strong> Amazon CloudWatch
+                    </label>
+        
+                    <label class="option" data-question="59" data-option="B">
+                        <input type="radio" name="q59" value="B">
+                        <strong>B.</strong> AWS X-Ray
+                    </label>
+        
+                    <label class="option" data-question="59" data-option="C">
+                        <input type="radio" name="q59" value="C">
+                        <strong>C.</strong> AWS CloudTrail
+                    </label>
+        
+                    <label class="option" data-question="59" data-option="D">
+                        <input type="radio" name="q59" value="D">
+                        <strong>D.</strong> AWS Config
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation59">
+                    <h4>✓ Correct Answer: C</h4>
+                    <p>AWS CloudTrail is a service that enables governance, compliance, operational auditing, and risk auditing by logging API calls.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question60">
+                <h3>
+                    <span class="question-number">Q60</span>
+                    Which AWS service provides media transcoding?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="60" data-option="A">
+                        <input type="radio" name="q60" value="A">
+                        <strong>A.</strong> Amazon Elastic Transcoder
+                    </label>
+        
+                    <label class="option" data-question="60" data-option="B">
+                        <input type="radio" name="q60" value="B">
+                        <strong>B.</strong> AWS Elemental MediaConvert
+                    </label>
+        
+                    <label class="option" data-question="60" data-option="C">
+                        <input type="radio" name="q60" value="C">
+                        <strong>C.</strong> Both A and B
+                    </label>
+        
+                    <label class="option" data-question="60" data-option="D">
+                        <input type="radio" name="q60" value="D">
+                        <strong>D.</strong> Amazon S3
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation60">
+                    <h4>✓ Correct Answer: C</h4>
+                    <p>Both Amazon Elastic Transcoder and AWS Elemental MediaConvert provide media transcoding capabilities, with MediaConvert being the newer service.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question61">
+                <h3>
+                    <span class="question-number">Q61</span>
+                    What is the AWS service that provides game server hosting?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="61" data-option="A">
+                        <input type="radio" name="q61" value="A">
+                        <strong>A.</strong> Amazon GameLift
+                    </label>
+        
+                    <label class="option" data-question="61" data-option="B">
+                        <input type="radio" name="q61" value="B">
+                        <strong>B.</strong> AWS Lambda
+                    </label>
+        
+                    <label class="option" data-question="61" data-option="C">
+                        <input type="radio" name="q61" value="C">
+                        <strong>C.</strong> Amazon EC2
+                    </label>
+        
+                    <label class="option" data-question="61" data-option="D">
+                        <input type="radio" name="q61" value="D">
+                        <strong>D.</strong> Amazon ECS
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation61">
+                    <h4>✓ Correct Answer: A</h4>
+                    <p>Amazon GameLift is a managed service for deploying, operating, and scaling dedicated game servers for session-based multiplayer games.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question62">
+                <h3>
+                    <span class="question-number">Q62</span>
+                    Which AWS service provides API management?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="62" data-option="A">
+                        <input type="radio" name="q62" value="A">
+                        <strong>A.</strong> AWS Lambda
+                    </label>
+        
+                    <label class="option" data-question="62" data-option="B">
+                        <input type="radio" name="q62" value="B">
+                        <strong>B.</strong> Amazon API Gateway
+                    </label>
+        
+                    <label class="option" data-question="62" data-option="C">
+                        <input type="radio" name="q62" value="C">
+                        <strong>C.</strong> Amazon CloudFront
+                    </label>
+        
+                    <label class="option" data-question="62" data-option="D">
+                        <input type="radio" name="q62" value="D">
+                        <strong>D.</strong> Elastic Load Balancing
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation62">
+                    <h4>✓ Correct Answer: B</h4>
+                    <p>Amazon API Gateway is a fully managed service that makes it easy for developers to create, publish, maintain, monitor, and secure APIs at any scale.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question63">
+                <h3>
+                    <span class="question-number">Q63</span>
+                    What is the AWS service that provides managed NoSQL database capabilities?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="63" data-option="A">
+                        <input type="radio" name="q63" value="A">
+                        <strong>A.</strong> Amazon RDS
+                    </label>
+        
+                    <label class="option" data-question="63" data-option="B">
+                        <input type="radio" name="q63" value="B">
+                        <strong>B.</strong> Amazon DynamoDB
+                    </label>
+        
+                    <label class="option" data-question="63" data-option="C">
+                        <input type="radio" name="q63" value="C">
+                        <strong>C.</strong> Amazon Aurora
+                    </label>
+        
+                    <label class="option" data-question="63" data-option="D">
+                        <input type="radio" name="q63" value="D">
+                        <strong>D.</strong> Amazon Redshift
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation63">
+                    <h4>✓ Correct Answer: B</h4>
+                    <p>Amazon DynamoDB is a fully managed NoSQL database service that provides fast and predictable performance with seamless scalability.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question64">
+                <h3>
+                    <span class="question-number">Q64</span>
+                    Which AWS service provides managed Apache Kafka?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="64" data-option="A">
+                        <input type="radio" name="q64" value="A">
+                        <strong>A.</strong> Amazon Kinesis
+                    </label>
+        
+                    <label class="option" data-question="64" data-option="B">
+                        <input type="radio" name="q64" value="B">
+                        <strong>B.</strong> Amazon MSK
+                    </label>
+        
+                    <label class="option" data-question="64" data-option="C">
+                        <input type="radio" name="q64" value="C">
+                        <strong>C.</strong> Amazon SQS
+                    </label>
+        
+                    <label class="option" data-question="64" data-option="D">
+                        <input type="radio" name="q64" value="D">
+                        <strong>D.</strong> Amazon SNS
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation64">
+                    <h4>✓ Correct Answer: B</h4>
+                    <p>Amazon MSK (Managed Streaming for Apache Kafka) is a fully managed service for Apache Kafka.</p>
+                </div>
+            </div>
+    
+            <div class="question" id="question65">
+                <h3>
+                    <span class="question-number">Q65</span>
+                    Which AWS service helps connect on-premises storage to AWS cloud storage?
+                </h3>
+                <div class="options">
+    
+                    <label class="option" data-question="65" data-option="A">
+                        <input type="radio" name="q65" value="A">
+                        <strong>A.</strong> Amazon S3
+                    </label>
+        
+                    <label class="option" data-question="65" data-option="B">
+                        <input type="radio" name="q65" value="B">
+                        <strong>B.</strong> Amazon EFS
+                    </label>
+        
+                    <label class="option" data-question="65" data-option="C">
+                        <input type="radio" name="q65" value="C">
+                        <strong>C.</strong> Amazon EBS
+                    </label>
+        
+                    <label class="option" data-question="65" data-option="D">
+                        <input type="radio" name="q65" value="D">
+                        <strong>D.</strong> AWS Storage Gateway
+                    </label>
+        
+                </div>
+                <div class="explanation" id="explanation65">
+                    <h4>✓ Correct Answer: D</h4>
+                    <p>AWS Storage Gateway is a hybrid cloud storage service that connects on-premises environments to AWS cloud storage services like S3, Glacier, and EBS.</p>
+                </div>
+            </div>
+    
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn" onclick="checkAllAnswers()">Check All Answers</button>
+        <button class="btn" onclick="resetQuiz()">Reset Quiz</button>
+        <button class="btn" onclick="showAllExplanations()">Show All Explanations</button>
+    </div>
+
+    <script>
+        const correctAnswers = {
+            1: "A",
+            2: "D",
+            3: "A",
+            4: "C",
+            5: "B",
+            6: "A",
+            7: "B",
+            8: "D",
+            9: "B",
+            10: "B",
+            11: "B",
+            12: "B",
+            13: "B",
+            14: "A",
+            15: "A",
+            16: "B",
+            17: "C",
+            18: "A",
+            19: "B",
+            20: "B",
+            21: "C",
+            22: "D",
+            23: "C",
+            24: "D",
+            25: "B",
+            26: "B",
+            27: "C",
+            28: "C",
+            29: "B",
+            30: "A",
+            31: "B,C",
+            32: "C",
+            33: "C",
+            34: "D",
+            35: "A",
+            36: "B",
+            37: "C",
+            38: "B",
+            39: "A",
+            40: "C",
+            41: "A",
+            42: "D",
+            43: "D",
+            44: "C",
+            45: "B",
+            46: "D",
+            47: "C",
+            48: "C",
+            49: "B",
+            50: "B",
+            51: "A",
+            52: "C",
+            53: "B",
+            54: "B",
+            55: "B",
+            56: "B",
+            57: "A",
+            58: "C",
+            59: "C",
+            60: "C",
+            61: "A",
+            62: "B",
+            63: "B",
+            64: "B",
+            65: "D",
+        };
+
+        let score = 0;
+        let totalAnswered = 0;
+
+        function updateScore() {
+            document.getElementById('score').textContent = score;
+            document.getElementById('answered').textContent = totalAnswered;
+            const percentage = totalAnswered > 0 ? Math.round((score / totalAnswered) * 100) : 0;
+            document.getElementById('percentage').textContent = percentage + '%';
+
+            const progressPercentage = (totalAnswered / 65) * 100;
+            document.getElementById('progressFill').style.width = progressPercentage + '%';
+        }
+
+        function checkAnswer(questionNum) {
+            const question = document.getElementById('question' + questionNum);
+            const options = question.querySelectorAll('input[type="radio"], input[type="checkbox"]');
+            const selectedValues = [];
+
+            options.forEach(option => {
+                if (option.checked) {
+                    selectedValues.push(option.value);
+                }
+            });
+
+            if (selectedValues.length === 0) return;
+
+            const correctAnswer = correctAnswers[questionNum];
+            const correctValues = correctAnswer.includes(',') ? correctAnswer.split(',') : [correctAnswer];
+
+            // Check if already answered
+            const wasAnswered = question.classList.contains('answered');
+            if (wasAnswered) {
+                // Remove previous score
+                if (question.classList.contains('correct-answer')) {
+                    score--;
+                }
+                totalAnswered--;
+            }
+
+            // Mark as answered
+            question.classList.add('answered');
+            totalAnswered++;
+
+            // Check if answer is correct
+            const isCorrect = selectedValues.length === correctValues.length && 
+                            selectedValues.every(val => correctValues.includes(val));
+
+            // Reset option styles
+            options.forEach(option => {
+                const label = option.closest('.option');
+                label.classList.remove('correct', 'incorrect');
+            });
+
+            if (isCorrect) {
+                score++;
+                question.classList.add('correct-answer');
+                question.classList.remove('incorrect-answer');
+                selectedValues.forEach(val => {
+                    const selectedOption = question.querySelector(`input[value="${val}"]`).closest('.option');
+                    selectedOption.classList.add('correct');
+                });
+            } else {
+                question.classList.add('incorrect-answer');
+                question.classList.remove('correct-answer');
+                selectedValues.forEach(val => {
+                    const selectedOption = question.querySelector(`input[value="${val}"]`).closest('.option');
+                    selectedOption.classList.add('incorrect');
+                });
+                // Highlight correct answers
+                correctValues.forEach(val => {
+                    const correctOption = question.querySelector(`input[value="${val}"]`).closest('.option');
+                    correctOption.classList.add('correct');
+                });
+            }
+
+            // Show explanation
+            const explanation = document.getElementById('explanation' + questionNum);
+            explanation.classList.add('show');
+
+            updateScore();
+        }
+
+        function checkAllAnswers() {
+            for (let i = 1; i <= 65; i++) {
+                const question = document.getElementById('question' + i);
+                const checkedInputs = question.querySelectorAll('input:checked');
+                if (checkedInputs.length > 0) {
+                    checkAnswer(i);
+                }
+            }
+        }
+
+        function resetQuiz() {
+            score = 0;
+            totalAnswered = 0;
+
+            for (let i = 1; i <= 65; i++) {
+                const question = document.getElementById('question' + i);
+                const options = question.querySelectorAll('input');
+                const labels = question.querySelectorAll('.option');
+                const explanation = document.getElementById('explanation' + i);
+
+                options.forEach(option => option.checked = false);
+                labels.forEach(label => {
+                    label.classList.remove('correct', 'incorrect');
+                });
+                explanation.classList.remove('show');
+                question.classList.remove('answered', 'correct-answer', 'incorrect-answer');
+            }
+
+            updateScore();
+        }
+
+        function showAllExplanations() {
+            for (let i = 1; i <= 65; i++) {
+                const explanation = document.getElementById('explanation' + i);
+                explanation.classList.add('show');
+            }
+        }
+
+        // Add event listeners to all options
+        document.addEventListener('DOMContentLoaded', function() {
+            const allOptions = document.querySelectorAll('.option input');
+            allOptions.forEach(option => {
+                option.addEventListener('change', function() {
+                    const questionNum = parseInt(this.name.substring(1));
+                    setTimeout(() => checkAnswer(questionNum), 100);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

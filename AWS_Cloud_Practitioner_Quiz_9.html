@@ -1,0 +1,2197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS Cloud Practitioner Quiz 9 - Support, Billing & Cost Management</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #FF6B6B, #4ECDC4);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        .header p {
+            margin: 10px 0 0 0;
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        .quiz-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .quiz-info h3 {
+            margin: 0 0 15px 0;
+            color: #495057;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .info-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #4ECDC4;
+        }
+        .info-item strong {
+            color: #495057;
+        }
+        .question-container {
+            padding: 30px;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.3s ease;
+        }
+        .question-container:hover {
+            background-color: #f8f9fa;
+        }
+        .question-container:last-child {
+            border-bottom: none;
+        }
+        .question {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            line-height: 1.5;
+        }
+        .question-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #FF6B6B, #4ECDC4);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-right: 15px;
+            min-width: 30px;
+            text-align: center;
+        }
+        .options {
+            display: grid;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .option {
+            display: flex;
+            align-items: flex-start;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        .option:hover {
+            border-color: #4ECDC4;
+            background: #f0fdfc;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(78, 205, 196, 0.2);
+        }
+        .option input[type="radio"] {
+            margin-right: 12px;
+            margin-top: 2px;
+            transform: scale(1.2);
+        }
+        .option label {
+            cursor: pointer;
+            flex: 1;
+            font-weight: 500;
+        }
+        .option.correct {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+        .option.incorrect {
+            border-color: #dc3545;
+            background: #f8d7da;
+        }
+        .option.correct::after {
+            content: "✓";
+            color: #28a745;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-left: auto;
+        }
+        .option.incorrect::after {
+            content: "✗";
+            color: #dc3545;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-left: auto;
+        }
+        .explanation {
+            background: #e8f4f8;
+            border-left: 4px solid #4ECDC4;
+            padding: 20px;
+            margin-top: 15px;
+            border-radius: 0 8px 8px 0;
+            display: none;
+        }
+        .explanation.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .explanation h4 {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+            font-size: 1.1em;
+        }
+        .explanation p {
+            margin: 0;
+            color: #495057;
+            line-height: 1.6;
+        }
+        .submit-btn {
+            background: linear-gradient(135deg, #FF6B6B, #4ECDC4);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .results {
+            background: #f8f9fa;
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid #dee2e6;
+            display: none;
+        }
+        .results.show {
+            display: block;
+        }
+        .score {
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .score.excellent { color: #28a745; }
+        .score.good { color: #17a2b8; }
+        .score.average { color: #ffc107; }
+        .score.poor { color: #dc3545; }
+        .score-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .score-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .score-item h4 {
+            margin: 0 0 10px 0;
+            color: #495057;
+        }
+        .score-item .number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #4ECDC4;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FF6B6B, #4ECDC4);
+            width: 0%;
+            transition: width 1s ease;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+            .header {
+                padding: 20px;
+            }
+            .header h1 {
+                font-size: 2em;
+            }
+            .question-container {
+                padding: 20px;
+            }
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>AWS Cloud Practitioner Quiz 9</h1>
+            <p>Support, Billing & Cost Management</p>
+        </div>
+
+        <div class="quiz-info">
+            <h3>💰 Quiz Information</h3>
+            <div class="info-grid">
+                <div class="info-item">
+                    <strong>Questions:</strong> 50
+                </div>
+                <div class="info-item">
+                    <strong>Focus Areas:</strong> Support Plans, Billing, Cost Management, Pricing
+                </div>
+                <div class="info-item">
+                    <strong>Time:</strong> No time limit
+                </div>
+                <div class="info-item">
+                    <strong>Format:</strong> Multiple Choice
+                </div>
+            </div>
+        </div>
+
+        <form id="quizForm">
+
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q1</span>
+                    A company wants to implement cost controls to prevent accidental overspending. Which combination of AWS services would be most effective?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q0_option0" name="question0" value="0">
+                        <label for="q0_option0">A. AWS Budgets + AWS IAM</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q0_option1" name="question0" value="1">
+                        <label for="q0_option1">B. AWS Cost Explorer + AWS CloudWatch</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q0_option2" name="question0" value="2">
+                        <label for="q0_option2">C. AWS Organizations + Service Control Policies</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q0_option3" name="question0" value="3">
+                        <label for="q0_option3">D. All of the above</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(0)">Check Answer</button>
+                <div class="explanation" id="explanation0">
+                    <h4>💡 Explanation:</h4>
+                    <p>All of these combinations provide effective cost controls: Budgets + IAM can trigger policy changes when thresholds are met, Cost Explorer + CloudWatch can monitor and alert on spending patterns, and Organizations + SCPs can prevent certain costly actions across accounts.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q2</span>
+                    A company is releasing a business-critical application and needs strategic planning assistance from AWS before the release, plus AWS infrastructure event management and real-time support during the release. What should the company do?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q1_option0" name="question1" value="0">
+                        <label for="q1_option0">A. Access AWS Trusted Advisor</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q1_option1" name="question1" value="1">
+                        <label for="q1_option1">B. Contact the AWS Partner Network (APN)</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q1_option2" name="question1" value="2">
+                        <label for="q1_option2">C. Sign up for AWS Enterprise Support</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q1_option3" name="question1" value="3">
+                        <label for="q1_option3">D. Contact AWS Professional Services</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(1)">Check Answer</button>
+                <div class="explanation" id="explanation1">
+                    <h4>💡 Explanation:</h4>
+                    <p>AWS Enterprise Support provides access to a Technical Account Manager (TAM) for strategic planning and includes infrastructure event management support. During critical releases, this provides real-time, proactive monitoring and assistance from AWS support engineers familiar with the company&#x27;s architecture.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q3</span>
+                    Which AWS service provides detailed billing reports that can be automatically delivered to S3?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q2_option0" name="question2" value="0">
+                        <label for="q2_option0">A. AWS Cost and Usage Reports</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q2_option1" name="question2" value="1">
+                        <label for="q2_option1">B. AWS Cost Explorer</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q2_option2" name="question2" value="2">
+                        <label for="q2_option2">C. AWS Budgets</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q2_option3" name="question2" value="3">
+                        <label for="q2_option3">D. AWS Billing Console</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(2)">Check Answer</button>
+                <div class="explanation" id="explanation2">
+                    <h4>💡 Explanation:</h4>
+                    <p>AWS Cost and Usage Reports (CUR) provides the most detailed billing data available and can automatically deliver comprehensive reports to an S3 bucket. These reports include detailed line items for all AWS services and can be used for detailed cost analysis.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q4</span>
+                    Which AWS service helps you understand your Reserved Instance utilization?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q3_option0" name="question3" value="0">
+                        <label for="q3_option0">A. AWS Cost Explorer</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q3_option1" name="question3" value="1">
+                        <label for="q3_option1">B. AWS Trusted Advisor</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q3_option2" name="question3" value="2">
+                        <label for="q3_option2">C. AWS Compute Optimizer</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q3_option3" name="question3" value="3">
+                        <label for="q3_option3">D. All of the above</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(3)">Check Answer</button>
+                <div class="explanation" id="explanation3">
+                    <h4>💡 Explanation:</h4>
+                    <p>All of these services provide insights into Reserved Instance utilization: Cost Explorer shows RI utilization reports, Trusted Advisor provides RI optimization recommendations, and Compute Optimizer can suggest better instance types that might affect RI strategy.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q5</span>
+                    A company wants to analyze their AWS spending patterns over the last 12 months. Which AWS service should they use?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q4_option0" name="question4" value="0">
+                        <label for="q4_option0">A. AWS Pricing Calculator</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q4_option1" name="question4" value="1">
+                        <label for="q4_option1">B. AWS Cost Explorer</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q4_option2" name="question4" value="2">
+                        <label for="q4_option2">C. AWS Budgets</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q4_option3" name="question4" value="3">
+                        <label for="q4_option3">D. AWS Trusted Advisor</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(4)">Check Answer</button>
+                <div class="explanation" id="explanation4">
+                    <h4>💡 Explanation:</h4>
+                    <p>AWS Cost Explorer is designed to analyze and visualize AWS costs and usage over time. It provides detailed insights into spending patterns, cost drivers, and trends, making it perfect for analyzing historical spending data over the last 12 months.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q6</span>
+                    A company wants to optimize costs across multiple AWS accounts. Which approach provides the best visibility and control?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q5_option0" name="question5" value="0">
+                        <label for="q5_option0">A. AWS Organizations with consolidated billing</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q5_option1" name="question5" value="1">
+                        <label for="q5_option1">B. Individual cost management per account</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q5_option2" name="question5" value="2">
+                        <label for="q5_option2">C. AWS Control Tower with cost controls</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q5_option3" name="question5" value="3">
+                        <label for="q5_option3">D. All accounts managed separately</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(5)">Check Answer</button>
+                <div class="explanation" id="explanation5">
+                    <h4>💡 Explanation:</h4>
+                    <p>AWS Organizations with consolidated billing provides the best visibility and control across multiple accounts. It enables centralized cost management, volume discounts, and the ability to implement organization-wide cost controls while maintaining account-level cost visibility.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q7</span>
+                    Which AWS support plan provides the fastest response time for general guidance questions?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q6_option0" name="question6" value="0">
+                        <label for="q6_option0">A. Developer Support</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q6_option1" name="question6" value="1">
+                        <label for="q6_option1">B. Business Support</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q6_option2" name="question6" value="2">
+                        <label for="q6_option2">C. Enterprise On-Ramp Support</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q6_option3" name="question6" value="3">
+                        <label for="q6_option3">D. Enterprise Support</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(6)">Check Answer</button>
+                <div class="explanation" id="explanation6">
+                    <h4>💡 Explanation:</h4>
+                    <p>AWS Enterprise Support provides the fastest response times across all categories, including general guidance questions. It offers 24/7 access to senior cloud support engineers and the fastest response times for all types of support requests.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q8</span>
+                    Which AWS service can help you identify the most cost-effective instance types for your workloads?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q7_option0" name="question7" value="0">
+                        <label for="q7_option0">A. AWS Compute Optimizer</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q7_option1" name="question7" value="1">
+                        <label for="q7_option1">B. AWS Trusted Advisor</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q7_option2" name="question7" value="2">
+                        <label for="q7_option2">C. AWS Cost Explorer</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q7_option3" name="question7" value="3">
+                        <label for="q7_option3">D. All of the above</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(7)">Check Answer</button>
+                <div class="explanation" id="explanation7">
+                    <h4>💡 Explanation:</h4>
+                    <p>All of these services can help identify cost-effective instance types: Compute Optimizer provides specific instance type recommendations based on utilization, Trusted Advisor includes cost optimization checks for instance types, and Cost Explorer can analyze instance costs and usage patterns.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q9</span>
+                    Which AWS service provides consolidated billing for multiple AWS accounts?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q8_option0" name="question8" value="0">
+                        <label for="q8_option0">A. AWS Cost Explorer</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q8_option1" name="question8" value="1">
+                        <label for="q8_option1">B. AWS Budgets</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q8_option2" name="question8" value="2">
+                        <label for="q8_option2">C. AWS Organizations</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q8_option3" name="question8" value="3">
+                        <label for="q8_option3">D. AWS Billing Console</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(8)">Check Answer</button>
+                <div class="explanation" id="explanation8">
+                    <h4>💡 Explanation:</h4>
+                    <p>AWS Organizations provides consolidated billing functionality that allows you to combine billing across multiple AWS accounts within an organization. This simplifies payment processes and provides a unified view of costs across all accounts.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q10</span>
+                    Which AWS support plan includes access to AWS Support API?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q9_option0" name="question9" value="0">
+                        <label for="q9_option0">A. Basic Support</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q9_option1" name="question9" value="1">
+                        <label for="q9_option1">B. Developer Support</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q9_option2" name="question9" value="2">
+                        <label for="q9_option2">C. Business Support</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q9_option3" name="question9" value="3">
+                        <label for="q9_option3">D. Enterprise Support</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(9)">Check Answer</button>
+                <div class="explanation" id="explanation9">
+                    <h4>💡 Explanation:</h4>
+                    <p>AWS Business Support and higher tiers include access to the AWS Support API, which allows you to programmatically access AWS Support features, create and manage support cases, and retrieve support case information.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q11</span>
+                    A company wants to implement a chargeback model for AWS costs. Which combination of AWS services would be most effective?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q10_option0" name="question10" value="0">
+                        <label for="q10_option0">A. Cost allocation tags + Cost Explorer</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q10_option1" name="question10" value="1">
+                        <label for="q10_option1">B. AWS Organizations + Consolidated billing</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q10_option2" name="question10" value="2">
+                        <label for="q10_option2">C. AWS Budgets + Cost categories</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q10_option3" name="question10" value="3">
+                        <label for="q10_option3">D. All of the above</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(10)">Check Answer</button>
+                <div class="explanation" id="explanation10">
+                    <h4>💡 Explanation:</h4>
+                    <p>All combinations support chargeback models: Cost allocation tags + Cost Explorer provide detailed cost attribution and reporting, AWS Organizations + Consolidated billing enable account-based cost separation, and AWS Budgets + Cost categories help track and control departmental spending.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q12</span>
+                    Which AWS service provides recommendations for cost optimization?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q11_option0" name="question11" value="0">
+                        <label for="q11_option0">A. AWS Cost Explorer</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q11_option1" name="question11" value="1">
+                        <label for="q11_option1">B. AWS Trusted Advisor</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q11_option2" name="question11" value="2">
+                        <label for="q11_option2">C. AWS Compute Optimizer</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q11_option3" name="question11" value="3">
+                        <label for="q11_option3">D. All of the above</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(11)">Check Answer</button>
+                <div class="explanation" id="explanation11">
+                    <h4>💡 Explanation:</h4>
+                    <p>All of these services provide cost optimization recommendations: Cost Explorer identifies spending trends and anomalies, Trusted Advisor provides cost optimization checks and recommendations, and Compute Optimizer suggests right-sizing for compute resources.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q13</span>
+                    A company wants to optimize costs for their development environment that runs only during business hours. Which EC2 pricing model would be most cost-effective?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q12_option0" name="question12" value="0">
+                        <label for="q12_option0">A. On-Demand Instances</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q12_option1" name="question12" value="1">
+                        <label for="q12_option1">B. Reserved Instances</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q12_option2" name="question12" value="2">
+                        <label for="q12_option2">C. Spot Instances</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q12_option3" name="question12" value="3">
+                        <label for="q12_option3">D. Dedicated Hosts</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(12)">Check Answer</button>
+                <div class="explanation" id="explanation12">
+                    <h4>💡 Explanation:</h4>
+                    <p>Spot Instances would be most cost-effective for development environments that can tolerate interruptions. Since development workloads are typically fault-tolerant and run only during business hours, Spot Instances can provide significant cost savings (up to 90% off On-Demand prices).</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q14</span>
+                    Which AWS support plan provides a response time of less than 1 hour for production system down issues?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q13_option0" name="question13" value="0">
+                        <label for="q13_option0">A. Developer Support</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q13_option1" name="question13" value="1">
+                        <label for="q13_option1">B. Business Support</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q13_option2" name="question13" value="2">
+                        <label for="q13_option2">C. Enterprise On-Ramp Support</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q13_option3" name="question13" value="3">
+                        <label for="q13_option3">D. Enterprise Support</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(13)">Check Answer</button>
+                <div class="explanation" id="explanation13">
+                    <h4>💡 Explanation:</h4>
+                    <p>AWS Enterprise Support provides a response time of less than 1 hour for production system down issues. This is the fastest response time available and is designed for mission-critical workloads that require immediate attention.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q15</span>
+                    A company wants to allocate costs to different business units. Which AWS feature provides the most flexibility for cost allocation?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q14_option0" name="question14" value="0">
+                        <label for="q14_option0">A. Cost allocation tags</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q14_option1" name="question14" value="1">
+                        <label for="q14_option1">B. AWS Organizations</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q14_option2" name="question14" value="2">
+                        <label for="q14_option2">C. Separate AWS accounts</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q14_option3" name="question14" value="3">
+                        <label for="q14_option3">D. Cost categories</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(14)">Check Answer</button>
+                <div class="explanation" id="explanation14">
+                    <h4>💡 Explanation:</h4>
+                    <p>Cost allocation tags provide the most flexibility for cost allocation because they can be applied to individual resources and allow for multiple dimensions of cost tracking. You can tag resources with multiple attributes (business unit, project, environment, etc.) for detailed cost attribution.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q16</span>
+                    A company wants to ensure they don&#x27;t exceed their annual AWS budget. Which AWS service feature should they use?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q15_option0" name="question15" value="0">
+                        <label for="q15_option0">A. AWS Budgets with forecasted alerts</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q15_option1" name="question15" value="1">
+                        <label for="q15_option1">B. AWS Cost Explorer forecasting</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q15_option2" name="question15" value="2">
+                        <label for="q15_option2">C. AWS CloudWatch billing alarms</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q15_option3" name="question15" value="3">
+                        <label for="q15_option3">D. AWS Organizations spending limits</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(15)">Check Answer</button>
+                <div class="explanation" id="explanation15">
+                    <h4>💡 Explanation:</h4>
+                    <p>AWS Budgets with forecasted alerts is the best choice because it can alert you when your forecasted costs are expected to exceed your budget, allowing you to take action before actually exceeding the annual budget limit.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q17</span>
+                    Which AWS service can help you identify opportunities to purchase Reserved Instances?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q16_option0" name="question16" value="0">
+                        <label for="q16_option0">A. AWS Cost Explorer</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q16_option1" name="question16" value="1">
+                        <label for="q16_option1">B. AWS Trusted Advisor</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q16_option2" name="question16" value="2">
+                        <label for="q16_option2">C. AWS Compute Optimizer</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q16_option3" name="question16" value="3">
+                        <label for="q16_option3">D. All of the above</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(16)">Check Answer</button>
+                <div class="explanation" id="explanation16">
+                    <h4>💡 Explanation:</h4>
+                    <p>All of these services can help identify RI purchase opportunities: Cost Explorer provides RI purchase recommendations based on usage patterns, Trusted Advisor includes RI optimization checks, and Compute Optimizer can identify stable workloads suitable for RI purchases.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q18</span>
+                    A company plans to migrate to AWS and wants to create cost estimates for its AWS use cases. Which AWS service can the company use to meet these requirements?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q17_option0" name="question17" value="0">
+                        <label for="q17_option0">A. AWS Pricing Calculator</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q17_option1" name="question17" value="1">
+                        <label for="q17_option1">B. Amazon CloudWatch</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q17_option2" name="question17" value="2">
+                        <label for="q17_option2">C. AWS Cost Explorer</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q17_option3" name="question17" value="3">
+                        <label for="q17_option3">D. AWS Budgets</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(17)">Check Answer</button>
+                <div class="explanation" id="explanation17">
+                    <h4>💡 Explanation:</h4>
+                    <p>AWS Pricing Calculator is specifically designed to estimate the cost of using AWS services based on anticipated usage patterns. You can input service configurations, instance types, storage requirements, and other parameters to generate detailed cost breakdowns before deploying resources.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q19</span>
+                    A company wants to receive alerts when their monthly AWS bill exceeds $1000. Which AWS service should they configure?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q18_option0" name="question18" value="0">
+                        <label for="q18_option0">A. AWS Cost Explorer</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q18_option1" name="question18" value="1">
+                        <label for="q18_option1">B. AWS Budgets</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q18_option2" name="question18" value="2">
+                        <label for="q18_option2">C. AWS CloudWatch</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q18_option3" name="question18" value="3">
+                        <label for="q18_option3">D. AWS SNS</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(18)">Check Answer</button>
+                <div class="explanation" id="explanation18">
+                    <h4>💡 Explanation:</h4>
+                    <p>AWS Budgets is the appropriate service for setting spending thresholds and receiving alerts when costs exceed specified amounts. You can set up budget alerts to notify you when your actual or forecasted costs exceed your budget thresholds.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q20</span>
+                    Which AWS service can help you understand the cost implications of architectural changes before implementation?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q19_option0" name="question19" value="0">
+                        <label for="q19_option0">A. AWS Pricing Calculator</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q19_option1" name="question19" value="1">
+                        <label for="q19_option1">B. AWS Cost Explorer</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q19_option2" name="question19" value="2">
+                        <label for="q19_option2">C. AWS Well-Architected Tool</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q19_option3" name="question19" value="3">
+                        <label for="q19_option3">D. AWS Trusted Advisor</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(19)">Check Answer</button>
+                <div class="explanation" id="explanation19">
+                    <h4>💡 Explanation:</h4>
+                    <p>AWS Pricing Calculator is the best tool for understanding cost implications of architectural changes before implementation. It allows you to model different architectures, compare costs, and estimate the financial impact of changes before deploying resources.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q21</span>
+                    A company wants to forecast their AWS costs for the next 12 months. Which AWS service provides this capability?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q20_option0" name="question20" value="0">
+                        <label for="q20_option0">A. AWS Pricing Calculator</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q20_option1" name="question20" value="1">
+                        <label for="q20_option1">B. AWS Cost Explorer</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q20_option2" name="question20" value="2">
+                        <label for="q20_option2">C. AWS Budgets</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q20_option3" name="question20" value="3">
+                        <label for="q20_option3">D. AWS Trusted Advisor</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(20)">Check Answer</button>
+                <div class="explanation" id="explanation20">
+                    <h4>💡 Explanation:</h4>
+                    <p>AWS Cost Explorer provides cost forecasting capabilities that can predict future costs based on historical usage patterns. It can forecast costs for up to 12 months, helping you plan and budget for future AWS spending.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q22</span>
+                    A company wants to track costs across different environments (dev, test, prod). What&#x27;s the best approach?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q21_option0" name="question21" value="0">
+                        <label for="q21_option0">A. Use separate AWS accounts</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q21_option1" name="question21" value="1">
+                        <label for="q21_option1">B. Use cost allocation tags</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q21_option2" name="question21" value="2">
+                        <label for="q21_option2">C. Use AWS Organizations</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q21_option3" name="question21" value="3">
+                        <label for="q21_option3">D. All of the above</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(21)">Check Answer</button>
+                <div class="explanation" id="explanation21">
+                    <h4>💡 Explanation:</h4>
+                    <p>All approaches can be effective: separate accounts provide clear cost separation, cost allocation tags enable tracking within accounts, and AWS Organizations can manage multiple accounts with consolidated billing. The best approach often combines these methods.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q23</span>
+                    A company wants to understand which AWS services are driving their costs. Which AWS tool provides the most detailed service-level cost breakdown?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q22_option0" name="question22" value="0">
+                        <label for="q22_option0">A. AWS Cost Explorer</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q22_option1" name="question22" value="1">
+                        <label for="q22_option1">B. AWS Cost and Usage Reports</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q22_option2" name="question22" value="2">
+                        <label for="q22_option2">C. AWS Budgets</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q22_option3" name="question22" value="3">
+                        <label for="q22_option3">D. AWS Billing Console</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(22)">Check Answer</button>
+                <div class="explanation" id="explanation22">
+                    <h4>💡 Explanation:</h4>
+                    <p>AWS Cost and Usage Reports (CUR) provides the most detailed service-level cost breakdown available. It includes comprehensive data about your AWS usage and costs, with detailed line items for all services, making it ideal for in-depth cost analysis.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q24</span>
+                    A company wants to understand the cost breakdown of their AWS services by project. What should they implement?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q23_option0" name="question23" value="0">
+                        <label for="q23_option0">A. Cost allocation tags</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q23_option1" name="question23" value="1">
+                        <label for="q23_option1">B. AWS Organizations</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q23_option2" name="question23" value="2">
+                        <label for="q23_option2">C. AWS Budgets</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q23_option3" name="question23" value="3">
+                        <label for="q23_option3">D. Cost categories</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(23)">Check Answer</button>
+                <div class="explanation" id="explanation23">
+                    <h4>💡 Explanation:</h4>
+                    <p>Cost allocation tags should be implemented to track costs by project. By tagging resources with project identifiers, you can then use Cost Explorer and billing reports to see cost breakdowns by project, enabling better cost attribution and management.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q25</span>
+                    A company will run a predictable compute workload on Amazon EC2 instances for the next 3 years. The workload is critical for the company and they want to optimize costs. Which solution will meet these requirements?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q24_option0" name="question24" value="0">
+                        <label for="q24_option0">A. Spot Instances</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q24_option1" name="question24" value="1">
+                        <label for="q24_option1">B. Dedicated Hosts</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q24_option2" name="question24" value="2">
+                        <label for="q24_option2">C. Savings Plans</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q24_option3" name="question24" value="3">
+                        <label for="q24_option3">D. On-Demand Instances</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(24)">Check Answer</button>
+                <div class="explanation" id="explanation24">
+                    <h4>💡 Explanation:</h4>
+                    <p>Savings Plans offer significant cost savings (up to 72%) compared to On-Demand instances in exchange for a commitment to consistent usage for 1 or 3 years. This aligns perfectly with a predictable workload over 3 years. Unlike Spot Instances, Savings Plans ensure continuous operation for critical workloads.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q26</span>
+                    A company wants to track costs for a specific application across multiple AWS services. What&#x27;s the best approach?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q25_option0" name="question25" value="0">
+                        <label for="q25_option0">A. Use application-specific cost allocation tags</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q25_option1" name="question25" value="1">
+                        <label for="q25_option1">B. Create a separate AWS account for the application</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q25_option2" name="question25" value="2">
+                        <label for="q25_option2">C. Use AWS Cost Categories</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q25_option3" name="question25" value="3">
+                        <label for="q25_option3">D. All of the above are valid approaches</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(25)">Check Answer</button>
+                <div class="explanation" id="explanation25">
+                    <h4>💡 Explanation:</h4>
+                    <p>All approaches are valid for tracking application costs: cost allocation tags can be applied across all resources used by the application, separate accounts provide clear cost isolation, and Cost Categories can group costs from multiple services and accounts for application-specific tracking.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q27</span>
+                    Which AWS Cloud Adoption Framework (AWS CAF) perspective focuses on real-time insights and answers questions about strategy?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q26_option0" name="question26" value="0">
+                        <label for="q26_option0">A. Operations</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q26_option1" name="question26" value="1">
+                        <label for="q26_option1">B. People</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q26_option2" name="question26" value="2">
+                        <label for="q26_option2">C. Business</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q26_option3" name="question26" value="3">
+                        <label for="q26_option3">D. Platform</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(26)">Check Answer</button>
+                <div class="explanation" id="explanation26">
+                    <h4>💡 Explanation:</h4>
+                    <p>The Business Perspective within AWS CAF concentrates on aligning cloud initiatives with business outcomes and strategies. It&#x27;s concerned with ensuring that cloud adoption drives tangible business value and focuses on strategic questions about why the organization is moving to the cloud.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q28</span>
+                    A university receives a grant to conduct research by using AWS services. The research team needs to make sure the grant money lasts for the entire school year with a monthly allocation. Which AWS service will notify the team if spending exceeds the planned amount?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q27_option0" name="question27" value="0">
+                        <label for="q27_option0">A. AWS Budgets</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q27_option1" name="question27" value="1">
+                        <label for="q27_option1">B. Cost Explorer</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q27_option2" name="question27" value="2">
+                        <label for="q27_option2">C. Cost allocation tags</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q27_option3" name="question27" value="3">
+                        <label for="q27_option3">D. Cost categories</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(27)">Check Answer</button>
+                <div class="explanation" id="explanation27">
+                    <h4>💡 Explanation:</h4>
+                    <p>AWS Budgets is specifically designed for tracking and managing AWS spending against predefined budgets. It allows users to set custom budgets, define thresholds, and configure alerts to be sent when those thresholds are met, making it perfect for managing grant money with monthly allocations.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q29</span>
+                    Which AWS service can help you identify the root cause of cost increases?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q28_option0" name="question28" value="0">
+                        <label for="q28_option0">A. AWS Cost Anomaly Detection</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q28_option1" name="question28" value="1">
+                        <label for="q28_option1">B. AWS Cost Explorer</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q28_option2" name="question28" value="2">
+                        <label for="q28_option2">C. AWS Trusted Advisor</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q28_option3" name="question28" value="3">
+                        <label for="q28_option3">D. All of the above</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(28)">Check Answer</button>
+                <div class="explanation" id="explanation28">
+                    <h4>💡 Explanation:</h4>
+                    <p>All of these services can help identify root causes of cost increases: Cost Anomaly Detection automatically identifies unusual spending patterns, Cost Explorer provides detailed cost analysis and filtering capabilities, and Trusted Advisor identifies specific cost optimization opportunities.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q30</span>
+                    A company has migrated its workload to the AWS Cloud and wants to optimize existing Amazon EC2 resources. Which AWS services provide this functionality? (Choose two that apply)
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q29_option0" name="question29" value="0">
+                        <label for="q29_option0">A. AWS Elastic Beanstalk</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q29_option1" name="question29" value="1">
+                        <label for="q29_option1">B. AWS Cost Explorer</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q29_option2" name="question29" value="2">
+                        <label for="q29_option2">C. Amazon Detective</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q29_option3" name="question29" value="3">
+                        <label for="q29_option3">D. AWS Compute Optimizer</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(29)">Check Answer</button>
+                <div class="explanation" id="explanation29">
+                    <h4>💡 Explanation:</h4>
+                    <p>AWS Cost Explorer helps visualize and manage AWS costs over time, identifying underutilized EC2 instances. AWS Compute Optimizer analyzes configuration and utilization metrics of EC2 instances and provides recommendations to optimize them by suggesting alternative instance types.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q31</span>
+                    A company that has multiple business units wants to centrally manage and govern its AWS Cloud environments. The company wants to automate the creation of AWS accounts, apply service control policies (SCPs), and simplify billing processes. Which AWS service should the company use?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q30_option0" name="question30" value="0">
+                        <label for="q30_option0">A. AWS Organizations</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q30_option1" name="question30" value="1">
+                        <label for="q30_option1">B. Cost Explorer</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q30_option2" name="question30" value="2">
+                        <label for="q30_option2">C. AWS Budgets</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q30_option3" name="question30" value="3">
+                        <label for="q30_option3">D. AWS Trusted Advisor</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(30)">Check Answer</button>
+                <div class="explanation" id="explanation30">
+                    <h4>💡 Explanation:</h4>
+                    <p>AWS Organizations is designed to centrally manage and govern multiple AWS accounts. It enables consolidated billing, allows you to apply service control policies (SCPs), and can automate account creation. It provides centralized management and governance capabilities for multiple business units.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q32</span>
+                    Which AWS support plan provides 24/7 access to customer service and communities?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q31_option0" name="question31" value="0">
+                        <label for="q31_option0">A. Basic Support</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q31_option1" name="question31" value="1">
+                        <label for="q31_option1">B. Developer Support</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q31_option2" name="question31" value="2">
+                        <label for="q31_option2">C. Business Support</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q31_option3" name="question31" value="3">
+                        <label for="q31_option3">D. All support plans</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(31)">Check Answer</button>
+                <div class="explanation" id="explanation31">
+                    <h4>💡 Explanation:</h4>
+                    <p>All AWS support plans, including Basic Support (which is free), provide 24/7 access to customer service for account and billing questions, as well as access to AWS communities and documentation.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q33</span>
+                    A company wants to track which department is responsible for specific AWS costs. Which AWS feature should they use?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q32_option0" name="question32" value="0">
+                        <label for="q32_option0">A. Cost allocation tags</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q32_option1" name="question32" value="1">
+                        <label for="q32_option1">B. AWS Budgets</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q32_option2" name="question32" value="2">
+                        <label for="q32_option2">C. Cost Explorer</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q32_option3" name="question32" value="3">
+                        <label for="q32_option3">D. AWS Organizations</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(32)">Check Answer</button>
+                <div class="explanation" id="explanation32">
+                    <h4>💡 Explanation:</h4>
+                    <p>Cost allocation tags are metadata used to categorize and track AWS resource costs. They allow you to attribute expenses to specific projects, departments, or cost centers, making it easy to track which department is responsible for specific AWS costs.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q34</span>
+                    Which AWS support plan includes access to Infrastructure Event Management?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q33_option0" name="question33" value="0">
+                        <label for="q33_option0">A. Business Support</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q33_option1" name="question33" value="1">
+                        <label for="q33_option1">B. Enterprise On-Ramp Support</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q33_option2" name="question33" value="2">
+                        <label for="q33_option2">C. Enterprise Support</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q33_option3" name="question33" value="3">
+                        <label for="q33_option3">D. Both B and C</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(33)">Check Answer</button>
+                <div class="explanation" id="explanation33">
+                    <h4>💡 Explanation:</h4>
+                    <p>Both AWS Enterprise On-Ramp Support and AWS Enterprise Support include Infrastructure Event Management. This service provides additional support during planned events like product launches, infrastructure migrations, and marketing events.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q35</span>
+                    A company wants to implement a cost governance framework across their organization. Which AWS services should be included in their strategy?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q34_option0" name="question34" value="0">
+                        <label for="q34_option0">A. AWS Organizations + AWS Budgets + Cost allocation tags</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q34_option1" name="question34" value="1">
+                        <label for="q34_option1">B. AWS Cost Explorer + AWS Trusted Advisor</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q34_option2" name="question34" value="2">
+                        <label for="q34_option2">C. AWS Control Tower + Service Control Policies</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q34_option3" name="question34" value="3">
+                        <label for="q34_option3">D. All of the above</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(34)">Check Answer</button>
+                <div class="explanation" id="explanation34">
+                    <h4>💡 Explanation:</h4>
+                    <p>A comprehensive cost governance framework should include all of these services: Organizations for centralized management, Budgets for spending controls, Cost allocation tags for attribution, Cost Explorer for analysis, Trusted Advisor for recommendations, Control Tower for governance, and SCPs for policy enforcement.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q36</span>
+                    A company wants to understand the cost impact of different AWS regions. Which AWS service provides this capability?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q35_option0" name="question35" value="0">
+                        <label for="q35_option0">A. AWS Cost Explorer</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q35_option1" name="question35" value="1">
+                        <label for="q35_option1">B. AWS Pricing Calculator</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q35_option2" name="question35" value="2">
+                        <label for="q35_option2">C. AWS Cost and Usage Reports</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q35_option3" name="question35" value="3">
+                        <label for="q35_option3">D. All of the above</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(35)">Check Answer</button>
+                <div class="explanation" id="explanation35">
+                    <h4>💡 Explanation:</h4>
+                    <p>All of these services can help understand regional cost impacts: Cost Explorer can filter and analyze costs by region, Pricing Calculator can compare costs across regions for planning, and Cost and Usage Reports provide detailed regional cost data for analysis.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q37</span>
+                    A company has moved all its infrastructure to the AWS Cloud. To plan ahead for each quarter, the finance team wants to track the cost and usage data of all resources from previous months and automatically generate reports. Which AWS service should the finance team use?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q36_option0" name="question36" value="0">
+                        <label for="q36_option0">A. Amazon Detective</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q36_option1" name="question36" value="1">
+                        <label for="q36_option1">B. AWS Pricing Calculator</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q36_option2" name="question36" value="2">
+                        <label for="q36_option2">C. AWS Budgets</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q36_option3" name="question36" value="3">
+                        <label for="q36_option3">D. AWS Savings Plans</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(36)">Check Answer</button>
+                <div class="explanation" id="explanation36">
+                    <h4>💡 Explanation:</h4>
+                    <p>AWS Budgets allows you to set custom budgets that track your AWS costs and usage. It integrates with AWS Cost Explorer to provide visualization and forecasting capabilities. You can configure budget notifications to trigger actions, such as sending reports, and schedule these reports to be delivered automatically.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q38</span>
+                    Which AWS feature allows you to set up automatic actions when budget thresholds are exceeded?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q37_option0" name="question37" value="0">
+                        <label for="q37_option0">A. AWS Budgets Actions</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q37_option1" name="question37" value="1">
+                        <label for="q37_option1">B. AWS Lambda</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q37_option2" name="question37" value="2">
+                        <label for="q37_option2">C. AWS CloudWatch Alarms</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q37_option3" name="question37" value="3">
+                        <label for="q37_option3">D. AWS SNS</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(37)">Check Answer</button>
+                <div class="explanation" id="explanation37">
+                    <h4>💡 Explanation:</h4>
+                    <p>AWS Budgets Actions allows you to configure automatic actions when budget thresholds are exceeded. You can set up actions like applying IAM policies, stopping EC2 instances, or targeting specific services to help control costs automatically.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q39</span>
+                    A company wants to estimate the cost for its AWS architecture solution before migration. Which AWS service or feature will meet this requirement?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q38_option0" name="question38" value="0">
+                        <label for="q38_option0">A. Amazon Detective</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q38_option1" name="question38" value="1">
+                        <label for="q38_option1">B. AWS Budgets</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q38_option2" name="question38" value="2">
+                        <label for="q38_option2">C. AWS Resource Explorer</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q38_option3" name="question38" value="3">
+                        <label for="q38_option3">D. AWS Pricing Calculator</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(38)">Check Answer</button>
+                <div class="explanation" id="explanation38">
+                    <h4>💡 Explanation:</h4>
+                    <p>AWS Pricing Calculator is a free tool that lets you estimate the cost of using AWS products. It enables users to model their solutions before building them and explore the price points and calculations behind their AWS bill. You can input details about services, resources, and usage patterns to get cost estimates.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q40</span>
+                    Which AWS Support plans provide access to an AWS technical account manager (TAM)? (Choose two that apply)
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q39_option0" name="question39" value="0">
+                        <label for="q39_option0">A. AWS Basic Support</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q39_option1" name="question39" value="1">
+                        <label for="q39_option1">B. AWS Developer Support</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q39_option2" name="question39" value="2">
+                        <label for="q39_option2">C. AWS Business Support</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q39_option3" name="question39" value="3">
+                        <label for="q39_option3">D. AWS Enterprise On-Ramp Support</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(39)">Check Answer</button>
+                <div class="explanation" id="explanation39">
+                    <h4>💡 Explanation:</h4>
+                    <p>AWS Enterprise On-Ramp Support and AWS Enterprise Support both provide access to a Technical Account Manager (TAM). A TAM is a designated expert who provides technical guidance, best practices, and proactive support to help customers optimize their AWS environment.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q41</span>
+                    Which AWS service provides the most granular cost data for analysis?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q40_option0" name="question40" value="0">
+                        <label for="q40_option0">A. AWS Cost Explorer</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q40_option1" name="question40" value="1">
+                        <label for="q40_option1">B. AWS Cost and Usage Reports</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q40_option2" name="question40" value="2">
+                        <label for="q40_option2">C. AWS Budgets</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q40_option3" name="question40" value="3">
+                        <label for="q40_option3">D. AWS Trusted Advisor</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(40)">Check Answer</button>
+                <div class="explanation" id="explanation40">
+                    <h4>💡 Explanation:</h4>
+                    <p>AWS Cost and Usage Reports (CUR) provides the most granular cost data available. It includes detailed line items for all AWS services, resource-level information, and can be customized to include additional details like tags and resource IDs for comprehensive cost analysis.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q42</span>
+                    Which AWS service provides cost optimization recommendations specifically for storage?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q41_option0" name="question41" value="0">
+                        <label for="q41_option0">A. AWS Trusted Advisor</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q41_option1" name="question41" value="1">
+                        <label for="q41_option1">B. AWS Storage Lens</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q41_option2" name="question41" value="2">
+                        <label for="q41_option2">C. AWS Cost Explorer</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q41_option3" name="question41" value="3">
+                        <label for="q41_option3">D. All of the above</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(41)">Check Answer</button>
+                <div class="explanation" id="explanation41">
+                    <h4>💡 Explanation:</h4>
+                    <p>All of these services provide storage cost optimization recommendations: Trusted Advisor includes storage-related cost checks, Storage Lens provides detailed storage analytics and optimization recommendations, and Cost Explorer can analyze storage costs and usage patterns.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q43</span>
+                    Which AWS service provides proactive cost optimization recommendations based on machine learning?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q42_option0" name="question42" value="0">
+                        <label for="q42_option0">A. AWS Cost Anomaly Detection</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q42_option1" name="question42" value="1">
+                        <label for="q42_option1">B. AWS Compute Optimizer</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q42_option2" name="question42" value="2">
+                        <label for="q42_option2">C. AWS Trusted Advisor</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q42_option3" name="question42" value="3">
+                        <label for="q42_option3">D. AWS Cost Explorer</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(42)">Check Answer</button>
+                <div class="explanation" id="explanation42">
+                    <h4>💡 Explanation:</h4>
+                    <p>AWS Cost Anomaly Detection uses machine learning to proactively identify unusual spending patterns and provide cost optimization recommendations. It can detect anomalies in your spending and alert you to potential cost optimization opportunities automatically.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q44</span>
+                    Which AWS service can automatically apply cost optimization recommendations?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q43_option0" name="question43" value="0">
+                        <label for="q43_option0">A. AWS Trusted Advisor</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q43_option1" name="question43" value="1">
+                        <label for="q43_option1">B. AWS Compute Optimizer</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q43_option2" name="question43" value="2">
+                        <label for="q43_option2">C. AWS Cost Optimizer</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q43_option3" name="question43" value="3">
+                        <label for="q43_option3">D. None - recommendations must be manually implemented</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(43)">Check Answer</button>
+                <div class="explanation" id="explanation43">
+                    <h4>💡 Explanation:</h4>
+                    <p>Currently, AWS services provide cost optimization recommendations, but they must be manually implemented. While services like Trusted Advisor and Compute Optimizer provide recommendations, the actual implementation of these recommendations requires manual action or custom automation.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q45</span>
+                    A company is moving some of its on-premises IT services to the AWS Cloud. The finance department wants to see the entire bill so it can forecast spending limits. Which AWS service can the company use to set spending limits and receive notifications if those limits are exceeded?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q44_option0" name="question44" value="0">
+                        <label for="q44_option0">A. AWS Cost and Usage Reports</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q44_option1" name="question44" value="1">
+                        <label for="q44_option1">B. AWS Budgets</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q44_option2" name="question44" value="2">
+                        <label for="q44_option2">C. AWS Organizations consolidated billing</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q44_option3" name="question44" value="3">
+                        <label for="q44_option3">D. Cost Explorer</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(44)">Check Answer</button>
+                <div class="explanation" id="explanation44">
+                    <h4>💡 Explanation:</h4>
+                    <p>AWS Budgets allows users to set custom budgets that track cost and usage. You can define alert thresholds and configure notifications when those thresholds are breached. These notifications can be sent to specified email addresses or integrated with other AWS services for automated actions.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q46</span>
+                    Which AWS service can help identify unused or underutilized resources to reduce costs?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q45_option0" name="question45" value="0">
+                        <label for="q45_option0">A. AWS Pricing Calculator</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q45_option1" name="question45" value="1">
+                        <label for="q45_option1">B. AWS Trusted Advisor</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q45_option2" name="question45" value="2">
+                        <label for="q45_option2">C. AWS Cost Explorer</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q45_option3" name="question45" value="3">
+                        <label for="q45_option3">D. Both B and C</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(45)">Check Answer</button>
+                <div class="explanation" id="explanation45">
+                    <h4>💡 Explanation:</h4>
+                    <p>Both AWS Trusted Advisor and AWS Cost Explorer can help identify unused or underutilized resources. Trusted Advisor provides recommendations for cost optimization, while Cost Explorer shows spending patterns and can identify resources that may be underutilized.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q47</span>
+                    A startup wants the most cost-effective AWS support plan that includes technical support. Which plan should they choose?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q46_option0" name="question46" value="0">
+                        <label for="q46_option0">A. Basic Support</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q46_option1" name="question46" value="1">
+                        <label for="q46_option1">B. Developer Support</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q46_option2" name="question46" value="2">
+                        <label for="q46_option2">C. Business Support</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q46_option3" name="question46" value="3">
+                        <label for="q46_option3">D. Enterprise Support</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(46)">Check Answer</button>
+                <div class="explanation" id="explanation46">
+                    <h4>💡 Explanation:</h4>
+                    <p>Developer Support is the most cost-effective plan that includes technical support. It provides business hours access to Cloud Support Associates for technical questions, making it suitable for startups that need technical support but want to minimize costs.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q48</span>
+                    A company wants to ensure consistent cost allocation across all their AWS resources. Which AWS feature should they implement organization-wide?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q47_option0" name="question47" value="0">
+                        <label for="q47_option0">A. Mandatory cost allocation tags</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q47_option1" name="question47" value="1">
+                        <label for="q47_option1">B. AWS Organizations tag policies</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q47_option2" name="question47" value="2">
+                        <label for="q47_option2">C. Cost categories</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q47_option3" name="question47" value="3">
+                        <label for="q47_option3">D. AWS Config rules for tagging</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(47)">Check Answer</button>
+                <div class="explanation" id="explanation47">
+                    <h4>💡 Explanation:</h4>
+                    <p>AWS Organizations tag policies provide the best way to ensure consistent cost allocation organization-wide. Tag policies can enforce tagging standards across all accounts in the organization, ensuring consistent cost allocation and governance across all AWS resources.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q49</span>
+                    Which AWS service helps you understand the relationship between cost and usage?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q48_option0" name="question48" value="0">
+                        <label for="q48_option0">A. AWS Cost Explorer</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q48_option1" name="question48" value="1">
+                        <label for="q48_option1">B. AWS Budgets</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q48_option2" name="question48" value="2">
+                        <label for="q48_option2">C. AWS Pricing Calculator</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q48_option3" name="question48" value="3">
+                        <label for="q48_option3">D. AWS Trusted Advisor</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(48)">Check Answer</button>
+                <div class="explanation" id="explanation48">
+                    <h4>💡 Explanation:</h4>
+                    <p>AWS Cost Explorer is specifically designed to help you understand the relationship between cost and usage. It provides detailed analytics that show how your usage patterns correlate with costs, helping you identify optimization opportunities.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q50</span>
+                    A company wants to set up cost alerts for multiple projects. What&#x27;s the most efficient approach?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q49_option0" name="question49" value="0">
+                        <label for="q49_option0">A. Create individual budgets for each project</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q49_option1" name="question49" value="1">
+                        <label for="q49_option1">B. Use cost allocation tags and create budgets based on tags</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q49_option2" name="question49" value="2">
+                        <label for="q49_option2">C. Create separate AWS accounts for each project</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q49_option3" name="question49" value="3">
+                        <label for="q49_option3">D. Use AWS Organizations with consolidated billing</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(49)">Check Answer</button>
+                <div class="explanation" id="explanation49">
+                    <h4>💡 Explanation:</h4>
+                    <p>Using cost allocation tags and creating budgets based on tags is the most efficient approach. This allows you to create a single budget that can track costs across multiple projects using tag filters, reducing administrative overhead while providing project-specific cost monitoring.</p>
+                </div>
+            </div>
+    
+            <div class="question-container">
+                <div class="question">
+                    <span class="question-number">Q51</span>
+                    A company wants to implement automated cost controls that can stop resources when budgets are exceeded. Which AWS service enables this?
+                </div>
+                <div class="options">
+    
+                    <div class="option">
+                        <input type="radio" id="q50_option0" name="question50" value="0">
+                        <label for="q50_option0">A. AWS Budgets Actions</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q50_option1" name="question50" value="1">
+                        <label for="q50_option1">B. AWS Lambda with Cost Explorer API</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q50_option2" name="question50" value="2">
+                        <label for="q50_option2">C. AWS Config Rules</label>
+                    </div>
+        
+                    <div class="option">
+                        <input type="radio" id="q50_option3" name="question50" value="3">
+                        <label for="q50_option3">D. AWS Systems Manager</label>
+                    </div>
+        
+                </div>
+                <button type="button" class="submit-btn" onclick="checkAnswer(50)">Check Answer</button>
+                <div class="explanation" id="explanation50">
+                    <h4>💡 Explanation:</h4>
+                    <p>AWS Budgets Actions is specifically designed to enable automated cost controls. It can automatically apply IAM policies, stop EC2 instances, or target specific services when budget thresholds are exceeded, providing direct automated cost control capabilities.</p>
+                </div>
+            </div>
+    
+        </form>
+
+        <div class="results" id="results">
+            <h2>🎉 Quiz Complete!</h2>
+            <div class="score" id="finalScore">0%</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="score-details">
+                <div class="score-item">
+                    <h4>Correct Answers</h4>
+                    <div class="number" id="correctCount">0</div>
+                </div>
+                <div class="score-item">
+                    <h4>Incorrect Answers</h4>
+                    <div class="number" id="incorrectCount">0</div>
+                </div>
+                <div class="score-item">
+                    <h4>Total Questions</h4>
+                    <div class="number">50</div>
+                </div>
+                <div class="score-item">
+                    <h4>Percentage</h4>
+                    <div class="number" id="percentage">0%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const answers = [3, 2, 0, 3, 1, 0, 3, 3, 2, 2, 3, 3, 2, 3, 0, 0, 3, 0, 1, 0, 1, 3, 1, 0, 2, 3, 2, 0, 3, 1, 0, 3, 0, 3, 3, 3, 2, 0, 3, 3, 1, 3, 0, 3, 1, 3, 1, 1, 0, 1, 0];
+        let userAnswers = {};
+        let checkedQuestions = new Set();
+
+        function checkAnswer(questionIndex) {
+            const selectedOption = document.querySelector(`input[name="question${questionIndex}"]:checked`);
+
+            if (!selectedOption) {
+                alert('Please select an answer first!');
+                return;
+            }
+
+            const userAnswer = parseInt(selectedOption.value);
+            const correctAnswer = answers[questionIndex];
+
+            userAnswers[questionIndex] = userAnswer;
+            checkedQuestions.add(questionIndex);
+
+            // Show explanation
+            const explanation = document.getElementById(`explanation${questionIndex}`);
+            explanation.classList.add('show');
+
+            // Highlight options
+            const options = document.querySelectorAll(`input[name="question${questionIndex}"]`).forEach((input, index) => {
+                const optionDiv = input.closest('.option');
+                optionDiv.style.pointerEvents = 'none';
+
+                if (index === correctAnswer) {
+                    optionDiv.classList.add('correct');
+                } else if (index === userAnswer && userAnswer !== correctAnswer) {
+                    optionDiv.classList.add('incorrect');
+                }
+            });
+
+            // Disable the check button
+            event.target.disabled = true;
+            event.target.style.opacity = '0.6';
+            event.target.textContent = 'Answer Checked ✓';
+
+            // Check if all questions are answered
+            if (checkedQuestions.size === answers.length) {
+                setTimeout(showResults, 1000);
+            }
+        }
+
+        function showResults() {
+            let correctCount = 0;
+
+            for (let i = 0; i < answers.length; i++) {
+                if (userAnswers[i] === answers[i]) {
+                    correctCount++;
+                }
+            }
+
+            const percentage = Math.round((correctCount / answers.length) * 100);
+            const incorrectCount = answers.length - correctCount;
+
+            // Update results
+            document.getElementById('correctCount').textContent = correctCount;
+            document.getElementById('incorrectCount').textContent = incorrectCount;
+            document.getElementById('percentage').textContent = percentage + '%';
+            document.getElementById('finalScore').textContent = percentage + '%';
+
+            // Set score color
+            const scoreElement = document.getElementById('finalScore');
+            if (percentage >= 90) scoreElement.className = 'score excellent';
+            else if (percentage >= 75) scoreElement.className = 'score good';
+            else if (percentage >= 60) scoreElement.className = 'score average';
+            else scoreElement.className = 'score poor';
+
+            // Animate progress bar
+            setTimeout(() => {
+                document.getElementById('progressFill').style.width = percentage + '%';
+            }, 500);
+
+            // Show results
+            document.getElementById('results').classList.add('show');
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Add some interactive features
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click handlers for options
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const radio = this.querySelector('input[type="radio"]');
+                    if (radio && !radio.disabled) {
+                        radio.checked = true;
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
